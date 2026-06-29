@@ -1,4 +1,5 @@
 ---
+qr_image: /images/InShot_20250526_223620940.jpg
 qr_label: Scan to find the whole universe.
 qr_show: true
 links:
