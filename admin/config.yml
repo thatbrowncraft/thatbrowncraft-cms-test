@@ -1,1 +1,899 @@
+# ============================================================
+# THATBROWNCRAFT — SVELTIA CMS CONFIGURATION
+# File: admin/config.yml
+# TEST REPO: thatbrowncraft/thatbrowncraft-cms-test
+#
+# Auth: Official Sveltia CMS Authenticator via Cloudflare Worker
+# https://github.com/sveltia/sveltia-cms-auth
+#
+# Placeholders that need real values before this file is live:
+#   PASTE_YOUR_WORKER_URL_HERE
+#     → The URL of your deployed Cloudflare Worker
+#       e.g. https://sveltia-cms-auth.YOUR-NAME.workers.dev
+#
+# Everything else is final and production-ready.
+# All 10 collections, every widget, every field, every
+# media folder, slug, summary, and commit message is preserved.
+# ============================================================
 
+backend:
+  name: github
+  repo: thatbrowncraft/thatbrowncraft-cms-test
+  branch: main
+  base_url: PASTE_YOUR_WORKER_URL_HERE
+  commit_messages:
+    create: "✦ New {{collection}}: {{slug}}"
+    update: "✦ Updated {{collection}}: {{slug}}"
+    delete: "✦ Deleted {{collection}}: {{slug}}"
+    uploadMedia: "✦ Uploaded media: {{path}}"
+    deleteMedia: "✦ Deleted media: {{path}}"
+
+media_folder: "public/images"
+public_folder: "/images"
+
+site_url: https://thatbrowncraft.github.io/thatbrowncraft-cms-test
+display_url: https://thatbrowncraft.github.io/thatbrowncraft-cms-test
+
+logo_url: /images/admin-logo.png
+
+collections:
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 1: BOOKS
+# ────────────────────────────────────────────────────────────
+
+  - name: "books"
+    label: "📚 Books"
+    label_singular: "Book"
+    folder: "content/books"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{status}}"
+    fields:
+      - label: "Book Title"
+        name: "title"
+        widget: "string"
+      - label: "Series Name"
+        name: "series_name"
+        widget: "string"
+        required: false
+      - label: "Series Number"
+        name: "series_number"
+        widget: "string"
+        required: false
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "draft"
+      - label: "Feature on Homepage"
+        name: "is_featured"
+        widget: "boolean"
+        default: false
+      - label: "Book Cover"
+        name: "cover_image"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/book-covers"
+        public_folder: "/images/book-covers"
+      - label: "Genres"
+        name: "genres"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - "Romance"
+          - "Drama"
+          - "Family Saga"
+          - "Desi"
+          - "Slow Burn"
+          - "Contemporary"
+          - "Thriller"
+          - "Emotional"
+          - "Coming of Age"
+      - label: "Tropes"
+        name: "tropes"
+        widget: "list"
+        required: false
+        field:
+          label: "Trope"
+          name: "trope"
+          widget: "string"
+      - label: "Synopsis"
+        name: "body"
+        widget: "markdown"
+      - label: "Author Note"
+        name: "author_note"
+        widget: "markdown"
+        required: false
+      - label: "Featured Quote"
+        name: "featured_quote"
+        widget: "string"
+        required: false
+      - label: "Favourite Quotes"
+        name: "quotes"
+        widget: "list"
+        required: false
+        fields:
+          - label: "Quote Text"
+            name: "text"
+            widget: "string"
+          - label: "Context"
+            name: "context"
+            widget: "string"
+            required: false
+      - label: "Lead Characters"
+        name: "character_leads"
+        widget: "list"
+        required: false
+        field:
+          label: "Character Name"
+          name: "name"
+          widget: "string"
+      - label: "Wattpad Link"
+        name: "wattpad_url"
+        widget: "string"
+        required: false
+      - label: "Kindle Link"
+        name: "kindle_url"
+        widget: "string"
+        required: false
+      - label: "Paperback Link"
+        name: "paperback_url"
+        widget: "string"
+        required: false
+      - label: "Inkitt Link"
+        name: "inkitt_url"
+        widget: "string"
+        required: false
+      - label: "Book Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - label: "Image"
+            name: "image"
+            widget: "image"
+            media_folder: "/public/images/book-gallery"
+            public_folder: "/images/book-gallery"
+          - label: "Caption"
+            name: "caption"
+            widget: "string"
+            required: false
+      - label: "Publication Date"
+        name: "published_at"
+        widget: "datetime"
+        required: false
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 2: CHARACTERS
+# ────────────────────────────────────────────────────────────
+
+  - name: "characters"
+    label: "🌸 Characters"
+    label_singular: "Character"
+    folder: "content/characters"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}} — {{book}} ({{status}})"
+    fields:
+      - label: "Character Name"
+        name: "name"
+        widget: "string"
+      - label: "Book"
+        name: "book"
+        widget: "string"
+      - label: "Role"
+        name: "role"
+        widget: "select"
+        options:
+          - { label: "Lead", value: "lead" }
+          - { label: "Supporting", value: "supporting" }
+          - { label: "Minor", value: "minor" }
+        default: "lead"
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+        default: "draft"
+      - label: "Feature in Character Vault"
+        name: "is_featured"
+        widget: "boolean"
+        default: true
+      - label: "Display Order"
+        name: "display_order"
+        widget: "number"
+        default: 1
+      - label: "Character Illustration"
+        name: "illustration"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/character-illustrations"
+        public_folder: "/images/character-illustrations"
+      - label: "Age"
+        name: "age"
+        widget: "string"
+        required: false
+      - label: "Occupation"
+        name: "occupation"
+        widget: "string"
+        required: false
+      - label: "Personality"
+        name: "body"
+        widget: "markdown"
+      - label: "Author Note"
+        name: "author_note"
+        widget: "markdown"
+        required: false
+      - label: "Likes"
+        name: "likes"
+        widget: "list"
+        required: false
+        field:
+          label: "Like"
+          name: "item"
+          widget: "string"
+      - label: "Dislikes"
+        name: "dislikes"
+        widget: "list"
+        required: false
+        field:
+          label: "Dislike"
+          name: "item"
+          widget: "string"
+      - label: "Trivia"
+        name: "trivia"
+        widget: "list"
+        required: false
+        field:
+          label: "Trivia Fact"
+          name: "fact"
+          widget: "string"
+      - label: "Theme Song"
+        name: "theme_song"
+        widget: "string"
+        required: false
+      - label: "Character Playlist Link"
+        name: "playlist_url"
+        widget: "string"
+        required: false
+      - label: "Character Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - label: "Image"
+            name: "image"
+            widget: "image"
+            media_folder: "/public/images/character-gallery"
+            public_folder: "/images/character-gallery"
+          - label: "Caption"
+            name: "caption"
+            widget: "string"
+            required: false
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 3: BONUS SCENES
+# ────────────────────────────────────────────────────────────
+
+  - name: "bonus_scenes"
+    label: "📖 Bonus Scenes"
+    label_singular: "Bonus Scene"
+    folder: "content/bonus-scenes"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{scene_type}}) — {{status}}"
+    fields:
+      - label: "Scene Title"
+        name: "title"
+        widget: "string"
+      - label: "Scene Type"
+        name: "scene_type"
+        widget: "select"
+        options:
+          - { label: "Bonus Scene",        value: "bonus_scene"        }
+          - { label: "Deleted Scene",       value: "deleted_scene"      }
+          - { label: "Character POV",       value: "character_pov"      }
+          - { label: "Festival Special",    value: "festival_special"   }
+          - { label: "Birthday Special",    value: "birthday_special"   }
+          - { label: "Letter",              value: "letter"             }
+          - { label: "Mini Story",          value: "mini_story"         }
+          - { label: "Alternative Ending",  value: "alternative_ending" }
+        default: "bonus_scene"
+      - label: "Related Book"
+        name: "book"
+        widget: "string"
+      - label: "Characters Featured"
+        name: "characters"
+        widget: "list"
+        required: false
+        field:
+          label: "Character"
+          name: "name"
+          widget: "string"
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+      - label: "Publish Date"
+        name: "published_at"
+        widget: "datetime"
+        required: false
+      - label: "Teaser Excerpt"
+        name: "teaser"
+        widget: "text"
+      - label: "Full Scene"
+        name: "body"
+        widget: "markdown"
+      - label: "Author Note"
+        name: "author_note"
+        widget: "markdown"
+        required: false
+      - label: "PDF Version"
+        name: "pdf_url"
+        widget: "file"
+        required: false
+        media_folder: "/public/files"
+        public_folder: "/files"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 4: KANHA'S COURTYARD
+# ────────────────────────────────────────────────────────────
+
+  - name: "kanha"
+    label: "🪈 Kanha's Courtyard"
+    label_singular: "Courtyard Entry"
+    folder: "content/kanha"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{entry_type}})"
+    fields:
+      - label: "Entry Title"
+        name: "title"
+        widget: "string"
+      - label: "Entry Type"
+        name: "entry_type"
+        widget: "select"
+        options:
+          - { label: "Verse",       value: "verse"       }
+          - { label: "Reflection",  value: "reflection"  }
+          - { label: "Life Lesson", value: "life_lesson" }
+          - { label: "Quote",       value: "quote"       }
+          - { label: "Illustration",value: "illustration"}
+        default: "verse"
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+      - label: "Feature on Homepage"
+        name: "is_featured"
+        widget: "boolean"
+        default: false
+      - label: "Display Order"
+        name: "display_order"
+        widget: "number"
+        default: 1
+      - label: "Gita Chapter"
+        name: "gita_chapter"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Chapter 1",  value: 1  }
+          - { label: "Chapter 2",  value: 2  }
+          - { label: "Chapter 3",  value: 3  }
+          - { label: "Chapter 4",  value: 4  }
+          - { label: "Chapter 5",  value: 5  }
+          - { label: "Chapter 6",  value: 6  }
+          - { label: "Chapter 7",  value: 7  }
+          - { label: "Chapter 8",  value: 8  }
+          - { label: "Chapter 9",  value: 9  }
+          - { label: "Chapter 10", value: 10 }
+          - { label: "Chapter 11", value: 11 }
+          - { label: "Chapter 12", value: 12 }
+          - { label: "Chapter 13", value: 13 }
+          - { label: "Chapter 14", value: 14 }
+          - { label: "Chapter 15", value: 15 }
+          - { label: "Chapter 16", value: 16 }
+          - { label: "Chapter 17", value: 17 }
+          - { label: "Chapter 18", value: 18 }
+      - label: "Sanskrit Text"
+        name: "sanskrit_text"
+        widget: "string"
+        required: false
+      - label: "English Meaning"
+        name: "english_meaning"
+        widget: "string"
+        required: false
+      - label: "Short Pull Quote"
+        name: "pull_quote"
+        widget: "string"
+        required: false
+      - label: "Reflection"
+        name: "body"
+        widget: "markdown"
+      - label: "Illustration"
+        name: "illustration"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/kanha-illustrations"
+        public_folder: "/images/kanha-illustrations"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 5: AUTHOR UPDATES
+# ────────────────────────────────────────────────────────────
+
+  - name: "updates"
+    label: "📝 Author Updates"
+    label_singular: "Update"
+    folder: "content/updates"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{update_type}} ({{status}})"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "text"
+        required: false
+        hint: "Short preview shown in the updates feed. 1–2 sentences."
+      - label: "Full Post"
+        name: "body"
+        widget: "markdown"
+      - label: "Update Type"
+        name: "update_type"
+        widget: "select"
+        required: false
+        options:
+          - { label: "📖 New Chapter",     value: "chapter"   }
+          - { label: "✨ Bonus Scene",      value: "bonus"     }
+          - { label: "🏆 Milestone",        value: "milestone" }
+          - { label: "✍️ Author Note",      value: "note"      }
+          - { label: "📦 Paperback",        value: "paperback" }
+          - { label: "🌟 Character Reveal", value: "reveal"    }
+          - { label: "🎵 New Playlist",     value: "playlist"  }
+          - { label: "🎉 Reader Event",     value: "event"     }
+          - { label: "🌿 Writing Break",    value: "break"     }
+      - label: "Pin to Top"
+        name: "is_pinned"
+        widget: "boolean"
+        default: false
+      - label: "Button Label"
+        name: "link_label"
+        widget: "string"
+        required: false
+        hint: "e.g. Read on Wattpad, Get your copy. Leave blank for no button."
+      - label: "Button URL"
+        name: "link_url"
+        widget: "string"
+        required: false
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 6: FEATURED REVIEWS
+# ────────────────────────────────────────────────────────────
+
+  - name: "featured_reviews"
+    label: "⭐ Featured Reviews"
+    label_singular: "Review"
+    folder: "content/featured-reviews"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{reader_name}} — {{book}} ({{rating}} stars)"
+    fields:
+      - label: "Reader Name"
+        name: "reader_name"
+        widget: "string"
+      - label: "Reader Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+      - label: "Book"
+        name: "book"
+        widget: "string"
+      - label: "Rating"
+        name: "rating"
+        widget: "select"
+        options:
+          - { label: "★★★★★ — 5 stars", value: 5 }
+          - { label: "★★★★ — 4 stars",  value: 4 }
+          - { label: "★★★ — 3 stars",   value: 3 }
+        default: 5
+      - label: "Review Text"
+        name: "body"
+        widget: "markdown"
+      - label: "Pin This Review"
+        name: "is_pinned"
+        widget: "boolean"
+        default: false
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 7: FEATURED FAN ART
+# ────────────────────────────────────────────────────────────
+
+  - name: "fan_art"
+    label: "🎨 Featured Fan Art"
+    label_singular: "Fan Art"
+    folder: "content/fan-art"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{artist_name}} — {{book_or_character}}"
+    fields:
+      - label: "Artist Name"
+        name: "artist_name"
+        widget: "string"
+      - label: "Artist Handle"
+        name: "artist_handle"
+        widget: "string"
+        required: false
+      - label: "Book or Character"
+        name: "book_or_character"
+        widget: "string"
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+      - label: "Artwork Image"
+        name: "image"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/fan-art"
+        public_folder: "/images/fan-art"
+      - label: "External Link"
+        name: "external_link"
+        widget: "string"
+        required: false
+        hint: "If art is on Instagram/DeviantArt, paste the link here instead of uploading."
+      - label: "Feature This Piece"
+        name: "is_featured"
+        widget: "boolean"
+        default: true
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 8: LINKTREE LINKS
+# ────────────────────────────────────────────────────────────
+
+  - name: "links"
+    label: "🔗 Linktree Links"
+    files:
+      - label: "All Links"
+        name: "linktree"
+        file: "content/settings/links.md"
+        fields:
+          - label: "QR Code Image"
+            name: "qr_image"
+            widget: "image"
+            required: false
+            media_folder: "/public/images/qr"
+            public_folder: "/images/qr"
+          - label: "QR Code Label"
+            name: "qr_label"
+            widget: "string"
+            required: false
+            default: "Scan to find the whole universe."
+          - label: "Show QR Section"
+            name: "qr_show"
+            widget: "boolean"
+            default: true
+          - label: "Links"
+            name: "links"
+            widget: "list"
+            hint: "Drag to reorder. Order here = order readers see."
+            fields:
+              - label: "Label"
+                name: "label"
+                widget: "string"
+              - label: "URL"
+                name: "url"
+                widget: "string"
+              - label: "Icon or Emoji"
+                name: "icon"
+                widget: "string"
+              - label: "Show on Website"
+                name: "is_active"
+                widget: "boolean"
+                default: true
+              - label: "Short Description"
+                name: "description"
+                widget: "string"
+                required: false
+                hint: "One line under the platform name — e.g. Where stories first learn to breathe."
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 9: SITE SETTINGS
+# ────────────────────────────────────────────────────────────
+
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    files:
+
+      - label: "Author Profile"
+        name: "author"
+        file: "content/settings/author.md"
+        fields:
+          - label: "Display Name"
+            name: "display_name"
+            widget: "string"
+          - label: "Author Bio"
+            name: "body"
+            widget: "markdown"
+          - label: "Short Tagline"
+            name: "tagline"
+            widget: "string"
+          - label: "Fun Facts"
+            name: "fun_facts"
+            widget: "list"
+            required: false
+            field:
+              label: "Fact"
+              name: "fact"
+              widget: "string"
+          - label: "About Page — Hero Quote"
+            name: "about_hero_quote"
+            widget: "string"
+            default: "Some stories become books. Some stories become homes."
+          - label: "About Page — Hero Subtitle"
+            name: "about_hero_sub"
+            widget: "string"
+            required: false
+          - label: "About Page — What You'll Find Here"
+            name: "finds_cards"
+            widget: "list"
+            required: false
+            fields:
+              - label: "Icon"
+                name: "icon"
+                widget: "string"
+              - label: "Text"
+                name: "text"
+                widget: "string"
+              - label: "Show"
+                name: "show"
+                widget: "boolean"
+                default: true
+          - label: "About Page — Currently Loving"
+            name: "currently_cards"
+            widget: "list"
+            required: false
+            fields:
+              - label: "Label"
+                name: "label"
+                widget: "string"
+              - label: "Value"
+                name: "value"
+                widget: "string"
+              - label: "Show"
+                name: "show"
+                widget: "boolean"
+                default: true
+          - label: "Show Letter to Crafties"
+            name: "letter_show"
+            widget: "boolean"
+            default: true
+          - label: "Letter Salutation"
+            name: "letter_salutation"
+            widget: "string"
+            default: "Dear Crafties,"
+          - label: "Letter Body"
+            name: "letter_body"
+            widget: "markdown"
+            required: false
+          - label: "Letter Sign-Off Name"
+            name: "letter_sign_name"
+            widget: "string"
+            default: "Thatbrowncraft"
+
+      - label: "Social Links"
+        name: "social"
+        file: "content/settings/social.md"
+        fields:
+          - label: "Wattpad URL"
+            name: "wattpad"
+            widget: "string"
+            required: false
+          - label: "Instagram URL"
+            name: "instagram"
+            widget: "string"
+            required: false
+          - label: "Spotify URL"
+            name: "spotify"
+            widget: "string"
+            required: false
+          - label: "Pinterest URL"
+            name: "pinterest"
+            widget: "string"
+            required: false
+          - label: "Google Form — Crafties Post Office"
+            name: "form_crafties"
+            widget: "string"
+            required: false
+            hint: "Paste your Google Form URL here. The postcard SEND button opens this."
+          - label: "Google Form — Submit a Review"
+            name: "form_reviews"
+            widget: "string"
+            required: false
+            hint: "Paste your Google Form URL here. The Submit Review button opens this."
+          - label: "Google Form — Fan Art Submission"
+            name: "form_fanart"
+            widget: "string"
+            required: false
+            hint: "Paste your Google Form URL here. The Submit Fan Art button opens this."
+          - label: "Google Form — Contact"
+            name: "form_contact"
+            widget: "string"
+            required: false
+
+      - label: "Site Metadata"
+        name: "metadata"
+        file: "content/settings/metadata.md"
+        fields:
+          - label: "Site Title"
+            name: "site_title"
+            widget: "string"
+          - label: "Meta Description"
+            name: "meta_description"
+            widget: "text"
+          - label: "Social Share Image"
+            name: "og_image"
+            widget: "image"
+            required: false
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 10: HALL OF FAME
+# ────────────────────────────────────────────────────────────
+
+  - name: "hall_of_fame"
+    label: "🏅 Hall of Fame"
+    label_singular: "Hall of Fame Entry"
+    folder: "content/hall-of-fame"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    summary: "{{reader_name}} — {{entry_type}} ({{status}})"
+    fields:
+      - label: "Entry Type"
+        name: "entry_type"
+        widget: "select"
+        options:
+          - { label: "⭐ Featured Reader",   value: "featured_reader"   }
+          - { label: "📅 Monthly Spotlight", value: "monthly_spotlight" }
+          - { label: "😭 Reaction Wall",     value: "reaction_wall"     }
+          - { label: "🔍 Theorist Corner",   value: "theorist"          }
+          - { label: "💌 Reader Letter",     value: "reader_letter"     }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+          - { label: "Archived",  value: "archived"  }
+        default: "draft"
+      - label: "Pin to Top"
+        name: "is_pinned"
+        widget: "boolean"
+        default: false
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+      - label: "Reader Name or Handle"
+        name: "reader_name"
+        widget: "string"
+      - label: "Reader Platform Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+      - label: "Related Book"
+        name: "related_book"
+        widget: "string"
+        required: false
+      - label: "Display Name on Card"
+        name: "display_name"
+        widget: "string"
+        required: false
+      - label: "Author's Note About This Reader"
+        name: "author_note_about_reader"
+        widget: "text"
+        required: false
+      - label: "Favourite Character"
+        name: "favourite_character"
+        widget: "string"
+        required: false
+      - label: "Theory Title"
+        name: "theory_title"
+        widget: "string"
+        required: false
+      - label: "Were They Right?"
+        name: "theory_correct"
+        widget: "select"
+        required: false
+        options:
+          - { label: "✓ Exactly right",        value: "correct"    }
+          - { label: "◑ Partially right",       value: "partial"    }
+          - { label: "✗ Wrong but well argued", value: "wrong"      }
+          - { label: "🔒 Not revealing yet",    value: "unrevealed" }
+      - label: "Author's Response to the Theory"
+        name: "author_theory_response"
+        widget: "text"
+        required: false
+      - label: "Spotlight Month"
+        name: "spotlight_month"
+        widget: "string"
+        required: false
+        hint: "e.g. June 2025"
+      - label: "Their Favourite Quote"
+        name: "reader_favourite_quote"
+        widget: "text"
+        required: false
+      - label: "Reaction Context"
+        name: "reaction_context"
+        widget: "string"
+        required: false
+        hint: "e.g. After Chapter 42 dropped."
+      - label: "What This Reaction Meant to You"
+        name: "author_reaction_note"
+        widget: "text"
+        required: false
+      - label: "Letter Subject"
+        name: "letter_subject"
+        widget: "string"
+        required: false
+      - label: "Body Text"
+        name: "body"
+        widget: "markdown"
+        required: false
+        hint: "Used for letter text, theory text, and reaction text."
+      - label: "Permission to Feature"
+        name: "has_permission"
+        widget: "boolean"
+        default: false
+        hint: "Never publish without this switched on."
+      - label: "Feature on Homepage"
+        name: "is_homepage_feature"
+        widget: "boolean"
+        default: false
+      - label: "Display Tags"
+        name: "display_tags"
+        widget: "list"
+        required: false
+        field:
+          label: "Tag"
+          name: "tag"
+          widget: "string"
+
+# ============================================================
+# END OF CONFIG
+# TEST REPO:       thatbrowncraft/thatbrowncraft-cms-test
+# PRODUCTION REPO: thatbrowncraft/thatbrowncraft-website
+#
+# To migrate to production later, change only these three lines:
+#   repo:     thatbrowncraft/thatbrowncraft-website
+#   site_url: https://thatbrowncraft.github.io/thatbrowncraft-website
+#   display_url: https://thatbrowncraft.github.io/thatbrowncraft-website
+# (or your custom domain if DNS is set up)
+# ============================================================

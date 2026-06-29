@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>thatbrowncraft — Author Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #2C1810;
+      font-family: 'Georgia', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #F5ECD7;
+    }
+    .loading { text-align: center; opacity: 0.6; }
+    .loading-brand { font-size: 1.8rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .loading-that  { color: #E8D5B0; }
+    .loading-brown { color: #C8956B; }
+    .loading-craft { color: #C9A96E; font-style: italic; }
+    .loading-sub   { font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.45; margin-bottom: 1.5rem; }
+    .loading-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: #C8956B; border-radius: 50%; margin: 0 3px;
+      animation: pulse 1.2s ease infinite;
+    }
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50%       { opacity: 1;   transform: scale(1);   }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">
+    <div class="loading-brand">
+      <span class="loading-that">that</span><span class="loading-brown">brown</span><span class="loading-craft">craft</span>
+    </div>
+    <div class="loading-sub">Author's Study</div>
+    <div>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+  </div>
+  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+</body>
+</html>
