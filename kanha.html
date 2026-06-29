@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shyam's Courtyard. A quiet space with verses from the Bhagavad Gita and reflections on living. Not a sermon. Just a place to sit.">
+<title>Kanha's Courtyard — thatbrowncraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --espresso:   #2C1810;
+  --walnut:     #3B1F0A;
+  --midbrown:   #8B5E3C;
+  --terracotta: #C8956B;
+  --gold:       #C9A96E;
+  --gold-soft:  rgba(201,169,110,0.6);
+  --cream:      #E8D5B0;
+  --parchment:  #F5ECD7;
+  --deepink:    #1A0F08;
+  --kanha-bg:   #110B06;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Lato', sans-serif;
+  --font-accent:  'Libre Baskerville', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--kanha-bg);
+  color: var(--parchment);
+  overflow-x: hidden;
+  font-weight: 300;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ============================================================
+   ATMOSPHERE - golden dust, softer here
+   ============================================================ */
+#atmosphere {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+
+/* Kanha's light comes from above, like a lamp in a temple */
+.kanha-glow-top {
+  position: absolute;
+  top: -10%; left: 50%;
+  transform: translateX(-50%);
+  width: 80vw; height: 60vh;
+  background: radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 65%);
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+.kanha-glow-left {
+  position: absolute;
+  top: 30%; left: -20%;
+  width: 50vw; height: 80vh;
+  background: radial-gradient(ellipse, rgba(200,149,107,0.04) 0%, transparent 60%);
+  animation: glowPulse 9s ease-in-out infinite reverse;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1;   }
+}
+
+/* Motes here are golden, slower, more deliberate */
+.mote {
+  position: absolute; border-radius: 50%;
+  opacity: 0; animation: moteDrift linear infinite;
+  will-change: transform, opacity; filter: blur(0.5px);
+}
+
+@keyframes moteDrift {
+  0%   { transform: translateY(105vh) translateX(0);   opacity: 0;   }
+  10%  { opacity: 0.8; }
+  40%  { transform: translateY(65vh) translateX(15px); opacity: 0.5; }
+  65%  { transform: translateY(35vh) translateX(-10px);opacity: 0.7; }
+  88%  { opacity: 0.2; }
+  100% { transform: translateY(-5vh) translateX(5px);  opacity: 0;   }
+}
+
+/* All gold motes on this page */
+.m1 {width:3px;height:3px;background:rgba(201,169,110,.7);left:4%;animation-duration:28s;animation-delay:0s}
+.m2 {width:2px;height:2px;background:rgba(245,236,215,.6);left:11%;animation-duration:34s;animation-delay:-8s}
+.m3 {width:4px;height:4px;background:rgba(201,169,110,.4);left:18%;animation-duration:22s;animation-delay:-15s}
+.m4 {width:2px;height:2px;background:rgba(201,169,110,.65);left:26%;animation-duration:38s;animation-delay:-5s}
+.m5 {width:3px;height:3px;background:rgba(245,236,215,.5);left:33%;animation-duration:29s;animation-delay:-21s}
+.m6 {width:2px;height:2px;background:rgba(201,169,110,.7);left:40%;animation-duration:32s;animation-delay:-11s}
+.m7 {width:3px;height:3px;background:rgba(201,169,110,.55);left:48%;animation-duration:25s;animation-delay:-17s}
+.m8 {width:2px;height:2px;background:rgba(245,236,215,.6);left:56%;animation-duration:36s;animation-delay:-3s}
+.m9 {width:4px;height:4px;background:rgba(201,169,110,.4);left:63%;animation-duration:24s;animation-delay:-23s}
+.m10{width:2px;height:2px;background:rgba(201,169,110,.65);left:71%;animation-duration:31s;animation-delay:-7s}
+.m11{width:3px;height:3px;background:rgba(245,236,215,.5);left:78%;animation-duration:27s;animation-delay:-13s}
+.m12{width:2px;height:2px;background:rgba(201,169,110,.7);left:85%;animation-duration:35s;animation-delay:-19s}
+.m13{width:3px;height:3px;background:rgba(201,169,110,.45);left:92%;animation-duration:21s;animation-delay:-4s}
+.m14{width:2px;height:2px;background:rgba(245,236,215,.55);left:7%;animation-duration:30s;animation-delay:-16s}
+.m15{width:4px;height:4px;background:rgba(201,169,110,.35);left:22%;animation-duration:26s;animation-delay:-9s}
+.m16{width:2px;height:2px;background:rgba(201,169,110,.6);left:37%;animation-duration:33s;animation-delay:-20s}
+.m17{width:3px;height:3px;background:rgba(245,236,215,.45);left:52%;animation-duration:28s;animation-delay:-6s}
+.m18{width:2px;height:2px;background:rgba(201,169,110,.7);left:67%;animation-duration:39s;animation-delay:-14s}
+.m19{width:3px;height:3px;background:rgba(201,169,110,.5);left:82%;animation-duration:23s;animation-delay:-18s}
+.m20{width:2px;height:2px;background:rgba(245,236,215,.55);left:97%;animation-duration:31s;animation-delay:-2s}
+
+/* NAV */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  padding: 0 clamp(1.5rem,5vw,4rem); height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(17,11,6,0.82); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(201,169,110,0.1);
+  transition: background .4s;
+}
+.site-nav.scrolled { background: rgba(17,11,6,0.97); border-bottom-color: rgba(201,169,110,0.2); }
+.nav-logo { display: flex; align-items: baseline; line-height: 1; letter-spacing: .01em; }
+.logo-that  { font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--cream);font-style:normal; }
+.logo-brown { font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--terracotta);font-style:normal; }
+.logo-craft { font-family:var(--font-display);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic; }
+.nav-links { display: flex; gap: clamp(1rem,2.5vw,2.2rem); align-items: center; }
+.nav-link { font-family:var(--font-body);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.45);transition:color .3s; }
+.nav-link:hover, .nav-link.active-page { color: var(--gold); }
+.nav-hamburger { display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px; }
+.nav-hamburger span { display:block;width:22px;height:1.5px;background:var(--cream);transition:.3s; }
+.nav-mobile { display:none;position:fixed;top:64px;left:0;right:0;background:rgba(17,11,6,.98);padding:1.5rem 2rem 2rem;flex-direction:column;z-index:899;border-bottom:1px solid rgba(201,169,110,.15); }
+.nav-mobile.open { display: flex; }
+.nav-mobile .nav-link { padding:.85rem 0;font-size:.82rem;border-bottom:1px solid rgba(201,169,110,.08);display:block; }
+
+section, nav, footer { position: relative; z-index: 1; }
+
+/* ============================================================
+   HERO / ENTRANCE — the courtyard gate
+   ============================================================ */
+.courtyard-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px clamp(1.5rem,6vw,5rem) 4rem;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(201,169,110,0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 50% 100%, rgba(59,31,10,0.6) 0%, transparent 55%),
+    var(--kanha-bg);
+}
+
+/* Peacock feathers — the iconic courtyard decoration */
+.feather {
+  position: absolute;
+  opacity: 0.07;
+  pointer-events: none;
+  animation: featherSway 8s ease-in-out infinite;
+}
+
+.feather.left  { left: -60px; top: 50%; transform: translateY(-50%); width: 220px; }
+.feather.right { right: -60px; top: 50%; transform: translateY(-50%) scaleX(-1); width: 220px; }
+.feather.top-left  { left: 5%; top: 80px; width: 140px; opacity: 0.05; transform: rotate(-20deg); }
+.feather.top-right { right: 5%; top: 80px; width: 140px; opacity: 0.05; transform: rotate(20deg) scaleX(-1); }
+
+@keyframes featherSway {
+  0%, 100% { transform: translateY(-50%) rotate(-1deg); }
+  50%       { transform: translateY(-50%) rotate(1deg); }
+}
+
+.feather.right { animation: featherSwayR 8s ease-in-out infinite; }
+@keyframes featherSwayR {
+  0%, 100% { transform: translateY(-50%) scaleX(-1) rotate(-1deg); }
+  50%       { transform: translateY(-50%) scaleX(-1) rotate(1deg); }
+}
+
+/* Ornamental arch border at top */
+.courtyard-arch {
+  position: absolute;
+  top: 64px; left: 50%; transform: translateX(-50%);
+  width: min(600px, 85vw);
+  height: 3px;
+  display: flex; align-items: center; gap: 0;
+}
+
+.arch-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.4)); }
+.arch-line.r { background: linear-gradient(to left, transparent, rgba(201,169,110,0.4)); }
+.arch-center {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(201,169,110,0.5);
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(201,169,110,0.4);
+}
+
+/* The entrance label */
+.courtyard-tag {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: rgba(201,169,110,0.45);
+  letter-spacing: 0.22em;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.3s ease forwards;
+}
+
+/* Main heading */
+.courtyard-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 0.15em;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.55s ease forwards;
+}
+
+.courtyard-title .word-shyam { color: var(--cream); }
+.courtyard-title .word-courtyard { color: var(--gold); font-style: italic; }
+
+/* Flute divider */
+.flute-row {
+  display: flex; align-items: center; gap: 1.25rem;
+  justify-content: center;
+  margin: 1.75rem auto;
+  max-width: 280px;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.75s ease forwards;
+}
+.flute-line { width: 70px; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.3), transparent); }
+.flute-icon { color: rgba(201,169,110,0.4); font-size: 1.1rem; }
+
+.courtyard-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  color: rgba(245,236,215,0.35);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.95s ease forwards;
+}
+
+/* Chapter navigation — quick jump to any of the 18 chapters */
+.chapter-nav {
+  opacity: 0;
+  animation: fadeUp 1.2s 1.15s ease forwards;
+}
+
+.chapter-nav-label {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.3);
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.chapter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.chapter-pill {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(201,169,110,0.15);
+  color: rgba(201,169,110,0.4);
+  cursor: pointer;
+  transition: all 0.3s;
+  background: none;
+}
+
+.chapter-pill:hover {
+  border-color: rgba(201,169,110,0.5);
+  color: var(--gold);
+  background: rgba(201,169,110,0.05);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   VERSES SECTION
+   ============================================================ */
+.verses-section {
+  padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem);
+  position: relative;
+}
+
+.verses-inner { max-width: 900px; margin: 0 auto; }
+
+/* ============================================================
+   VERSE CARD — the heart of this page
+   ============================================================ */
+.verse-entry {
+  margin-bottom: 5rem;
+  position: relative;
+}
+
+/* Each verse is like an illuminated manuscript page */
+.verse-card {
+  background: rgba(245,236,215,0.03);
+  border: 1px solid rgba(201,169,110,0.1);
+  padding: clamp(2rem,5vw,3.5rem);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s, background 0.4s;
+}
+
+.verse-card:hover {
+  border-color: rgba(201,169,110,0.22);
+  background: rgba(245,236,215,0.045);
+}
+
+/* Gold corner brackets — like illuminated manuscript corners */
+.verse-card::before, .verse-card::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  pointer-events: none;
+  transition: all 0.4s;
+}
+.verse-card::before { top: 12px; left: 12px; border-top: 1px solid rgba(201,169,110,0.2); border-left: 1px solid rgba(201,169,110,0.2); }
+.verse-card::after  { bottom: 12px; right: 12px; border-bottom: 1px solid rgba(201,169,110,0.2); border-right: 1px solid rgba(201,169,110,0.2); }
+.verse-card:hover::before, .verse-card:hover::after { width: 26px; height: 26px; border-color: rgba(201,169,110,0.45); }
+
+/* Ambient glow behind each verse */
+.verse-card-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,169,110,0.04), transparent 70%);
+  pointer-events: none;
+}
+
+/* Chapter label */
+.verse-chapter-label {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.35);
+  display: block;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.verse-chapter-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(201,169,110,0.15), transparent);
+}
+
+/* The Sanskrit line */
+.verse-sanskrit {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.95rem,2vw,1.1rem);
+  color: rgba(201,169,110,0.55);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1.25rem;
+  border-left: 2px solid rgba(201,169,110,0.18);
+  background: rgba(201,169,110,0.03);
+}
+
+/* The English meaning — big and readable */
+.verse-meaning {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem,3vw,1.75rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Big quote mark behind the meaning */
+.verse-meaning::before {
+  content: '\201C';
+  position: absolute;
+  left: -0.5rem;
+  top: -1rem;
+  font-size: 5rem;
+  color: rgba(201,169,110,0.07);
+  font-style: normal;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* The horizontal rule between meaning and reflection */
+.verse-rule {
+  height: 1px;
+  background: linear-gradient(to right, rgba(201,169,110,0.15), transparent);
+  margin: 1.5rem 0;
+}
+
+/* The personal reflection */
+.verse-reflection {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(245,236,215,0.42);
+  line-height: 1.9;
+}
+
+/* Lotus at the bottom right */
+.verse-lotus {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+/* The flute divider between verses */
+.verse-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  justify-content: center;
+  margin: 2.5rem 0 3rem;
+  opacity: 0.4;
+}
+
+.vd-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.25), transparent); }
+.vd-icon { font-size: 0.8rem; color: rgba(201,169,110,0.5); }
+
+/* ============================================================
+   CLOSING QUOTE — the final thought at the bottom of the page
+   ============================================================ */
+.closing-section {
+  padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem);
+  text-align: center;
+  background: linear-gradient(180deg, var(--kanha-bg) 0%, rgba(59,31,10,0.3) 50%, var(--kanha-bg) 100%);
+  border-top: 1px solid rgba(201,169,110,0.07);
+  position: relative;
+  overflow: hidden;
+}
+
+.closing-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 60%; height: 80%;
+  background: radial-gradient(ellipse, rgba(201,169,110,0.05), transparent 65%);
+  pointer-events: none;
+}
+
+.closing-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+
+.closing-flute-row {
+  display: flex; align-items: center; gap: 1.25rem; justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.closing-flute-line { width: 80px; height: 1px; background: rgba(201,169,110,0.2); }
+.closing-flute-icon { color: rgba(201,169,110,0.35); font-size: 1.3rem; }
+
+.closing-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem,3vw,2rem);
+  color: var(--gold);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.closing-quote::before {
+  content: '\201C';
+  font-size: 4rem;
+  color: rgba(201,169,110,0.15);
+  position: absolute;
+  left: -1rem;
+  top: -1.5rem;
+  font-style: normal;
+  line-height: 1;
+}
+
+.closing-cite {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.3);
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1{transition-delay:.12s}.delay-2{transition-delay:.24s}
+.delay-3{transition-delay:.36s}.delay-4{transition-delay:.48s}
+.delay-5{transition-delay:.6s}
+
+/* ============================================================
+   FOOTER (same as always)
+   ============================================================ */
+.site-footer { background:var(--deepink);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,6vw,5rem) 2.5rem;text-align:center;border-top:1px solid rgba(201,169,110,.1);position:relative;overflow:hidden; }
+.site-footer::before { content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse,rgba(200,149,107,.05),transparent 70%);pointer-events:none; }
+.footer-inner { max-width:900px;margin:0 auto;position:relative;z-index:1; }
+.footer-logo { display:flex;align-items:baseline;justify-content:center;margin-bottom:.4rem; }
+.fl-that  { font-family:var(--font-display);font-weight:500;font-size:2rem;color:rgba(245,236,215,.6); }
+.fl-brown { font-family:var(--font-display);font-weight:500;font-size:2rem;color:var(--terracotta);opacity:.75; }
+.fl-craft { font-family:var(--font-display);font-weight:400;font-size:2rem;color:var(--gold);font-style:italic;opacity:.65; }
+.footer-tagline { font-family:var(--font-display);font-style:italic;font-size:.88rem;color:rgba(245,236,215,.22);margin-bottom:2.5rem; }
+.footer-social { display:flex;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem; }
+.social-pill { display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.14);font-family:var(--font-body);font-size:.65rem;letter-spacing:.08em;color:rgba(245,236,215,.33);transition:all .3s; }
+.social-pill:hover { border-color:var(--terracotta);color:var(--terracotta); }
+.footer-links { display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.75rem;margin-bottom:2.5rem; }
+.footer-link { font-family:var(--font-body);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,236,215,.25);transition:color .3s; }
+.footer-link:hover { color:var(--terracotta); }
+.footer-rule { height:1px;background:rgba(245,236,215,.05);margin-bottom:2rem; }
+.footer-copy { font-size:.68rem;color:rgba(245,236,215,.14);font-family:var(--font-body); }
+
+@media(max-width:760px) {
+  .nav-links{display:none} .nav-hamburger{display:flex}
+  .feather.left,.feather.right{display:none}
+}
+@media(prefers-reduced-motion:reduce) {
+  .mote,.kanha-glow-top,.kanha-glow-left,.feather{display:none}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ATMOSPHERE -->
+<div id="atmosphere" aria-hidden="true">
+  <div class="kanha-glow-top"></div>
+  <div class="kanha-glow-left"></div>
+  <span class="mote m1"></span><span class="mote m2"></span><span class="mote m3"></span>
+  <span class="mote m4"></span><span class="mote m5"></span><span class="mote m6"></span>
+  <span class="mote m7"></span><span class="mote m8"></span><span class="mote m9"></span>
+  <span class="mote m10"></span><span class="mote m11"></span><span class="mote m12"></span>
+  <span class="mote m13"></span><span class="mote m14"></span><span class="mote m15"></span>
+  <span class="mote m16"></span><span class="mote m17"></span><span class="mote m18"></span>
+  <span class="mote m19"></span><span class="mote m20"></span>
+</div>
+
+<!-- NAV -->
+<nav class="site-nav" id="siteNav">
+  <a href="/" class="nav-logo" aria-label="thatbrowncraft home">
+    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
+  </a>
+  <div class="nav-links">
+    <a href="/books/"      class="nav-link">Books</a>
+    <a href="/characters/" class="nav-link">Characters</a>
+    <a href="/bonus/"      class="nav-link">One More Chapter</a>
+    <a href="/crafties/"   class="nav-link">Crafties</a>
+    <a href="/kanha/"      class="nav-link active-page">Kanha's Corner</a>
+    <a href="/about/"      class="nav-link">About</a>
+    <a href="/links/"      class="nav-link">Find Me</a>
+  </div>
+  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/books/"      class="nav-link">Books</a>
+  <a href="/characters/" class="nav-link">Characters</a>
+  <a href="/bonus/"      class="nav-link">One More Chapter</a>
+  <a href="/crafties/"   class="nav-link">Crafties</a>
+  <a href="/kanha/"      class="nav-link">Kanha's Corner</a>
+  <a href="/about/"      class="nav-link">About</a>
+  <a href="/links/"      class="nav-link">Find Me</a>
+</div>
+
+<main>
+
+<!-- COURTYARD ENTRANCE -->
+<section class="courtyard-hero" aria-label="Kanha's Courtyard entrance">
+
+  <!-- Peacock feather SVGs -->
+  <svg class="feather left" viewBox="0 0 160 600" fill="none" aria-hidden="true">
+    <path d="M80 580 Q80 440 80 300 Q80 180 80 30" stroke="#C9A96E" stroke-width="2" fill="none"/>
+    <ellipse cx="80" cy="280" rx="60" ry="38" fill="#C9A96E" opacity="0.8"/>
+    <ellipse cx="80" cy="280" rx="34" ry="22" fill="#110B06"/>
+    <ellipse cx="80" cy="280" rx="14" ry="9" fill="#C9A96E" opacity="0.9"/>
+    <path d="M80 262 Q55 218 28 198" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 262 Q105 218 132 198" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 310 Q50 342 22 355" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 310 Q110 342 138 355" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 240 Q45 185 15 165" stroke="#C9A96E" stroke-width="1" opacity="0.3" fill="none"/>
+    <path d="M80 240 Q115 185 145 165" stroke="#C9A96E" stroke-width="1" opacity="0.3" fill="none"/>
+    <path d="M80 325 Q40 368 10 382" stroke="#C9A96E" stroke-width="1" opacity="0.3" fill="none"/>
+    <path d="M80 325 Q120 368 150 382" stroke="#C9A96E" stroke-width="1" opacity="0.3" fill="none"/>
+  </svg>
+
+  <svg class="feather right" viewBox="0 0 160 600" fill="none" aria-hidden="true">
+    <path d="M80 580 Q80 440 80 300 Q80 180 80 30" stroke="#C9A96E" stroke-width="2" fill="none"/>
+    <ellipse cx="80" cy="280" rx="60" ry="38" fill="#C9A96E" opacity="0.8"/>
+    <ellipse cx="80" cy="280" rx="34" ry="22" fill="#110B06"/>
+    <ellipse cx="80" cy="280" rx="14" ry="9" fill="#C9A96E" opacity="0.9"/>
+    <path d="M80 262 Q55 218 28 198" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 262 Q105 218 132 198" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 310 Q50 342 22 355" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+    <path d="M80 310 Q110 342 138 355" stroke="#C9A96E" stroke-width="1.2" opacity="0.5" fill="none"/>
+  </svg>
+
+  <svg class="feather top-left" viewBox="0 0 120 200" fill="none" aria-hidden="true">
+    <path d="M60 190 Q60 130 60 60 Q60 30 60 5" stroke="#C9A96E" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="80" rx="35" ry="22" fill="#C9A96E" opacity="0.7"/>
+    <ellipse cx="60" cy="80" rx="18" ry="12" fill="#110B06"/>
+    <ellipse cx="60" cy="80" rx="7" ry="5" fill="#C9A96E" opacity="0.8"/>
+  </svg>
+
+  <svg class="feather top-right" viewBox="0 0 120 200" fill="none" aria-hidden="true">
+    <path d="M60 190 Q60 130 60 60 Q60 30 60 5" stroke="#C9A96E" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="80" rx="35" ry="22" fill="#C9A96E" opacity="0.7"/>
+    <ellipse cx="60" cy="80" rx="18" ry="12" fill="#110B06"/>
+    <ellipse cx="60" cy="80" rx="7" ry="5" fill="#C9A96E" opacity="0.8"/>
+  </svg>
+
+  <div class="courtyard-arch" aria-hidden="true">
+    <div class="arch-line"></div>
+    <div class="arch-center"></div>
+    <div class="arch-line r"></div>
+  </div>
+
+  <span class="courtyard-tag">a quiet space</span>
+
+  <h1 class="courtyard-title">
+    <span class="word-shyam">Shyam's </span><span class="word-courtyard">Courtyard</span>
+  </h1>
+
+  <div class="flute-row" aria-hidden="true">
+    <div class="flute-line"></div>
+    <span class="flute-icon">𝄞</span>
+    <div class="flute-line"></div>
+  </div>
+
+  <p class="courtyard-sub">
+    Not a sermon. Not a lecture. Just a courtyard where you can sit, breathe,
+    and let something true find you. All 18 chapters of the Gita.
+    Every verse in my own words.
+  </p>
+
+  <div class="chapter-nav">
+    <span class="chapter-nav-label">Jump to a chapter</span>
+    <div class="chapter-pills">
+      <button class="chapter-pill" onclick="jumpTo('ch2')">Ch 2 · Sankhya</button>
+      <button class="chapter-pill" onclick="jumpTo('ch3')">Ch 3 · Karma</button>
+      <button class="chapter-pill" onclick="jumpTo('ch4')">Ch 4 · Jnana</button>
+      <button class="chapter-pill" onclick="jumpTo('ch6')">Ch 6 · Dhyana</button>
+      <button class="chapter-pill" onclick="jumpTo('ch9')">Ch 9 · Raja Vidya</button>
+      <button class="chapter-pill" onclick="jumpTo('ch11')">Ch 11 · Vishwarupa</button>
+      <button class="chapter-pill" onclick="jumpTo('ch12')">Ch 12 · Bhakti</button>
+      <button class="chapter-pill" onclick="jumpTo('ch15')">Ch 15 · Purushottama</button>
+      <button class="chapter-pill" onclick="jumpTo('ch18')">Ch 18 · Moksha</button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- VERSES -->
+<section class="verses-section">
+  <div class="verses-inner">
+
+    <!-- ── CHAPTER 2 ──────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch2">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 2 · Sankhya Yoga</span>
+        <p class="verse-sanskrit">Nainam chindanti shastrani, nainam dahati pavakah</p>
+        <p class="verse-meaning">"The soul cannot be cut by weapons, nor burned by fire."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          Whatever they've done to you. However many times you've been broken apart by something that felt final.
+          That part of you that makes you you is still whole. Still here. Still yours.
+          The things that tried to reduce you couldn't reach the actual you.
+          That's not a small thing. That's the whole thing.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 3 ──────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch3">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 3 · Karma Yoga</span>
+        <p class="verse-sanskrit">Karmanye vadhikaraste ma phaleshu kadachana</p>
+        <p class="verse-meaning">"You have the right to work, but never to its fruits."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          Do the thing. Put in the work. Write the chapter, have the conversation, take the step.
+          Then let go of needing it to turn out a certain way.
+          That's not passivity. That's not giving up. That's actually the most difficult kind of faith there is.
+          The kind where you act fully and then release the outcome completely.
+          Most people can't do it. He's saying try anyway.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 4 ──────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch4">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 4 · Jnana Yoga</span>
+        <p class="verse-sanskrit">Yada yada hi dharmasya glanir bhavati bharata</p>
+        <p class="verse-meaning">"Whenever dharma declines, I arise."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          He shows up when things fall apart. Not always in the way you're expecting.
+          Not always as something you recognize.
+          Sometimes as a stranger who says exactly the right thing at the exact wrong moment.
+          Sometimes as a book that falls open to the page you needed.
+          Sometimes just as a very specific kind of quiet that arrives when you're sitting with something difficult.
+          He keeps showing up. He has said so himself.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 6 ──────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch6">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 6 · Dhyana Yoga</span>
+        <p class="verse-sanskrit">Uddharet atmana atmanam</p>
+        <p class="verse-meaning">"Let a person lift themselves by their own self."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          You are both the problem and the solution. That sounds harsh but it's actually the most liberating thing I've ever read.
+          Because it means the thing that can fix this is already inside you.
+          Not waiting to arrive. Already there.
+          You just keep forgetting it's yours.
+          He's reminding you. Lift yourself. You have the hands for it.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 9 ──────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch9">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 9 · Raja Vidya Yoga</span>
+        <p class="verse-sanskrit">Ananyash chintayanto mam ye janah paryupasate</p>
+        <p class="verse-meaning">"Those who think of me alone — I carry what they need."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          He doesn't need you to be perfect before you can come to him.
+          He doesn't need you to have figured everything out first.
+          Even a quiet "I don't know how to do this anymore" is enough.
+          Even that counts as turning toward him.
+          That's a very low bar. I think he set it low on purpose.
+          So nobody would have an excuse not to reach.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 11 ─────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch11">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 11 · Vishwarupa Darshana Yoga</span>
+        <p class="verse-sanskrit">Drshtvedam manushyam rupam tava saumyam janardana</p>
+        <p class="verse-meaning">"Having seen your universal form, I am comforted by your gentle human face."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          Arjuna saw the entire cosmos inside Kanha. The infinite. The terrifying and the beautiful all at once.
+          And then he asked to see the familiar face again. The gentle one.
+          The one he recognized.
+          I think about this a lot. Even when you have access to the infinite, sometimes what you need is the presence.
+          The specific face. The person who is just there.
+          He gave that back too. Without judgment. He understood.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 12 ─────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch12">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 12 · Bhakti Yoga</span>
+        <p class="verse-sanskrit">Advesta sarva bhutanam maitrah karuna eva cha</p>
+        <p class="verse-meaning">"One who hates no being, who is friendly and compassionate to all."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          The whole chapter is basically a description of someone who is genuinely good.
+          Not good in a performance. Not good when people are watching.
+          Actually, quietly, consistently good at the level of how they move through the world.
+          That's the person he's describing as dear to him.
+          Not the most knowledgeable. Not the most disciplined.
+          The most genuinely kind. That's the goal.
+          I think about this whenever I'm tempted to make something more complicated than it is.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 15 ─────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch15">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 15 · Purushottama Yoga</span>
+        <p class="verse-sanskrit">Tam eva chaadyam purusham prapadye</p>
+        <p class="verse-meaning">"I take refuge in that primal being."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          Short. Three words in meaning. No explanation attached.
+          Sometimes the most honest thing you can say is just that.
+          I don't understand all of this. I can't fix it from where I'm standing.
+          I'm going to rest in something older and steadier than whatever is currently falling apart around me.
+          That's it. That's the whole verse.
+          Sometimes that's all you need.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+    <div class="verse-divider reveal" aria-hidden="true">
+      <div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div>
+    </div>
+
+    <!-- ── CHAPTER 18 ─────────────────────────────── -->
+    <div class="verse-entry reveal" id="ch18">
+      <div class="verse-card">
+        <div class="verse-card-glow"></div>
+        <span class="verse-chapter-label">Chapter 18 · Moksha Yoga · The Last Word</span>
+        <p class="verse-sanskrit">Sarvadharman parityajya mam ekam sharanam vraja</p>
+        <p class="verse-meaning">"Abandon all duties and take shelter in me alone. I will free you from all sins. Do not grieve."</p>
+        <div class="verse-rule"></div>
+        <p class="verse-reflection">
+          The last chapter. The final word after 17 chapters of philosophy and instruction and cosmic revelation.
+          And what he says at the end, after everything, is essentially: come here. I've got it. Don't worry.
+          Not a command. A promise.
+          Do not grieve.
+          That's the most tender thing anyone has said at the end of a very long conversation.
+          After all that, after all the verses and the teachings and the vision of the infinite,
+          the last thing he wanted Arjuna to leave with was the absence of grief.
+          I think about this every time something feels too big.
+          He already said it. Do not grieve.
+        </p>
+        <span class="verse-lotus" aria-hidden="true">🪷</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CLOSING -->
+<section class="closing-section">
+  <div class="closing-glow" aria-hidden="true"></div>
+  <div class="closing-inner">
+
+    <div class="closing-flute-row reveal" aria-hidden="true">
+      <div class="closing-flute-line"></div>
+      <span class="closing-flute-icon">🪈</span>
+      <div class="closing-flute-line"></div>
+    </div>
+
+    <blockquote class="closing-quote reveal reveal-delay-1">
+      The flute only sings because it's hollow. That emptiness is not a wound.
+      It's what lets the music through.
+    </blockquote>
+
+    <p class="closing-cite reveal reveal-delay-2">on Kanha Ji's flute</p>
+
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="fl-that">that</span><span class="fl-brown">brown</span><span class="fl-craft">craft</span>
+    </div>
+    <p class="footer-tagline">stories brewed in chai &amp; candlelight</p>
+    <div class="footer-social">
+      <a href="https://www.wattpad.com/user/Thatbrowncraft" target="_blank" rel="noopener noreferrer" class="social-pill">📖 Wattpad</a>
+      <a href="#" class="social-pill">📸 Instagram</a>
+      <a href="#" class="social-pill">🎵 Spotify</a>
+      <a href="#" class="social-pill">📌 Pinterest</a>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="/"              class="footer-link">Home</a>
+      <a href="/books/"        class="footer-link">Books</a>
+      <a href="/characters/"   class="footer-link">Characters</a>
+      <a href="/bonus/"        class="footer-link">One More Chapter</a>
+      <a href="/crafties/"     class="footer-link">Crafties</a>
+      <a href="/kanha/"        class="footer-link">Kanha's Corner</a>
+      <a href="/hall-of-fame/" class="footer-link">Hall of Fame</a>
+      <a href="/about/"        class="footer-link">About</a>
+    </nav>
+    <div class="footer-rule"></div>
+    <p class="footer-copy"><span id="copyright-year"></span> thatbrowncraft. All stories, characters, and words belong to their author.</p>
+  </div>
+</footer>
+
+<script>
+// Nav
+const nav = document.getElementById('siteNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 24);
+}, { passive: true });
+
+// Hamburger
+const burger = document.getElementById('burger');
+const menu   = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(open));
+});
+menu.querySelectorAll('.nav-link').forEach(l => {
+  l.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// Reveal
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}
+
+// Chapter jump
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const offset = 80;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+</script>
+
+<script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Author updates, announcements, new chapters and notes from thatbrowncraft.">
+<title>Author's Desk — thatbrowncraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--espresso:#2C1810;--walnut:#3B1F0A;--terracotta:#C8956B;--gold:#C9A96E;--cream:#E8D5B0;--parchment:#F5ECD7;--deepink:#1A0F08;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Lato',sans-serif;--font-accent:'Libre Baskerville',Georgia,serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--espresso);color:var(--parchment);overflow-x:hidden;font-weight:300}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{max-width:100%;display:block}
+
+#atmosphere{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.light-shaft{position:absolute;top:-30%;right:-10%;width:60vw;height:140vh;background:linear-gradient(148deg,rgba(201,169,110,.07) 0%,rgba(245,236,215,.04) 35%,transparent 65%);transform:rotate(-18deg);transform-origin:top right;animation:shaftBreath 9s ease-in-out infinite}
+.light-shaft-2{position:absolute;top:30%;left:-15%;width:45vw;height:90vh;background:linear-gradient(42deg,rgba(200,149,107,.04) 0%,transparent 60%);transform:rotate(10deg);animation:shaftBreath 13s ease-in-out infinite reverse}
+@keyframes shaftBreath{0%,100%{opacity:.7}50%{opacity:1}}
+.mote{position:absolute;border-radius:50%;opacity:0;animation:moteDrift linear infinite;filter:blur(.4px)}
+@keyframes moteDrift{0%{transform:translateY(105vh) translateX(0);opacity:0}8%{opacity:.9}35%{transform:translateY(70vh) translateX(20px);opacity:.6}60%{transform:translateY(40vh) translateX(-14px);opacity:.8}85%{transform:translateY(12vh) translateX(16px);opacity:.4}100%{transform:translateY(-8vh) translateX(0);opacity:0}}
+.m1{width:3px;height:3px;background:rgba(201,169,110,.7);left:5%;animation-duration:24s;animation-delay:0s}.m2{width:2px;height:2px;background:rgba(245,236,215,.8);left:12%;animation-duration:31s;animation-delay:-7s}.m3{width:4px;height:4px;background:rgba(200,149,107,.5);left:19%;animation-duration:20s;animation-delay:-13s}.m4{width:2px;height:2px;background:rgba(201,169,110,.6);left:27%;animation-duration:35s;animation-delay:-4s}.m5{width:3px;height:3px;background:rgba(196,154,138,.5);left:34%;animation-duration:26s;animation-delay:-19s}.m6{width:2px;height:2px;background:rgba(245,236,215,.7);left:41%;animation-duration:29s;animation-delay:-9s}.m7{width:3px;height:3px;background:rgba(201,169,110,.6);left:49%;animation-duration:22s;animation-delay:-15s}.m8{width:2px;height:2px;background:rgba(200,149,107,.5);left:57%;animation-duration:33s;animation-delay:-2s}.m9{width:4px;height:4px;background:rgba(196,154,138,.4);left:64%;animation-duration:21s;animation-delay:-21s}.m10{width:2px;height:2px;background:rgba(245,236,215,.6);left:72%;animation-duration:28s;animation-delay:-6s}.m11{width:3px;height:3px;background:rgba(201,169,110,.7);left:79%;animation-duration:25s;animation-delay:-11s}.m12{width:2px;height:2px;background:rgba(200,149,107,.5);left:87%;animation-duration:32s;animation-delay:-17s}.m13{width:3px;height:3px;background:rgba(245,236,215,.5);left:93%;animation-duration:19s;animation-delay:-3s}.m14{width:2px;height:2px;background:rgba(201,169,110,.6);left:8%;animation-duration:27s;animation-delay:-14s}.m15{width:4px;height:4px;background:rgba(196,154,138,.4);left:23%;animation-duration:23s;animation-delay:-8s}.m16{width:2px;height:2px;background:rgba(245,236,215,.7);left:38%;animation-duration:30s;animation-delay:-18s}.m17{width:3px;height:3px;background:rgba(201,169,110,.5);left:53%;animation-duration:24s;animation-delay:-5s}.m18{width:2px;height:2px;background:rgba(200,149,107,.6);left:68%;animation-duration:36s;animation-delay:-12s}.m19{width:3px;height:3px;background:rgba(196,154,138,.5);left:82%;animation-duration:20s;animation-delay:-16s}.m20{width:2px;height:2px;background:rgba(245,236,215,.6);left:96%;animation-duration:28s;animation-delay:-1s}
+
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(1.5rem,5vw,4rem);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(44,24,16,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,169,110,.1);transition:background .4s}
+.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.18)}
+.nav-logo{display:flex;align-items:baseline}
+.logo-that{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--cream)}.logo-brown{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--terracotta)}.logo-craft{font-family:var(--font-display);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);align-items:center}
+.nav-link{font-family:var(--font-body);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.5);transition:color .3s}
+.nav-link:hover,.nav-link.active-page{color:var(--terracotta)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--cream);transition:.3s}
+.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(44,24,16,.98);padding:1.5rem 2rem 2rem;flex-direction:column;z-index:899;border-bottom:1px solid rgba(201,169,110,.15)}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-link{padding:.85rem 0;font-size:.82rem;border-bottom:1px solid rgba(201,169,110,.08);display:block}
+section,nav,footer{position:relative;z-index:1}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.page-header{padding:130px clamp(1.5rem,6vw,5rem) clamp(3rem,6vw,5rem);background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(59,31,10,.8) 0%,transparent 60%),linear-gradient(180deg,#2C1810 0%,#3B1F0A 100%);text-align:center;border-bottom:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:64px;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.3) 30%,rgba(201,169,110,.5) 50%,rgba(201,169,110,.3) 70%,transparent)}
+.page-header-eyebrow{font-family:var(--font-accent);font-style:italic;font-size:.8rem;color:rgba(201,169,110,.5);letter-spacing:.2em;display:block;margin-bottom:1rem}
+.page-header-title{font-family:var(--font-display);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;color:var(--cream);line-height:1;margin-bottom:.2em}
+.page-header-title em{font-style:italic;color:var(--terracotta)}
+.page-header-sub{font-family:var(--font-display);font-style:italic;font-size:clamp(.95rem,2vw,1.15rem);color:rgba(245,236,215,.38);margin-top:1.25rem;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.65}
+.orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto;max-width:300px}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent)}
+.orn-motif{font-size:.7rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+
+.updates-wrap{max-width:760px;margin:0 auto;padding:clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,3rem)}
+
+.filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem;justify-content:center}
+.filter-btn{font-family:var(--font-body);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.18);color:rgba(245,236,215,.4);background:none;cursor:pointer;transition:all .3s}
+.filter-btn:hover,.filter-btn.active{border-color:var(--terracotta);color:var(--terracotta);background:rgba(200,149,107,.06)}
+
+.updates-list{display:flex;flex-direction:column;gap:1.25rem}
+
+.update-card{background:rgba(44,24,16,.5);border:1px solid rgba(201,169,110,.1);border-left:3px solid rgba(201,169,110,.2);padding:1.5rem 1.75rem;transition:border-color .3s,background .3s;position:relative}
+.update-card:hover{background:rgba(59,31,10,.55);border-left-color:var(--terracotta)}
+.update-card.pinned{border-left-color:var(--gold);background:rgba(59,31,10,.4)}
+.update-card.pinned::after{content:'📌 pinned';position:absolute;top:.75rem;right:1rem;font-family:var(--font-body);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,169,110,.4)}
+
+.update-meta{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;flex-wrap:wrap}
+.update-type{font-family:var(--font-body);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;padding:.25rem .75rem;border:1px solid;font-weight:700}
+.type-chapter  {color:#7a8c6e;border-color:rgba(122,140,110,.4);background:rgba(122,140,110,.08)}
+.type-paperback{color:var(--gold);border-color:rgba(201,169,110,.4);background:rgba(201,169,110,.08)}
+.type-milestone{color:#b8866e;border-color:rgba(184,134,110,.4);background:rgba(184,134,110,.08)}
+.type-bonus    {color:var(--terracotta);border-color:rgba(200,149,107,.4);background:rgba(200,149,107,.08)}
+.type-note     {color:rgba(245,236,215,.5);border-color:rgba(245,236,215,.15);background:rgba(245,236,215,.04)}
+.type-break    {color:#8c7a6e;border-color:rgba(140,122,110,.3);background:rgba(140,122,110,.06)}
+.type-reveal   {color:#c8a06b;border-color:rgba(200,160,107,.4);background:rgba(200,160,107,.08)}
+.type-playlist {color:#6e8ca0;border-color:rgba(110,140,160,.4);background:rgba(110,140,160,.08)}
+.type-event    {color:#a06e8c;border-color:rgba(160,110,140,.4);background:rgba(160,110,140,.08)}
+
+.update-date{font-family:var(--font-body);font-size:.6rem;letter-spacing:.1em;color:rgba(245,236,215,.25);text-transform:uppercase}
+.update-title{font-family:var(--font-display);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:400;color:var(--cream);line-height:1.2;margin-bottom:.6rem}
+.update-body{font-family:var(--font-body);font-size:.88rem;color:rgba(245,236,215,.48);line-height:1.8;margin-bottom:1rem;font-weight:300}
+.update-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid rgba(200,149,107,.3);padding-bottom:.1rem;transition:border-color .3s}
+.update-link:hover{border-color:var(--terracotta)}
+
+.empty-state{text-align:center;padding:4rem 2rem}
+.empty-state p{font-family:var(--font-display);font-style:italic;font-size:1.2rem;color:rgba(245,236,215,.3)}
+.cms-loading{text-align:center;padding:3rem;font-family:var(--font-display);font-style:italic;color:rgba(245,236,215,.25)}
+
+.site-footer{background:var(--deepink);border-top:1px solid rgba(201,169,110,.1);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem) clamp(2rem,4vw,3rem)}
+.footer-inner{max-width:900px;margin:0 auto;text-align:center}
+.footer-logo{font-family:var(--font-display);font-size:1.6rem;margin-bottom:.5rem}
+.fl-that{color:var(--cream);font-weight:500}.fl-brown{color:var(--terracotta);font-weight:500}.fl-craft{color:var(--gold);font-style:italic;font-weight:400}
+.footer-tagline{font-family:var(--font-accent);font-style:italic;font-size:.85rem;color:rgba(201,169,110,.45);margin-bottom:2rem}
+.footer-social{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:2rem}
+.social-pill{font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,236,215,.5);border:1px solid rgba(201,169,110,.15);padding:.45rem 1rem;transition:all .3s}
+.social-pill:hover{color:var(--terracotta);border-color:rgba(200,149,107,.4)}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem 1.5rem;margin-bottom:2rem}
+.footer-link{font-family:var(--font-body);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,236,215,.3);transition:color .3s}
+.footer-link:hover{color:var(--terracotta)}
+.footer-rule{height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.15),transparent);margin-bottom:1.5rem}
+.footer-copy{font-family:var(--font-body);font-size:.6rem;letter-spacing:.12em;color:rgba(245,236,215,.2);text-transform:uppercase}
+
+@media(max-width:640px){.nav-links{display:none}.nav-hamburger{display:flex}}
+@media(prefers-reduced-motion:reduce){.mote,.light-shaft,.light-shaft-2{animation:none}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div id="atmosphere" aria-hidden="true">
+  <div class="light-shaft"></div><div class="light-shaft-2"></div>
+  <div class="mote m1"></div><div class="mote m2"></div><div class="mote m3"></div><div class="mote m4"></div><div class="mote m5"></div><div class="mote m6"></div><div class="mote m7"></div><div class="mote m8"></div><div class="mote m9"></div><div class="mote m10"></div><div class="mote m11"></div><div class="mote m12"></div><div class="mote m13"></div><div class="mote m14"></div><div class="mote m15"></div><div class="mote m16"></div><div class="mote m17"></div><div class="mote m18"></div><div class="mote m19"></div><div class="mote m20"></div>
+</div>
+
+<nav class="site-nav" id="siteNav" aria-label="Main navigation">
+  <a href="/" class="nav-logo" aria-label="thatbrowncraft home">
+    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/books/"        class="nav-link">Books</a></li>
+    <li><a href="/characters/"   class="nav-link">Characters</a></li>
+    <li><a href="/bonus/"        class="nav-link">One More Chapter</a></li>
+    <li><a href="/kanha/"        class="nav-link">Kanha's Courtyard</a></li>
+    <li><a href="/crafties/"     class="nav-link">Crafties</a></li>
+    <li><a href="/updates/"      class="nav-link active-page">Updates</a></li>
+    <li><a href="/about/"        class="nav-link">About</a></li>
+  </ul>
+  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="mobileMenu" role="navigation">
+  <a href="/books/"      class="nav-link">Books</a>
+  <a href="/characters/" class="nav-link">Characters</a>
+  <a href="/bonus/"      class="nav-link">One More Chapter</a>
+  <a href="/kanha/"      class="nav-link">Kanha's Courtyard</a>
+  <a href="/crafties/"   class="nav-link">Crafties</a>
+  <a href="/updates/"    class="nav-link active-page">Updates</a>
+  <a href="/about/"      class="nav-link">About</a>
+</div>
+
+<main>
+  <header class="page-header">
+    <span class="page-header-eyebrow">the author's desk</span>
+    <div class="orn-row" aria-hidden="true">
+      <span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span>
+    </div>
+    <h1 class="page-header-title">Author <em>Updates</em></h1>
+    <p class="page-header-sub">New chapters. Writing breaks. Milestones. Character reveals. Everything worth knowing, right here.</p>
+  </header>
+
+  <div class="updates-wrap">
+    <div class="filter-bar reveal" id="filterBar" role="group" aria-label="Filter updates">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="chapter">New Chapter</button>
+      <button class="filter-btn" data-filter="bonus">Bonus Scene</button>
+      <button class="filter-btn" data-filter="milestone">Milestone</button>
+      <button class="filter-btn" data-filter="note">Author Note</button>
+      <button class="filter-btn" data-filter="paperback">Paperback</button>
+      <button class="filter-btn" data-filter="reveal">Character Reveal</button>
+      <button class="filter-btn" data-filter="playlist">New Playlist</button>
+      <button class="filter-btn" data-filter="event">Reader Event</button>
+      <button class="filter-btn" data-filter="break">Writing Break</button>
+    </div>
+    <!-- Updates fetched from content/updates/*.md -->
+    <div class="updates-list" id="updatesList">
+      <div class="cms-loading">loading updates...</div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="fl-that">that</span><span class="fl-brown">brown</span><span class="fl-craft">craft</span></div>
+    <p class="footer-tagline">stories brewed in chai &amp; candlelight</p>
+    <div class="footer-social">
+      <a href="https://www.wattpad.com/user/Thatbrowncraft" target="_blank" rel="noopener noreferrer" class="social-pill">📖 Wattpad</a>
+      <a href="#" class="social-pill">📸 Instagram</a>
+      <a href="#" class="social-pill">🎵 Spotify</a>
+      <a href="#" class="social-pill">📌 Pinterest</a>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="/"              class="footer-link">Home</a>
+      <a href="/books/"        class="footer-link">Books</a>
+      <a href="/characters/"   class="footer-link">Characters</a>
+      <a href="/bonus/"        class="footer-link">One More Chapter</a>
+      <a href="/crafties/"     class="footer-link">Crafties</a>
+      <a href="/kanha/"        class="footer-link">Kanha's Corner</a>
+      <a href="/hall-of-fame/" class="footer-link">Hall of Fame</a>
+      <a href="/updates/"      class="footer-link">Updates</a>
+      <a href="/about/"        class="footer-link">About</a>
+    </nav>
+    <div class="footer-rule"></div>
+    <p class="footer-copy"><span id="copyright-year"></span> thatbrowncraft. All stories, characters, and words belong to their author.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+/* ============================================================
+   SOURCE: content/updates/*.md  (existing CMS collection)
+   Each file has frontmatter fields:
+     title, date, update_type, is_pinned,
+     excerpt (body text), link_label, link_url,
+     status (draft/published)
+   Falls back to GitHub API to list files then fetches each.
+   ============================================================ */
+
+const REPO   = 'thatbrowncraft/thatbrowncraft-cms-test';
+// ↑ Replace with your actual GitHub username/reponame
+
+const API_BASE = `https://api.github.com/repos/${REPO}/contents/content/updates`;
+const RAW_BASE = `https://raw.githubusercontent.com/${REPO}/main/content/updates`;
+
+const TYPE_LABELS = {
+  chapter:'📖 New Chapter', bonus:'✨ Bonus Scene', milestone:'🏆 Milestone',
+  note:'✍️ Author Note', paperback:'📦 Paperback', reveal:'🌟 Character Reveal',
+  playlist:'🎵 New Playlist', event:'🎉 Reader Event', break:'🌿 Writing Break'
+};
+
+function parseMd(text) {
+  const match = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!match) return { data:{}, body:'' };
+  const data = {};
+  match[1].split('\n').forEach(line => {
+    const m = line.match(/^(\w+):\s*"?([^"]*)"?\s*$/);
+    if (m) data[m[1]] = m[2].trim();
+  });
+  return { data, body: match[2].trim() };
+}
+
+function renderCard(data, body) {
+  const type     = (data.update_type || data.category || 'note').toLowerCase();
+  const pinned   = data.is_pinned === 'true' || data.is_pinned === true;
+  const title    = data.title || '';
+  const date     = data.date  || '';
+  const bodyText = data.excerpt || body || '';
+  const linkLabel= data.link_label || '';
+  const linkUrl  = data.link_url   || '';
+  const status   = data.status || 'published';
+  if (status === 'draft') return '';
+
+  const typeLabel = TYPE_LABELS[type] || type;
+  const linkHtml  = linkUrl
+    ? `<a href="${linkUrl}" class="update-link" ${!linkUrl.startsWith('mailto') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkLabel || 'Read more'} →</a>`
+    : '';
+
+  return `
+    <article class="update-card${pinned ? ' pinned' : ''}" data-type="${type}">
+      <div class="update-meta">
+        <span class="update-type type-${type}">${typeLabel}</span>
+        <time class="update-date">${date}</time>
+      </div>
+      <h2 class="update-title">${title}</h2>
+      ${bodyText ? `<p class="update-body">${bodyText}</p>` : ''}
+      ${linkHtml}
+    </article>`;
+}
+
+function initFilters(cards) {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c => { c.style.display = (f === 'all' || c.dataset.type === f) ? '' : 'none'; });
+    });
+  });
+}
+
+async function loadUpdates() {
+  const list = document.getElementById('updatesList');
+  try {
+    const res = await fetch(API_BASE);
+    if (!res.ok) throw new Error('API failed');
+    const files = await res.json();
+    const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+    if (!mdFiles.length) {
+      list.innerHTML = `<div class="empty-state"><p>No updates yet. Check back soon.</p></div>`;
+      return;
+    }
+
+    const posts = await Promise.all(
+      mdFiles.map(async f => {
+        const r = await fetch(`${RAW_BASE}/${f.name}`);
+        const text = await r.text();
+        return parseMd(text);
+      })
+    );
+
+    // Sort: pinned first, then by date descending
+    posts.sort((a, b) => {
+      const aPin = a.data.is_pinned === 'true';
+      const bPin = b.data.is_pinned === 'true';
+      if (aPin && !bPin) return -1;
+      if (!aPin && bPin) return 1;
+      return (b.data.date || '').localeCompare(a.data.date || '');
+    });
+
+    const html = posts.map(p => renderCard(p.data, p.body)).filter(Boolean).join('');
+    list.innerHTML = html || `<div class="empty-state"><p>No published updates yet.</p></div>`;
+
+    initFilters(list.querySelectorAll('.update-card'));
+
+  } catch(e) {
+    console.warn('CMS fetch failed, showing placeholder.', e);
+    list.innerHTML = `
+      <article class="update-card pinned" data-type="note">
+        <div class="update-meta">
+          <span class="update-type type-note">✍️ Author Note</span>
+          <time class="update-date" id="fallback-update-date"></time>
+        </div>
+        <h2 class="update-title">Updates coming soon.</h2>
+        <p class="update-body">Add your first update from the Author Dashboard — no coding needed.</p>
+      </article>`;
+  }
+
+  const ro = new IntersectionObserver(e => {
+    e.forEach(x => { if(x.isIntersecting){x.target.classList.add('visible');ro.unobserve(x.target);} });
+  }, { threshold:.08, rootMargin:'0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+}
+
+const nav=document.getElementById('siteNav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>24)},{passive:true});
+const burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',String(o))});
+menu.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>{menu.classList.remove('open');burger.setAttribute('aria-expanded','false')}));
+
+loadUpdates();
+</script>
+<script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});var fud=document.getElementById("fallback-update-date");if(fud){fud.textContent=new Date().getFullYear();};</script>
+</body>
+</html>

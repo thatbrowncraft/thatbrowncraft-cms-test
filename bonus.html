@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="One More Chapter. Bonus scenes, deleted moments, character POVs and festival specials from thatbrowncraft.">
+<title>One More Chapter — thatbrowncraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --espresso:   #2C1810;
+  --walnut:     #3B1F0A;
+  --midbrown:   #8B5E3C;
+  --terracotta: #C8956B;
+  --gold:       #C9A96E;
+  --cream:      #E8D5B0;
+  --parchment:  #F5ECD7;
+  --paper:      #F0E6CF;
+  --deepink:    #1A0F08;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Lato', sans-serif;
+  --font-accent:  'Libre Baskerville', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--espresso);
+  color: var(--parchment);
+  overflow-x: hidden;
+  font-weight: 300;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ATMOSPHERE */
+#atmosphere {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.light-shaft {
+  position: absolute; top: -30%; right: -10%;
+  width: 60vw; height: 140vh;
+  background: linear-gradient(148deg, rgba(201,169,110,.07) 0%, rgba(245,236,215,.04) 35%, transparent 65%);
+  transform: rotate(-18deg); transform-origin: top right;
+  animation: shaftBreath 9s ease-in-out infinite;
+}
+.light-shaft-2 {
+  position: absolute; top: 30%; left: -15%;
+  width: 45vw; height: 90vh;
+  background: linear-gradient(42deg, rgba(200,149,107,.04) 0%, transparent 60%);
+  transform: rotate(10deg);
+  animation: shaftBreath 13s ease-in-out infinite reverse;
+}
+@keyframes shaftBreath { 0%,100%{opacity:.7} 50%{opacity:1} }
+
+.mote { position:absolute; border-radius:50%; opacity:0; animation:moteDrift linear infinite; will-change:transform,opacity; filter:blur(.4px); }
+@keyframes moteDrift {
+  0%{transform:translateY(105vh) translateX(0);opacity:0}
+  8%{opacity:.9}
+  35%{transform:translateY(70vh) translateX(20px);opacity:.6}
+  60%{transform:translateY(40vh) translateX(-14px);opacity:.8}
+  85%{transform:translateY(12vh) translateX(16px);opacity:.4}
+  100%{transform:translateY(-8vh) translateX(0);opacity:0}
+}
+.m1{width:3px;height:3px;background:rgba(201,169,110,.7);left:5%;animation-duration:24s;animation-delay:0s}
+.m2{width:2px;height:2px;background:rgba(245,236,215,.8);left:12%;animation-duration:31s;animation-delay:-7s}
+.m3{width:4px;height:4px;background:rgba(200,149,107,.5);left:19%;animation-duration:20s;animation-delay:-13s}
+.m4{width:2px;height:2px;background:rgba(201,169,110,.6);left:27%;animation-duration:35s;animation-delay:-4s}
+.m5{width:3px;height:3px;background:rgba(196,154,138,.5);left:34%;animation-duration:26s;animation-delay:-19s}
+.m6{width:2px;height:2px;background:rgba(245,236,215,.7);left:41%;animation-duration:29s;animation-delay:-9s}
+.m7{width:3px;height:3px;background:rgba(201,169,110,.6);left:49%;animation-duration:22s;animation-delay:-15s}
+.m8{width:2px;height:2px;background:rgba(200,149,107,.5);left:57%;animation-duration:33s;animation-delay:-2s}
+.m9{width:4px;height:4px;background:rgba(196,154,138,.4);left:64%;animation-duration:21s;animation-delay:-21s}
+.m10{width:2px;height:2px;background:rgba(245,236,215,.6);left:72%;animation-duration:28s;animation-delay:-6s}
+.m11{width:3px;height:3px;background:rgba(201,169,110,.7);left:79%;animation-duration:25s;animation-delay:-11s}
+.m12{width:2px;height:2px;background:rgba(200,149,107,.5);left:87%;animation-duration:32s;animation-delay:-17s}
+.m13{width:3px;height:3px;background:rgba(245,236,215,.5);left:93%;animation-duration:19s;animation-delay:-3s}
+.m14{width:2px;height:2px;background:rgba(201,169,110,.6);left:8%;animation-duration:27s;animation-delay:-14s}
+.m15{width:4px;height:4px;background:rgba(196,154,138,.4);left:23%;animation-duration:23s;animation-delay:-8s}
+.m16{width:2px;height:2px;background:rgba(245,236,215,.7);left:38%;animation-duration:30s;animation-delay:-18s}
+.m17{width:3px;height:3px;background:rgba(201,169,110,.5);left:53%;animation-duration:24s;animation-delay:-5s}
+.m18{width:2px;height:2px;background:rgba(200,149,107,.6);left:68%;animation-duration:36s;animation-delay:-12s}
+.m19{width:3px;height:3px;background:rgba(196,154,138,.5);left:82%;animation-duration:20s;animation-delay:-16s}
+.m20{width:2px;height:2px;background:rgba(245,236,215,.6);left:96%;animation-duration:28s;animation-delay:-1s}
+
+/* NAV */
+.site-nav {
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:0 clamp(1.5rem,5vw,4rem);height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(44,24,16,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(201,169,110,.1);transition:background .4s;
+}
+.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.18)}
+.nav-logo{display:flex;align-items:baseline;line-height:1;letter-spacing:.01em}
+.logo-that{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--cream);font-style:normal}
+.logo-brown{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--terracotta);font-style:normal}
+.logo-craft{font-family:var(--font-display);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);align-items:center}
+.nav-link{font-family:var(--font-body);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.5);transition:color .3s}
+.nav-link:hover,.nav-link.active-page{color:var(--terracotta)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--cream);transition:.3s}
+.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(44,24,16,.98);padding:1.5rem 2rem 2rem;flex-direction:column;z-index:899;border-bottom:1px solid rgba(201,169,110,.15)}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-link{padding:.85rem 0;font-size:.82rem;border-bottom:1px solid rgba(201,169,110,.08);display:block}
+
+section,nav,footer{position:relative;z-index:1}
+
+/* PAGE HEADER */
+.page-header {
+  padding: 120px clamp(1.5rem,6vw,5rem) clamp(3rem,5vw,4.5rem);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(59,31,10,.8) 0%, transparent 60%),
+    linear-gradient(180deg, #2C1810 0%, #3B1F0A 100%);
+  text-align: center;
+  border-bottom: 1px solid rgba(201,169,110,.12);
+  position: relative; overflow: hidden;
+}
+
+.page-header::before {
+  content:'';position:absolute;top:64px;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(201,169,110,.3) 30%,rgba(201,169,110,.5) 50%,rgba(201,169,110,.3) 70%,transparent);
+}
+
+.page-header-eyebrow {
+  font-family:var(--font-accent);font-style:italic;
+  font-size:.8rem;color:rgba(201,169,110,.5);letter-spacing:.2em;display:block;margin-bottom:1rem;
+}
+
+.page-header-title {
+  font-family:var(--font-display);font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:300;color:var(--cream);line-height:1;
+}
+.page-header-title em{font-style:italic;color:var(--terracotta)}
+
+.orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto;max-width:300px}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent)}
+.orn-motif{font-size:.7rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+
+.page-header-sub {
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(245,236,215,.38);
+  max-width:520px;margin:0 auto;line-height:1.65;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+  padding:1.25rem clamp(1.5rem,5vw,4rem);
+  border-bottom:1px solid rgba(201,169,110,.08);
+  background:rgba(44,24,16,.5);
+  position:sticky;top:64px;z-index:100;
+  backdrop-filter:blur(10px);
+}
+.filter-label{font-family:var(--font-body);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,.38);margin-right:.25rem}
+.filter-btn{font-family:var(--font-body);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;padding:.38rem .95rem;border:1px solid rgba(201,169,110,.16);background:none;color:rgba(245,236,215,.38);cursor:pointer;transition:all .3s}
+.filter-btn:hover{border-color:rgba(201,169,110,.4);color:rgba(245,236,215,.7)}
+.filter-btn.active{border-color:var(--terracotta);color:var(--terracotta);background:rgba(200,149,107,.08)}
+
+/* ============================================================
+   SCENE GRID
+   ============================================================ */
+.scenes-section {
+  padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem);
+}
+
+.scenes-inner { max-width: 1100px; margin: 0 auto; }
+
+.scenes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* ============================================================
+   LETTER CARD
+   Each bonus scene looks like a physical letter or note.
+   ============================================================ */
+.letter-card {
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 28px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.3);
+  transition: transform .35s ease, box-shadow .35s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.letter-card:hover {
+  transform: translateY(-6px) rotate(0.3deg);
+  box-shadow: 0 16px 50px rgba(0,0,0,.55), 0 4px 16px rgba(0,0,0,.35);
+}
+
+/* Torn top edge */
+.letter-torn-top {
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(245,236,215,.95), var(--paper));
+  clip-path: polygon(
+    0% 0%,2% 85%,4% 15%,6% 90%,8% 20%,10% 88%,12% 12%,14% 82%,
+    16% 8%, 18% 78%,20% 18%,22% 92%,24% 25%,26% 72%,28% 5%,
+    30% 88%,32% 22%,34% 80%,36% 10%,38% 85%,40% 28%,42% 76%,
+    44% 8%, 46% 90%,48% 20%,50% 82%,52% 5%,54% 88%,56% 25%,
+    58% 70%,60% 12%,62% 85%,64% 22%,66% 78%,68% 8%,70% 88%,
+    72% 18%,74% 80%,76% 6%,78% 85%,80% 24%,82% 72%,84% 10%,
+    86% 88%,88% 20%,90% 82%,92% 14%,94% 80%,96% 5%,98% 90%,100% 20%,
+    100% 0%
+  );
+  flex-shrink: 0;
+}
+
+/* Fold crease */
+.letter-card::before {
+  content:'';
+  position:absolute;
+  top:33%;left:0;right:0;
+  height:1px;
+  background:rgba(59,31,10,.05);
+}
+
+/* Second crease */
+.letter-card::after {
+  content:'';
+  position:absolute;
+  top:66%;left:0;right:0;
+  height:1px;
+  background:rgba(59,31,10,.03);
+}
+
+/* Wax seal */
+.wax-seal {
+  position:absolute;
+  top:1.1rem;right:1.25rem;
+  width:34px;height:34px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #d4a57a, #8B5E3C);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;
+  box-shadow:0 3px 10px rgba(0,0,0,.35), inset 0 1px 2px rgba(255,255,255,.15);
+  color:rgba(245,236,215,.8);
+  flex-shrink:0;
+  z-index:1;
+}
+
+.letter-body {
+  padding: 1.5rem 1.5rem 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scene type tag */
+.scene-type-tag {
+  font-family:var(--font-body);font-size:.58rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--midbrown);opacity:.7;
+  display:block;margin-bottom:.65rem;
+}
+
+/* Couple tag */
+.couple-tag {
+  font-family:var(--font-accent);font-style:italic;
+  font-size:.78rem;color:var(--terracotta);
+  display:block;margin-bottom:.85rem;
+  letter-spacing:.04em;
+}
+
+.letter-title {
+  font-family:var(--font-display);
+  font-size:1.45rem;font-weight:500;
+  color:var(--espresso);line-height:1.15;
+  margin-bottom:.85rem;
+}
+
+.letter-excerpt {
+  font-family:var(--font-display);font-style:italic;
+  font-size:.92rem;color:rgba(44,24,16,.6);
+  line-height:1.8;margin-bottom:1.25rem;
+  flex:1;
+}
+
+.letter-read-hint {
+  font-family:var(--font-body);font-size:.6rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--midbrown);opacity:.65;
+  display:flex;align-items:center;gap:.4rem;
+  transition:gap .3s, opacity .3s;
+}
+.letter-card:hover .letter-read-hint{gap:.65rem;opacity:1}
+
+/* Torn bottom edge */
+.letter-torn-bottom {
+  height: 10px;
+  background: linear-gradient(to top, rgba(245,236,215,.95), var(--paper));
+  clip-path: polygon(
+    0% 100%,2% 15%,4% 85%,6% 10%,8% 80%,10% 12%,12% 88%,14% 18%,
+    16% 92%,18% 22%,20% 82%,22% 8%,24% 75%,26% 18%,28% 95%,
+    30% 12%,32% 78%,34% 20%,36% 90%,38% 15%,40% 72%,42% 24%,
+    44% 92%,46% 10%,48% 80%,50% 18%,52% 95%,54% 12%,56% 75%,
+    58% 22%,60% 88%,62% 8%,64% 78%,66% 20%,68% 92%,70% 12%,
+    72% 82%,74% 18%,76% 94%,78% 15%,80% 76%,82% 22%,84% 90%,
+    86% 12%,88% 80%,90% 18%,92% 86%,94% 22%,96% 95%,98% 10%,100% 80%,
+    100% 100%
+  );
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SCENE MODAL - opens when card is clicked
+   Full scene text in a beautiful reading view
+   ============================================================ */
+.scene-modal {
+  position:fixed;inset:0;
+  background:rgba(26,15,8,.9);
+  backdrop-filter:blur(10px);
+  z-index:2000;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:2rem 1rem;
+  overflow-y:auto;
+}
+.scene-modal.open{display:flex}
+
+.scene-modal-box {
+  background:var(--paper);
+  width:min(720px,100%);
+  margin:auto;
+  position:relative;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+}
+
+/* Ruled lines inside the modal */
+.scene-modal-box::before {
+  content:'';
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    180deg,
+    transparent,
+    transparent 27px,
+    rgba(59,31,10,.05) 27px,
+    rgba(59,31,10,.05) 28px
+  );
+  pointer-events:none;
+}
+
+.scene-modal-torn-top {
+  height:12px;
+  background:linear-gradient(to bottom, rgba(245,236,215,.9), var(--paper));
+  clip-path:polygon(0% 0%,2% 80%,4% 10%,6% 90%,8% 15%,10% 85%,12% 5%,14% 75%,16% 18%,18% 88%,20% 8%,22% 82%,24% 20%,26% 78%,28% 6%,30% 85%,32% 18%,34% 80%,36% 8%,38% 90%,40% 22%,42% 74%,44% 12%,46% 86%,48% 18%,50% 80%,52% 6%,54% 88%,56% 22%,58% 76%,60% 10%,62% 84%,64% 16%,66% 80%,68% 4%,70% 86%,72% 20%,74% 78%,76% 10%,78% 84%,80% 20%,82% 76%,84% 8%,86% 86%,88% 18%,90% 80%,92% 10%,94% 82%,96% 8%,98% 88%,100% 18%,100% 0%);
+}
+
+.scene-modal-content {
+  padding: clamp(2rem,5vw,3.5rem);
+  position:relative;z-index:1;
+}
+
+.scene-modal-close {
+  position:absolute;top:1rem;right:1.5rem;
+  background:none;border:none;
+  font-size:1.4rem;color:rgba(59,31,10,.35);
+  cursor:pointer;transition:color .3s;line-height:1;z-index:2;
+}
+.scene-modal-close:hover{color:var(--midbrown)}
+
+/* Scene header */
+.modal-scene-type {
+  font-family:var(--font-body);font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(59,31,10,.4);display:block;margin-bottom:.4rem;
+}
+
+.modal-couple {
+  font-family:var(--font-accent);font-style:italic;
+  font-size:.82rem;color:var(--terracotta);
+  display:block;margin-bottom:.85rem;
+}
+
+.modal-scene-title {
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:400;color:var(--espresso);
+  line-height:1.1;margin-bottom:.35rem;
+}
+
+.modal-author-note {
+  font-family:var(--font-body);font-size:.75rem;
+  color:rgba(59,31,10,.38);font-style:italic;
+  margin-bottom:2rem;padding-bottom:1.5rem;
+  border-bottom:1px solid rgba(59,31,10,.08);
+}
+
+/* The actual scene text */
+.modal-scene-text {
+  font-family:var(--font-display);
+  font-size:clamp(1rem,2vw,1.12rem);
+  color:rgba(44,24,16,.78);
+  line-height:2;
+}
+
+.modal-scene-text p {
+  margin-bottom:1.4rem;
+  font-family:var(--font-display);
+  font-size:clamp(1rem,2vw,1.12rem);
+  color:rgba(44,24,16,.78);
+}
+
+.modal-scene-text p:last-child{margin-bottom:0}
+
+/* Dialogue styling inside the scene */
+.modal-scene-text .dialogue {
+  padding-left:1.5rem;
+  border-left:2px solid rgba(200,149,107,.25);
+  margin:1rem 0;
+  font-style:italic;
+}
+
+/* End ornament */
+.scene-end-ornament {
+  text-align:center;margin-top:2.5rem;padding-top:2rem;
+  border-top:1px solid rgba(59,31,10,.08);
+  font-family:var(--font-body);font-size:.6rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(59,31,10,.25);
+}
+
+/* Back to scenes button */
+.btn-back-scene {
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--font-body);font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.6rem 1.4rem;
+  border:1px solid rgba(200,149,107,.3);
+  color:rgba(44,24,16,.5);
+  background:none;cursor:pointer;
+  transition:all .3s;margin-top:2rem;
+}
+.btn-back-scene:hover{border-color:var(--terracotta);color:var(--midbrown)}
+
+/* ============================================================
+   REVEAL + FOOTER
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}
+.delay-3{transition-delay:.3s}.delay-4{transition-delay:.4s}
+.delay-5{transition-delay:.5s}
+
+.site-footer{background:var(--deepink);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,6vw,5rem) 2.5rem;text-align:center;border-top:1px solid rgba(201,169,110,.1);position:relative;overflow:hidden}
+.site-footer::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse,rgba(200,149,107,.05),transparent 70%);pointer-events:none}
+.footer-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.footer-logo{display:flex;align-items:baseline;justify-content:center;margin-bottom:.4rem}
+.fl-that{font-family:var(--font-display);font-weight:500;font-size:2rem;color:rgba(245,236,215,.6)}
+.fl-brown{font-family:var(--font-display);font-weight:500;font-size:2rem;color:var(--terracotta);opacity:.75}
+.fl-craft{font-family:var(--font-display);font-weight:400;font-size:2rem;color:var(--gold);font-style:italic;opacity:.65}
+.footer-tagline{font-family:var(--font-display);font-style:italic;font-size:.88rem;color:rgba(245,236,215,.22);margin-bottom:2.5rem}
+.footer-social{display:flex;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem}
+.social-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.14);font-family:var(--font-body);font-size:.65rem;letter-spacing:.08em;color:rgba(245,236,215,.33);transition:all .3s}
+.social-pill:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.75rem;margin-bottom:2.5rem}
+.footer-link{font-family:var(--font-body);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,236,215,.25);transition:color .3s}
+.footer-link:hover{color:var(--terracotta)}
+.footer-rule{height:1px;background:rgba(245,236,215,.05);margin-bottom:2rem}
+.footer-copy{font-size:.68rem;color:rgba(245,236,215,.14);font-family:var(--font-body)}
+
+@media(max-width:760px){
+  .nav-links{display:none}.nav-hamburger{display:flex}
+  .scenes-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .mote,.light-shaft,.light-shaft-2{display:none}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ATMOSPHERE -->
+<div id="atmosphere" aria-hidden="true">
+  <div class="light-shaft"></div><div class="light-shaft-2"></div>
+  <span class="mote m1"></span><span class="mote m2"></span><span class="mote m3"></span>
+  <span class="mote m4"></span><span class="mote m5"></span><span class="mote m6"></span>
+  <span class="mote m7"></span><span class="mote m8"></span><span class="mote m9"></span>
+  <span class="mote m10"></span><span class="mote m11"></span><span class="mote m12"></span>
+  <span class="mote m13"></span><span class="mote m14"></span><span class="mote m15"></span>
+  <span class="mote m16"></span><span class="mote m17"></span><span class="mote m18"></span>
+  <span class="mote m19"></span><span class="mote m20"></span>
+</div>
+
+<!-- NAV -->
+<nav class="site-nav" id="siteNav">
+  <a href="/" class="nav-logo" aria-label="thatbrowncraft home">
+    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
+  </a>
+  <div class="nav-links">
+    <a href="/books/"      class="nav-link">Books</a>
+    <a href="/characters/" class="nav-link">Characters</a>
+    <a href="/bonus/"      class="nav-link active-page">One More Chapter</a>
+    <a href="/crafties/"   class="nav-link">Crafties</a>
+    <a href="/kanha/"      class="nav-link">Kanha's Corner</a>
+    <a href="/about/"      class="nav-link">About</a>
+    <a href="/links/"      class="nav-link">Find Me</a>
+  </div>
+  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/books/"      class="nav-link">Books</a>
+  <a href="/characters/" class="nav-link">Characters</a>
+  <a href="/bonus/"      class="nav-link">One More Chapter</a>
+  <a href="/crafties/"   class="nav-link">Crafties</a>
+  <a href="/kanha/"      class="nav-link">Kanha's Corner</a>
+  <a href="/about/"      class="nav-link">About</a>
+  <a href="/links/"      class="nav-link">Find Me</a>
+</div>
+
+<main>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <span class="page-header-eyebrow">The Extra Scenes</span>
+  <h1 class="page-header-title">One <em>More Chapter</em></h1>
+  <div class="orn-row" aria-hidden="true">
+    <div class="orn-line"></div>
+    <span class="orn-motif">✦ ✦ ✦</span>
+    <div class="orn-line"></div>
+  </div>
+  <p class="page-header-sub">
+    The moments that didn't make the chapter but were too good to cut.
+    Bonus scenes. Deleted moments. The scenes that lived in drafts for months
+    before they found their way here.
+  </p>
+</header>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" role="navigation" aria-label="Filter scenes">
+  <span class="filter-label">Filter</span>
+  <button class="filter-btn active" data-filter="all">All Scenes</button>
+  <button class="filter-btn" data-filter="bonus_scene">Bonus</button>
+  <button class="filter-btn" data-filter="deleted_scene">Deleted Scenes</button>
+  <button class="filter-btn" data-filter="character_pov">POVs</button>
+  <button class="filter-btn" data-filter="festival_special">Festival Specials</button>
+  <button class="filter-btn" data-filter="letter">Letters</button>
+</div>
+
+<!-- SCENES -->
+<section class="scenes-section">
+  <div class="scenes-inner">
+    <div class="scenes-grid" id="scenesGrid">
+
+      <!-- ── SCENE 1: MORNING AFTER ──────────────────── -->
+      <div class="letter-card reveal"
+           data-type="bonus_scene"
+           onclick="openScene('morning-after')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">✦</div>
+          <span class="scene-type-tag">Bonus Scene</span>
+          <span class="couple-tag">Raghav × Sree · Domestic</span>
+          <h2 class="letter-title">Morning After</h2>
+          <p class="letter-excerpt">
+            She found him in the kitchen before sunrise. Not because she was looking.
+            Just because the house was quiet and that was where her feet took her.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 2: THE ARGUMENT ───────────────────── -->
+      <div class="letter-card reveal delay-1"
+           data-type="bonus_scene"
+           onclick="openScene('argument')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">✦</div>
+          <span class="scene-type-tag">Bonus Scene</span>
+          <span class="couple-tag">Nisarg × Aadhya · Quiet Tension</span>
+          <h2 class="letter-title">The Argument That Wasn't</h2>
+          <p class="letter-excerpt">
+            It wasn't even a real fight. Neither of them had raised their voice.
+            And the room went so quiet that Idhayan looked up from his blocks and sensed something.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 3: TELL ME SOMETHING ELSE ────────── -->
+      <div class="letter-card reveal delay-2"
+           data-type="bonus_scene"
+           onclick="openScene('tell-me')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">✦</div>
+          <span class="scene-type-tag">Bonus Scene</span>
+          <span class="couple-tag">Yug × Devanshi · 3AM</span>
+          <h2 class="letter-title">Tell Me Something Else</h2>
+          <p class="letter-excerpt">
+            "You're supposed to be asleep." "So are you."
+            A tiny scene set after everything, when the city is barely there and
+            two people are just breathing the same quiet.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 4: IDHAYAN'S POV ──────────────────── -->
+      <div class="letter-card reveal delay-3"
+           data-type="character_pov"
+           onclick="openScene('idhayan-pov')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">🪷</div>
+          <span class="scene-type-tag">Character POV</span>
+          <span class="couple-tag">Idhayan · The World According to Him</span>
+          <h2 class="letter-title">Everything Is Fine Actually</h2>
+          <p class="letter-excerpt">
+            He doesn't understand most of what the big people say. But he understands
+            that Yug mama's voice means safe, and that Aadhya didi's lap means stay,
+            and that this house is his.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 5: DELETED SCENE ──────────────────── -->
+      <div class="letter-card reveal delay-4"
+           data-type="deleted_scene"
+           onclick="openScene('deleted-kitchen')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">✂</div>
+          <span class="scene-type-tag">Deleted Scene</span>
+          <span class="couple-tag">Raghav · Chapter 3 Cut</span>
+          <h2 class="letter-title">What He Almost Said</h2>
+          <p class="letter-excerpt">
+            This scene was cut from Chapter 3 because it gave too much away too early.
+            Raghav standing in the hallway, having said nothing, having meant everything.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 6: DIWALI SPECIAL ─────────────────── -->
+      <div class="letter-card reveal delay-5"
+           data-type="festival_special"
+           onclick="openScene('diwali')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">🪔</div>
+          <span class="scene-type-tag">Festival Special</span>
+          <span class="couple-tag">The Whole Family · Diwali</span>
+          <h2 class="letter-title">The Year They Did Diwali Properly</h2>
+          <p class="letter-excerpt">
+            The house smelled like marigold and ghee and something frying in oil
+            in the kitchen. Devanshi had put diyas on every window ledge.
+            Nobody told her to. She just did it.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+      <!-- ── SCENE 7: LETTER ─────────────────────────── -->
+      <div class="letter-card reveal"
+           data-type="letter"
+           onclick="openScene('sree-letter')">
+        <div class="letter-torn-top"></div>
+        <div class="letter-body">
+          <div class="wax-seal" aria-hidden="true">✉</div>
+          <span class="scene-type-tag">Letter</span>
+          <span class="couple-tag">Sree · Unsent</span>
+          <h2 class="letter-title">The Letter She Never Sent</h2>
+          <p class="letter-excerpt">
+            She wrote it in the middle of the night. She never sent it.
+            It starts with "I don't know what I'm doing here" and ends somewhere
+            she didn't expect to end up.
+          </p>
+          <span class="letter-read-hint">Read the scene →</span>
+        </div>
+        <div class="letter-torn-bottom"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="fl-that">that</span><span class="fl-brown">brown</span><span class="fl-craft">craft</span>
+    </div>
+    <p class="footer-tagline">stories brewed in chai &amp; candlelight</p>
+    <div class="footer-social">
+      <a href="https://www.wattpad.com/user/Thatbrowncraft" target="_blank" rel="noopener noreferrer" class="social-pill">📖 Wattpad</a>
+      <a href="#" class="social-pill">📸 Instagram</a>
+      <a href="#" class="social-pill">🎵 Spotify</a>
+      <a href="#" class="social-pill">📌 Pinterest</a>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="/"              class="footer-link">Home</a>
+      <a href="/books/"        class="footer-link">Books</a>
+      <a href="/characters/"   class="footer-link">Characters</a>
+      <a href="/bonus/"        class="footer-link">One More Chapter</a>
+      <a href="/crafties/"     class="footer-link">Crafties</a>
+      <a href="/kanha/"        class="footer-link">Kanha's Corner</a>
+      <a href="/hall-of-fame/" class="footer-link">Hall of Fame</a>
+      <a href="/about/"        class="footer-link">About</a>
+    </nav>
+    <div class="footer-rule"></div>
+    <p class="footer-copy"><span id="copyright-year"></span> thatbrowncraft. All stories, characters, and words belong to their author.</p>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     SCENE MODALS — one per scene
+     ============================================================ -->
+
+<!-- Morning After -->
+<div class="scene-modal" id="modal-morning-after" role="dialog" aria-modal="true" aria-label="Morning After scene">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('morning-after')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Bonus Scene · Amodini</span>
+      <span class="modal-couple">Raghav × Sree · Domestic</span>
+      <h2 class="modal-scene-title">Morning After</h2>
+      <p class="modal-author-note">This was written because someone in the comments asked what happens the morning after the rain scene. Here's your answer.</p>
+      <div class="modal-scene-text">
+        <p>She found him in the kitchen before sunrise.</p>
+        <p>Not because she was looking. Just because the house was quiet and that was where her feet took her. The kind of quiet that only existed between 5 and 6 in the morning, when the city hadn't decided to wake up yet and everything felt like it was still thinking about whether to bother.</p>
+        <p>He didn't say anything at first.</p>
+        <p>He just reached for a second cup from the shelf without turning around, and slid it across the counter in her direction. Like he'd heard her come in. Like he'd been expecting her, maybe, or at least not surprised.</p>
+        <p>She wrapped both hands around the cup. Still warm. He'd made enough for two.</p>
+        <div class="dialogue">
+          <p>"You've been up a while," she said.</p>
+          <p>"Couldn't sleep."</p>
+          <p>"Me neither."</p>
+        </div>
+        <p>They stood there. The sky outside was doing the thing it does just before dawn where it can't quite decide what color it wants to be. Some dark blue still. Some grey starting at the edges. A faint suggestion of something warmer coming.</p>
+        <p>She didn't ask what he'd been thinking about. He didn't explain. That was one of the things she was starting to understand about Raghav. The silences weren't empty. They were just his version of saying something.</p>
+        <p>She drank the chai. He drank his. The kitchen held them both without asking either of them to explain why they were there.</p>
+        <p>Later, when the house started to wake up, when Idhayan's particular brand of chaos began its morning performance down the hall, Raghav put his cup in the sink and turned around. He looked at her the way he sometimes did when he thought she wasn't watching. Like he was making note of something. Like he was filing it away somewhere he planned to keep it.</p>
+        <p>She pretended not to notice.</p>
+        <p>She was getting good at that too.</p>
+      </div>
+      <div class="scene-end-ornament">✦ end of scene ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('morning-after')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- The Argument That Wasn't -->
+<div class="scene-modal" id="modal-argument" role="dialog" aria-modal="true" aria-label="The Argument That Wasn't">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('argument')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Bonus Scene · Amodini</span>
+      <span class="modal-couple">Nisarg × Aadhya · Quiet Tension</span>
+      <h2 class="modal-scene-title">The Argument That Wasn't</h2>
+      <p class="modal-author-note">For everyone who asked about Nisarg and Aadhya having a fight. Here's the thing. They don't fight the way you think they do.</p>
+      <div class="modal-scene-text">
+        <p>It wasn't even a real fight.</p>
+        <p>That was the thing neither of them said out loud. Aadhya had said three sentences. Nisarg had said two. And then the room had gone so quiet that Idhayan had looked up from his blocks, looked between them with the specific attention of a two year old who has learned that silence from adults means something has shifted, and then gone back to his blocks. He stacked one block on top of another. The tower fell. He didn't look up again.</p>
+        <p>Nisarg walked to the window.</p>
+        <p>Aadhya didn't follow. She wasn't going to follow. That was the whole point.</p>
+        <p>The thing about Nisarg was that he communicated in precision. He said exactly what he meant and he meant exactly what he said, and right now what he'd said was nothing, and that was the part she was sitting with. The nothing. Which in Nisarg's language was actually quite a lot.</p>
+        <p>She picked up Idhayan's fallen block. Handed it back to him. He accepted it with the gravity of someone receiving a very important document.</p>
+        <div class="dialogue">
+          <p>"I'm not angry," Nisarg said, still looking out the window.</p>
+          <p>"I know."</p>
+          <p>"I just need a minute."</p>
+          <p>"I know that too."</p>
+        </div>
+        <p>She didn't tell him to take his time. She didn't tell him it was fine. It wasn't a performance of patience. It was just patience. The real kind, that doesn't need an audience.</p>
+        <p>Idhayan's tower fell again. This time he laughed.</p>
+        <p>The room breathed a little easier.</p>
+        <p>That was the whole argument. Beginning, middle, and the kind of ending that doesn't announce itself. Just happens. Just settles.</p>
+      </div>
+      <div class="scene-end-ornament">✦ end of scene ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('argument')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tell Me Something Else -->
+<div class="scene-modal" id="modal-tell-me" role="dialog" aria-modal="true" aria-label="Tell Me Something Else">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('tell-me')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Bonus Scene · Amodini</span>
+      <span class="modal-couple">Yug × Devanshi · 3AM</span>
+      <h2 class="modal-scene-title">Tell Me Something Else</h2>
+      <p class="modal-author-note">Set after everything. When the worst has already happened and the only thing left to do is be awake together at 3AM.</p>
+      <div class="modal-scene-text">
+        <div class="dialogue">
+          <p>"You're supposed to be asleep," he said.</p>
+          <p>"So are you."</p>
+        </div>
+        <p>Yug pulled the blanket tighter around her shoulders. From behind. She didn't lean into it, not right away. But she didn't move away either, which was its own kind of answer.</p>
+        <div class="dialogue">
+          <p>"I keep thinking about it," she said.</p>
+          <p>"I know."</p>
+          <p>"I don't want to keep thinking about it."</p>
+          <p>"I know that too."</p>
+        </div>
+        <p>The city outside was doing its 3AM thing. Barely there. Just enough ambient noise to remind you that the world was still going, that other people existed, that time was still moving in the regular direction.</p>
+        <p>He rested his chin on top of her head. She let him.</p>
+        <div class="dialogue">
+          <p>"Tell me something else," she said. "Anything. Something that has nothing to do with any of this."</p>
+        </div>
+        <p>He thought about it. She could feel him actually thinking, which was rare for Yug, who usually just talked. The pause meant he was taking her seriously. That mattered more than she expected it to.</p>
+        <div class="dialogue">
+          <p>"Idhayan called me baba yesterday," he said. "By accident. He didn't mean to. He was looking for Raghav bhai and he just. Said it."</p>
+        </div>
+        <p>She laughed.</p>
+        <p>Just barely. Just a small exhale that was more surprised than anything. But it was real and it was hers and the room felt different after it.</p>
+        <div class="dialogue">
+          <p>"What did you do?" she asked.</p>
+          <p>"I said 'yes' and handed him the biscuit he wanted."</p>
+          <p>"You didn't correct him."</p>
+          <p>"He was very committed to the biscuit. It felt like the wrong moment."</p>
+        </div>
+        <p>She laughed again. Properly this time.</p>
+        <p>He held on a little tighter. She let him do that too.</p>
+        <p>Outside, the city kept going. Inside, 3AM felt a little less like 3AM and a little more like the particular quiet that comes just before something settles.</p>
+      </div>
+      <div class="scene-end-ornament">✦ end of scene ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('tell-me')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Idhayan POV -->
+<div class="scene-modal" id="modal-idhayan-pov" role="dialog" aria-modal="true" aria-label="Everything Is Fine Actually">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('idhayan-pov')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Character POV · Amodini</span>
+      <span class="modal-couple">Idhayan · The World According to Him</span>
+      <h2 class="modal-scene-title">Everything Is Fine Actually</h2>
+      <p class="modal-author-note">I wrote this for myself, honestly. I needed to know what the house looked like from two feet off the ground.</p>
+      <div class="modal-scene-text">
+        <p>The big people do a lot of talking.</p>
+        <p>This is something he has noticed. They talk in the morning and they talk at meals and sometimes they talk very quietly in the kitchen late at night when they think nobody is awake. He is sometimes awake. He doesn't tell them this because he has learned that being awake after a certain time results in being put back in the bed, and the bed is less interesting than the kitchen at night.</p>
+        <p>He knows certain things with complete certainty. The woman with the soft voice who smells like flowers is his. The tall quiet one who makes him chai in a tiny cup is also his. Yug mama is his favourite, which he makes clear by demanding to be carried by him specifically and rejecting all substitutes.</p>
+        <p>There is a new person now. She came and then she stayed, which is the best thing a person can do. She put lights on all the windows. He helped. He held one diya very carefully with both hands and walked very slowly and nobody told him he was doing it wrong, even though he was probably doing it at least a little wrong.</p>
+        <p>The house smells like food and something warm. He doesn't have a word for the second thing yet. He will learn it eventually. For now he just knows that when he wakes up from his nap and the smell is there, everything is fine.</p>
+        <p>He walks to the kitchen. Yug mama is there. This was predicted.</p>
+        <div class="dialogue">
+          <p>"Baba," he says, by accident.</p>
+        </div>
+        <p>Yug mama's face does something he doesn't have words for either. Then he holds out the biscuit.</p>
+        <p>He takes it. He knew he would.</p>
+        <p>Everything is fine actually.</p>
+      </div>
+      <div class="scene-end-ornament">✦ end of scene ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('idhayan-pov')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Deleted Scene -->
+<div class="scene-modal" id="modal-deleted-kitchen" role="dialog" aria-modal="true" aria-label="What He Almost Said">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('deleted-kitchen')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Deleted Scene · Chapter 3 Cut</span>
+      <span class="modal-couple">Raghav · What Didn't Make It</span>
+      <h2 class="modal-scene-title">What He Almost Said</h2>
+      <p class="modal-author-note">This was cut because it revealed too much of Raghav's interiority too early. The story needed to keep him opaque for longer. But I kept it because it's true to him. Everything he was already feeling by Chapter 3, before he'd admitted any of it.</p>
+      <div class="modal-scene-text">
+        <p>He stood in the hallway for longer than he needed to.</p>
+        <p>The house was quiet. Sree had gone to her room an hour ago. Everyone else was asleep. There was no reason to be standing in the hallway at 11pm looking at a closed door.</p>
+        <p>He was very aware of this and did it anyway.</p>
+        <p>The thing was he had almost said something. At dinner. When she'd made that comment about the architecture of old houses, about how they were designed to hold families rather than just people, and he'd looked up and she'd been looking at the ceiling the way she looked at things she was genuinely thinking about, not performing interest in, and he'd thought something very specific and then said nothing.</p>
+        <p>He was good at that. Saying nothing.</p>
+        <p>He walked back to his room. Got into bed. Stared at the ceiling for exactly the amount of time it took him to decide, conclusively, that he was not thinking about her.</p>
+        <p>He was thinking about the architecture of old houses. The way they were designed to hold families rather than just people.</p>
+        <p>That was all.</p>
+        <p>That was definitely all.</p>
+      </div>
+      <div class="scene-end-ornament">✦ deleted from chapter 3 ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('deleted-kitchen')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Diwali Special -->
+<div class="scene-modal" id="modal-diwali" role="dialog" aria-modal="true" aria-label="The Year They Did Diwali Properly">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('diwali')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Festival Special · Amodini</span>
+      <span class="modal-couple">The Whole Family · Diwali</span>
+      <h2 class="modal-scene-title">The Year They Did Diwali Properly</h2>
+      <p class="modal-author-note">Happy Diwali to everyone who reads these. This one is for all of you.</p>
+      <div class="modal-scene-text">
+        <p>The house smelled like marigold and ghee and something frying in oil in the kitchen that nobody had officially announced but everyone could smell from three rooms away.</p>
+        <p>Devanshi had put diyas on every window ledge.</p>
+        <p>Nobody told her to. She just did it, the evening before, quietly, taking each clay lamp from the bag she'd bought herself and setting it down with the kind of care that meant she'd thought about exactly where each one would look best. Yug had watched her do the last window from the doorway without saying anything. She hadn't noticed him. Or she had and decided not to mention it. With Devanshi it was sometimes hard to tell.</p>
+        <p>Idhayan was wearing something orange and was very upset about it. He had made his position on the orange kurta extremely clear. He was overruled.</p>
+        <p>Aadhya lit the first diya. Nisarg stood next to her close enough that their hands were almost touching, which for Nisarg was basically a declaration. Raghav stood at the edge of the courtyard and watched his family and looked like a man who has realised, very recently, that this is what all that responsibility was for.</p>
+        <p>Sree stood next to him.</p>
+        <p>They didn't say anything. They just watched the lights go on, one by one, until the whole house was glowing.</p>
+        <div class="dialogue">
+          <p>"It looks different this year," she said eventually.</p>
+          <p>"It is different this year," he said.</p>
+        </div>
+        <p>Idhayan ran past them wearing the orange kurta and screaming with joy. The diya in his hand was very slightly lopsided.</p>
+        <p>Nobody corrected it.</p>
+        <p>The house held all of them. It was built for exactly this.</p>
+      </div>
+      <div class="scene-end-ornament">✦ Happy Diwali ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('diwali')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sree's Letter -->
+<div class="scene-modal" id="modal-sree-letter" role="dialog" aria-modal="true" aria-label="The Letter She Never Sent">
+  <div class="scene-modal-box">
+    <button class="scene-modal-close" onclick="closeScene('sree-letter')" aria-label="Close">×</button>
+    <div class="scene-modal-torn-top"></div>
+    <div class="scene-modal-content">
+      <span class="modal-scene-type">Letter · Unsent · Amodini</span>
+      <span class="modal-couple">Sree · To Nobody in Particular</span>
+      <h2 class="modal-scene-title">The Letter She Never Sent</h2>
+      <p class="modal-author-note">Sree wrote this somewhere around Chapter 9. She didn't send it. It's not addressed to anyone specific. I found it in her drafts.</p>
+      <div class="modal-scene-text">
+        <p>I don't know what I'm doing here.</p>
+        <p>That's the honest version. The more composed version, the one I give when people ask, involves words like "settling in" and "adjusting" and "it's going well." Those things are also true. But this is the letter nobody's reading so I can say the other thing too.</p>
+        <p>I came here for reasons that made sense at the time. I'm still here for reasons I haven't fully worked out yet.</p>
+        <p>There's a man in this house who makes chai at 5am and never explains why. There's a toddler who has decided I'm his person and doesn't ask permission. There's a family that argues about which film to watch and somehow manages to feel like the most solid thing I've stood near in years.</p>
+        <p>I don't know what to do with any of this.</p>
+        <p>I grew up in a house where you learned not to take up too much space. I'm learning, here, that this house has different rules. That there's enough room. That people here actually mean it when they ask how you are.</p>
+        <p>I still don't know what I'm doing here.</p>
+        <p>But I think I might stay long enough to find out.</p>
+        <p>That feels like enough, for now.</p>
+        <p style="margin-top:1.5rem;font-style:normal;font-size:.9rem;color:rgba(44,24,16,.4)">— S</p>
+      </div>
+      <div class="scene-end-ornament">✦ unsent ✦</div>
+      <button class="btn-back-scene" onclick="closeScene('sree-letter')">← Back to all scenes</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Nav
+const nav = document.getElementById('siteNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 24);
+}, { passive: true });
+
+// Hamburger
+const burger = document.getElementById('burger');
+const menu   = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(open));
+});
+menu.querySelectorAll('.nav-link').forEach(l => {
+  l.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// Reveal
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}
+
+// Open / close scene modals
+function openScene(id) {
+  const modal = document.getElementById('modal-' + id);
+  if (!modal) return;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modal.scrollTop = 0;
+}
+
+function closeScene(id) {
+  const modal = document.getElementById('modal-' + id);
+  if (!modal) return;
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on outside click
+document.querySelectorAll('.scene-modal').forEach(modal => {
+  modal.addEventListener('click', e => {
+    if (e.target === modal) {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.scene-modal.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+
+// Filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const sceneCards = document.querySelectorAll('.letter-card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    sceneCards.forEach(card => {
+      card.style.display = (filter === 'all' || card.dataset.type === filter) ? '' : 'none';
+    });
+  });
+});
+</script>
+
+<script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});</script>
+</body>
+</html>
