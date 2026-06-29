@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Behind the pen name. The story of thatbrowncraft.">
+<title>Behind The Pen — thatbrowncraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --espresso:#2C1810;--walnut:#3B1F0A;--terracotta:#C8956B;
+  --gold:#C9A96E;--cream:#E8D5B0;--parchment:#F5ECD7;--deepink:#1A0F08;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Lato',sans-serif;
+  --font-accent:'Libre Baskerville',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--espresso);color:var(--parchment);overflow-x:hidden;font-weight:300}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{max-width:100%;display:block}
+
+#atmosphere{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.light-shaft{position:absolute;top:-30%;right:-10%;width:60vw;height:140vh;background:linear-gradient(148deg,rgba(201,169,110,0.07) 0%,rgba(245,236,215,0.04) 35%,transparent 65%);transform:rotate(-18deg);transform-origin:top right;animation:shaftBreath 9s ease-in-out infinite}
+.light-shaft-2{position:absolute;top:30%;left:-15%;width:45vw;height:90vh;background:linear-gradient(42deg,rgba(200,149,107,0.04) 0%,transparent 60%);transform:rotate(10deg);animation:shaftBreath 13s ease-in-out infinite reverse}
+@keyframes shaftBreath{0%,100%{opacity:.7}50%{opacity:1}}
+.mote{position:absolute;border-radius:50%;opacity:0;animation:moteDrift linear infinite;filter:blur(.4px)}
+@keyframes moteDrift{0%{transform:translateY(105vh) translateX(0);opacity:0}8%{opacity:.9}35%{transform:translateY(70vh) translateX(20px);opacity:.6}60%{transform:translateY(40vh) translateX(-14px);opacity:.8}85%{transform:translateY(12vh) translateX(16px);opacity:.4}100%{transform:translateY(-8vh) translateX(0);opacity:0}}
+.m1{width:3px;height:3px;background:rgba(201,169,110,.7);left:5%;animation-duration:24s;animation-delay:0s}.m2{width:2px;height:2px;background:rgba(245,236,215,.8);left:12%;animation-duration:31s;animation-delay:-7s}.m3{width:4px;height:4px;background:rgba(200,149,107,.5);left:19%;animation-duration:20s;animation-delay:-13s}.m4{width:2px;height:2px;background:rgba(201,169,110,.6);left:27%;animation-duration:35s;animation-delay:-4s}.m5{width:3px;height:3px;background:rgba(196,154,138,.5);left:34%;animation-duration:26s;animation-delay:-19s}.m6{width:2px;height:2px;background:rgba(245,236,215,.7);left:41%;animation-duration:29s;animation-delay:-9s}.m7{width:3px;height:3px;background:rgba(201,169,110,.6);left:49%;animation-duration:22s;animation-delay:-15s}.m8{width:2px;height:2px;background:rgba(200,149,107,.5);left:57%;animation-duration:33s;animation-delay:-2s}.m9{width:4px;height:4px;background:rgba(196,154,138,.4);left:64%;animation-duration:21s;animation-delay:-21s}.m10{width:2px;height:2px;background:rgba(245,236,215,.6);left:72%;animation-duration:28s;animation-delay:-6s}.m11{width:3px;height:3px;background:rgba(201,169,110,.7);left:79%;animation-duration:25s;animation-delay:-11s}.m12{width:2px;height:2px;background:rgba(200,149,107,.5);left:87%;animation-duration:32s;animation-delay:-17s}.m13{width:3px;height:3px;background:rgba(245,236,215,.5);left:93%;animation-duration:19s;animation-delay:-3s}.m14{width:2px;height:2px;background:rgba(201,169,110,.6);left:8%;animation-duration:27s;animation-delay:-14s}.m15{width:4px;height:4px;background:rgba(196,154,138,.4);left:23%;animation-duration:23s;animation-delay:-8s}.m16{width:2px;height:2px;background:rgba(245,236,215,.7);left:38%;animation-duration:30s;animation-delay:-18s}.m17{width:3px;height:3px;background:rgba(201,169,110,.5);left:53%;animation-duration:24s;animation-delay:-5s}.m18{width:2px;height:2px;background:rgba(200,149,107,.6);left:68%;animation-duration:36s;animation-delay:-12s}.m19{width:3px;height:3px;background:rgba(196,154,138,.5);left:82%;animation-duration:20s;animation-delay:-16s}.m20{width:2px;height:2px;background:rgba(245,236,215,.6);left:96%;animation-duration:28s;animation-delay:-1s}
+
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(1.5rem,5vw,4rem);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(44,24,16,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,169,110,.1);transition:background .4s}
+.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.18)}
+.nav-logo{display:flex;align-items:baseline}
+.logo-that{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--cream)}
+.logo-brown{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--terracotta)}
+.logo-craft{font-family:var(--font-display);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);align-items:center}
+.nav-link{font-family:var(--font-body);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.5);transition:color .3s}
+.nav-link:hover,.nav-link.active-page{color:var(--terracotta)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--cream);transition:.3s}
+.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(44,24,16,.98);padding:1.5rem 2rem 2rem;flex-direction:column;z-index:899;border-bottom:1px solid rgba(201,169,110,.15)}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-link{padding:.85rem 0;font-size:.82rem;border-bottom:1px solid rgba(201,169,110,.08);display:block}
+section,nav,footer{position:relative;z-index:1}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.page-header{padding:130px clamp(1.5rem,6vw,5rem) clamp(3rem,6vw,5rem);background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(59,31,10,.8) 0%,transparent 60%),linear-gradient(180deg,#2C1810 0%,#3B1F0A 100%);text-align:center;border-bottom:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:64px;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.3) 30%,rgba(201,169,110,.5) 50%,rgba(201,169,110,.3) 70%,transparent)}
+.page-header-eyebrow{font-family:var(--font-accent);font-style:italic;font-size:.8rem;color:rgba(201,169,110,.5);letter-spacing:.2em;display:block;margin-bottom:1rem}
+.hero-quote{font-family:var(--font-display);font-size:clamp(1.9rem,5vw,3.8rem);font-weight:300;color:var(--cream);line-height:1.3;max-width:720px;margin:0 auto 1.5rem;font-style:italic}
+.hero-quote em{color:var(--terracotta);font-style:normal}
+.page-header-sub{font-family:var(--font-display);font-style:italic;font-size:clamp(.9rem,2vw,1.1rem);color:rgba(245,236,215,.35);max-width:480px;margin:0 auto;line-height:1.7}
+.orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto;max-width:300px}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent)}
+.orn-motif{font-size:.7rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+
+.about-wrap{max-width:860px;margin:0 auto;padding:clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,3rem)}
+
+.about-body{text-align:center;margin-bottom:clamp(3.5rem,7vw,6rem)}
+.about-body p{font-family:var(--font-display);font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:300;color:rgba(245,236,215,.62);line-height:1.9;margin-bottom:1.4rem;font-style:italic}
+.about-body p:last-child{margin-bottom:0}
+.about-body p strong{color:var(--cream);font-style:normal;font-weight:500}
+
+.section-label{font-family:var(--font-body);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,169,110,.45);text-align:center;display:block;margin-bottom:.6rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:var(--cream);text-align:center;margin-bottom:.5rem;line-height:1.1}
+.section-title em{font-style:italic;color:var(--terracotta)}
+.section-sub{font-family:var(--font-display);font-style:italic;font-size:1rem;color:rgba(245,236,215,.32);text-align:center;margin-bottom:2.5rem}
+
+.finds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:clamp(3.5rem,7vw,6rem)}
+.find-card{background:rgba(59,31,10,.4);border:1px solid rgba(201,169,110,.1);padding:1.6rem 1.4rem;transition:border-color .3s,background .3s;display:flex;align-items:flex-start;gap:.9rem}
+.find-card:hover{border-color:rgba(201,169,110,.25);background:rgba(59,31,10,.6)}
+.find-icon{font-size:1.4rem;flex-shrink:0;line-height:1;margin-top:.1rem}
+.find-text{font-family:var(--font-display);font-size:1.05rem;font-style:italic;color:rgba(245,236,215,.65);line-height:1.5}
+
+.currently-section{margin-bottom:clamp(3.5rem,7vw,6rem)}
+.currently-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.85rem}
+.currently-card{background:rgba(44,24,16,.6);border:1px solid rgba(201,169,110,.1);border-left:2px solid rgba(201,169,110,.3);padding:1.2rem 1.25rem;transition:border-color .3s}
+.currently-card:hover{border-left-color:var(--terracotta)}
+.currently-label{font-family:var(--font-body);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,.45);display:block;margin-bottom:.5rem}
+.currently-value{font-family:var(--font-display);font-size:1rem;font-style:italic;color:var(--cream);line-height:1.4}
+
+.letter-section{margin-bottom:clamp(3.5rem,7vw,6rem)}
+.letter-block{background:rgba(59,31,10,.35);border:1px solid rgba(201,169,110,.12);border-top:2px solid rgba(201,169,110,.3);padding:clamp(2rem,5vw,3.5rem) clamp(1.75rem,5vw,3.5rem);position:relative;max-width:680px;margin:0 auto}
+.letter-block::before{content:'✉';position:absolute;top:-1.1rem;left:50%;transform:translateX(-50%);background:var(--espresso);padding:0 .75rem;font-size:.9rem;color:rgba(201,169,110,.4)}
+.letter-salutation{font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--terracotta);display:block;margin-bottom:1.5rem}
+.letter-body p{font-family:var(--font-display);font-size:clamp(1rem,2vw,1.2rem);font-weight:300;color:rgba(245,236,215,.6);line-height:1.95;margin-bottom:1rem;font-style:italic}
+.letter-body p:last-child{margin-bottom:0}
+.letter-sign{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(201,169,110,.1)}
+.letter-sign-label{font-family:var(--font-body);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,.4);display:block;margin-bottom:.4rem}
+.letter-sign-name{font-family:var(--font-display);font-size:1.6rem;font-style:italic;color:var(--gold)}
+
+/* loading state */
+.cms-loading{text-align:center;padding:3rem;font-family:var(--font-display);font-style:italic;color:rgba(245,236,215,.25);font-size:1rem}
+
+.site-footer{background:var(--deepink);border-top:1px solid rgba(201,169,110,.1);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem) clamp(2rem,4vw,3rem)}
+.footer-inner{max-width:900px;margin:0 auto;text-align:center}
+.footer-logo{font-family:var(--font-display);font-size:1.6rem;margin-bottom:.5rem}
+.fl-that{color:var(--cream);font-weight:500}.fl-brown{color:var(--terracotta);font-weight:500}.fl-craft{color:var(--gold);font-style:italic;font-weight:400}
+.footer-tagline{font-family:var(--font-accent);font-style:italic;font-size:.85rem;color:rgba(201,169,110,.45);margin-bottom:2rem}
+.footer-social{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:2rem}
+.social-pill{font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,236,215,.5);border:1px solid rgba(201,169,110,.15);padding:.45rem 1rem;transition:all .3s}
+.social-pill:hover{color:var(--terracotta);border-color:rgba(200,149,107,.4)}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem 1.5rem;margin-bottom:2rem}
+.footer-link{font-family:var(--font-body);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,236,215,.3);transition:color .3s}
+.footer-link:hover{color:var(--terracotta)}
+.footer-rule{height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.15),transparent);margin-bottom:1.5rem}
+.footer-copy{font-family:var(--font-body);font-size:.6rem;letter-spacing:.12em;color:rgba(245,236,215,.2);text-transform:uppercase}
+
+@media(max-width:640px){.nav-links{display:none}.nav-hamburger{display:flex}.finds-grid{grid-template-columns:1fr 1fr}.currently-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.finds-grid{grid-template-columns:1fr}.currently-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.mote,.light-shaft,.light-shaft-2{animation:none}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div id="atmosphere" aria-hidden="true">
+  <div class="light-shaft"></div><div class="light-shaft-2"></div>
+  <div class="mote m1"></div><div class="mote m2"></div><div class="mote m3"></div><div class="mote m4"></div><div class="mote m5"></div><div class="mote m6"></div><div class="mote m7"></div><div class="mote m8"></div><div class="mote m9"></div><div class="mote m10"></div><div class="mote m11"></div><div class="mote m12"></div><div class="mote m13"></div><div class="mote m14"></div><div class="mote m15"></div><div class="mote m16"></div><div class="mote m17"></div><div class="mote m18"></div><div class="mote m19"></div><div class="mote m20"></div>
+</div>
+
+<nav class="site-nav" id="siteNav" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="thatbrowncraft home">
+    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="books.html"        class="nav-link">Books</a></li>
+    <li><a href="characters.html"   class="nav-link">Characters</a></li>
+    <li><a href="bonus.html"        class="nav-link">One More Chapter</a></li>
+    <li><a href="kanha.html"        class="nav-link">Kanha's Courtyard</a></li>
+    <li><a href="crafties.html"     class="nav-link">Crafties</a></li>
+    <li><a href="updates.html"      class="nav-link">Updates</a></li>
+    <li><a href="about.html"        class="nav-link active-page">About</a></li>
+  </ul>
+  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="mobileMenu" role="navigation">
+  <a href="books.html"      class="nav-link">Books</a>
+  <a href="characters.html" class="nav-link">Characters</a>
+  <a href="bonus.html"      class="nav-link">One More Chapter</a>
+  <a href="kanha.html"      class="nav-link">Kanha's Courtyard</a>
+  <a href="crafties.html"   class="nav-link">Crafties</a>
+  <a href="updates.html"    class="nav-link">Updates</a>
+  <a href="about.html"      class="nav-link active-page">About</a>
+</div>
+
+<main>
+  <header class="page-header">
+    <span class="page-header-eyebrow">behind the pen</span>
+    <div class="orn-row" aria-hidden="true">
+      <span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span>
+    </div>
+    <!-- Populated by JS from content/settings/author.md -->
+    <h1 class="hero-quote" id="heroQuote">
+      "Some stories become books.<br>Some stories become <em>homes.</em>"
+    </h1>
+    <p class="page-header-sub" id="heroSub">
+      This is the corner where stories live, breathe, and occasionally refuse to end.
+    </p>
+  </header>
+
+  <div class="about-wrap">
+
+    <!-- ABOUT BODY — from author.md → about_body -->
+    <section class="about-body reveal" id="aboutBody" aria-label="About thatbrowncraft">
+      <div class="cms-loading">loading...</div>
+    </section>
+
+    <!-- FINDS CARDS — from author.md → finds_cards -->
+    <section class="reveal" id="findsSection" aria-label="What you will find here">
+      <span class="section-label">what you'll find here</span>
+      <h2 class="section-title">Fiction that <em>feels.</em></h2>
+      <p class="section-sub">A few things that live in this corner of the internet.</p>
+      <div class="finds-grid" id="findsGrid">
+        <div class="cms-loading">loading...</div>
+      </div>
+    </section>
+
+    <!-- CURRENTLY LOVING — from author.md → currently_cards -->
+    <section class="currently-section reveal" id="currentlySection" aria-label="Currently loving">
+      <span class="section-label">currently</span>
+      <h2 class="section-title">In <em>this season</em></h2>
+      <p class="section-sub">Updated whenever the mood changes. Which is often.</p>
+      <div class="currently-grid" id="currentlyGrid">
+        <div class="cms-loading">loading...</div>
+      </div>
+    </section>
+
+    <!-- LETTER — from author.md → letter_* fields -->
+    <section class="letter-section reveal" id="letterSection" aria-label="Letter to crafties">
+      <span class="section-label">a note</span>
+      <h2 class="section-title" style="margin-bottom:2rem">For the <em>Crafties.</em></h2>
+      <div class="letter-block">
+        <span class="letter-salutation" id="letterSalutation">Dear Crafties,</span>
+        <div class="letter-body" id="letterBody">
+          <div class="cms-loading">loading...</div>
+        </div>
+        <div class="letter-sign">
+          <span class="letter-sign-label">with love,</span>
+          <span class="letter-sign-name" id="letterSignName">Thatbrowncraft</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="fl-that">that</span><span class="fl-brown">brown</span><span class="fl-craft">craft</span></div>
+    <p class="footer-tagline" id="footerTagline">stories brewed in chai &amp; candlelight</p>
+    <div class="footer-social" id="footerSocial"></div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="index.html"              class="footer-link">Home</a>
+      <a href="books.html"        class="footer-link">Books</a>
+      <a href="characters.html"   class="footer-link">Characters</a>
+      <a href="bonus.html"        class="footer-link">One More Chapter</a>
+      <a href="crafties.html"     class="footer-link">Crafties</a>
+      <a href="kanha.html"        class="footer-link">Kanha's Corner</a>
+      <a href="hall-of-fame.html" class="footer-link">Hall of Fame</a>
+      <a href="updates.html"      class="footer-link">Updates</a>
+      <a href="about.html"        class="footer-link">About</a>
+    </nav>
+    <div class="footer-rule"></div>
+    <p class="footer-copy"><span id="copyright-year"></span> thatbrowncraft. All stories, characters, and words belong to their author.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+/* ============================================================
+   CMS CONTENT LOADER
+   Fetches content/settings/author.md from GitHub raw
+   and renders it into the page sections.
+
+   SOURCE FILE: content/settings/author.md
+   Fields used:
+     about_hero_quote   → hero quote
+     about_hero_sub     → hero subtitle
+     about_body         → about body text (markdown)
+     finds_cards        → finds grid (list: icon, text, show)
+     currently_cards    → currently grid (list: label, value, show)
+     letter_salutation  → letter opening
+     letter_body        → letter paragraphs (markdown)
+     letter_sign_name   → letter signature
+     letter_show        → boolean to hide/show letter section
+     tagline            → footer tagline
+   ============================================================ */
+
+const RAW_AUTHOR = 'https://raw.githubusercontent.com/thatbrowncraft/thatbrowncraft-cms-test/main/content/settings/author.md';
+
+//   Everything else is automatic.
+
+function parseFrontmatter(text) {
+  const match = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!match) return { data: {}, body: text };
+  const data = {};
+  const raw = match[1];
+  const body = match[2].trim();
+
+  // Simple YAML parser for the fields we need
+  let currentKey = null;
+  let inList = false;
+  let listItemFields = null;
+  let currentListItem = null;
+  let topLevelList = null;
+
+  raw.split('\n').forEach(line => {
+    // Top-level key: value
+    const topMatch = line.match(/^(\w+):\s*"?([^"]*)"?\s*$/);
+    const listStart = line.match(/^(\w+):\s*$/);
+    const listBoolItem = line.match(/^  - "?([^"]*)"?\s*$/);
+    const nestedKey = line.match(/^    (\w+):\s*"?([^"]*)"?\s*$/);
+    const nestedListItem = line.match(/^  - (\w+):\s*"?([^"]*)"?\s*$/);
+    const newNestedObj = line.match(/^  -\s*$/);
+
+    if (topMatch && !line.startsWith(' ')) {
+      currentKey = topMatch[1];
+      data[currentKey] = topMatch[2];
+      inList = false;
+      topLevelList = null;
+    } else if (listStart && !line.startsWith(' ')) {
+      currentKey = listStart[1];
+      data[currentKey] = [];
+      inList = true;
+      topLevelList = currentKey;
+      listItemFields = false;
+    } else if (inList && topLevelList) {
+      if (newNestedObj) {
+        currentListItem = {};
+        data[topLevelList].push(currentListItem);
+        listItemFields = true;
+      } else if (listItemFields && nestedKey) {
+        if (currentListItem) currentListItem[nestedKey[1]] = nestedKey[2];
+      } else if (!listItemFields && listBoolItem) {
+        data[topLevelList].push(listBoolItem[1]);
+      } else if (nestedListItem) {
+        // first field of a new list item that starts with key: value on same line as -
+        currentListItem = {};
+        currentListItem[nestedListItem[1]] = nestedListItem[2];
+        data[topLevelList].push(currentListItem);
+        listItemFields = true;
+      }
+    }
+  });
+
+  return { data, body };
+}
+
+function mdToHtml(md) {
+  if (typeof marked !== 'undefined') return marked.parse(md || '');
+  // Fallback: simple paragraph conversion
+  return (md || '').split(/\n\n+/).map(p => `<p>${p.trim().replace(/\n/g,' ')}</p>`).join('');
+}
+
+function initReveal() {
+  const ro = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visible'); ro.unobserve(x.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+}
+
+async function loadContent() {
+  try {
+    const res = await fetch(RAW_AUTHOR);
+    if (!res.ok) throw new Error('fetch failed');
+    const text = await res.text();
+    const { data, body } = parseFrontmatter(text);
+
+    // Hero quote
+    if (data.about_hero_quote) {
+      const q = data.about_hero_quote;
+      const last = q.lastIndexOf(' ');
+      const firstPart = q.substring(0, last);
+      const lastWord = q.substring(last + 1);
+      document.getElementById('heroQuote').innerHTML =
+        `"${firstPart} <em>${lastWord}</em>"`;
+    }
+
+    // Hero sub
+    if (data.about_hero_sub) {
+      document.getElementById('heroSub').textContent = data.about_hero_sub;
+    }
+
+    // About body — use about_body field first, fallback to file body
+    const bodyMd = data.about_body || body;
+    const aboutEl = document.getElementById('aboutBody');
+    if (bodyMd) {
+      aboutEl.innerHTML = mdToHtml(bodyMd) +
+        `<div class="orn-row" aria-hidden="true" style="margin-top:2rem">
+           <span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span>
+         </div>`;
+    }
+
+    // Finds cards
+    const findsGrid = document.getElementById('findsGrid');
+    if (Array.isArray(data.finds_cards) && data.finds_cards.length) {
+      findsGrid.innerHTML = data.finds_cards
+        .filter(c => c.show !== 'false' && c.show !== false)
+        .map(c => `
+          <div class="find-card">
+            <span class="find-icon">${c.icon || '✦'}</span>
+            <span class="find-text">${c.text || ''}</span>
+          </div>`).join('');
+    } else {
+      // Default cards if none set in CMS yet
+      const defaults = [
+        {icon:'📚',text:'Fiction that feels like home.'},
+        {icon:'☕',text:'Chai-fueled writing nights.'},
+        {icon:'🌙',text:'Slow burn romances.'},
+        {icon:'🎭',text:'Family drama and emotional chaos.'},
+        {icon:'🪔',text:'Desi traditions woven into every page.'},
+        {icon:'💌',text:'Characters that refuse to leave.'}
+      ];
+      findsGrid.innerHTML = defaults.map(c =>
+        `<div class="find-card"><span class="find-icon">${c.icon}</span><span class="find-text">${c.text}</span></div>`
+      ).join('');
+    }
+
+    // Currently cards
+    const currentlyGrid = document.getElementById('currentlyGrid');
+    if (Array.isArray(data.currently_cards) && data.currently_cards.length) {
+      currentlyGrid.innerHTML = data.currently_cards
+        .filter(c => c.show !== 'false' && c.show !== false)
+        .map(c => `
+          <div class="currently-card">
+            <span class="currently-label">${c.label || ''}</span>
+            <span class="currently-value">${c.value || ''}</span>
+          </div>`).join('');
+    } else {
+      const defaults = [
+        {label:'Reading',value:'Something with a slow burn and a stubborn hero.'},
+        {label:'Playlist',value:'Raataan Lambiyan on repeat. Again.'},
+        {label:'Obsession',value:'A scene that refuses to be written the right way.'},
+        {label:'Favourite Trope',value:'Forced proximity. Always forced proximity.'},
+        {label:'Comfort Character',value:'The one who never gets enough chapters.'},
+        {label:'Writing Beverage',value:'Masala chai. Obviously. Always.'}
+      ];
+      currentlyGrid.innerHTML = defaults.map(c =>
+        `<div class="currently-card"><span class="currently-label">${c.label}</span><span class="currently-value">${c.value}</span></div>`
+      ).join('');
+    }
+
+    // Letter
+    if (data.letter_show === 'false' || data.letter_show === false) {
+      document.getElementById('letterSection').style.display = 'none';
+    } else {
+      if (data.letter_salutation) document.getElementById('letterSalutation').textContent = data.letter_salutation;
+      if (data.letter_body)      document.getElementById('letterBody').innerHTML = mdToHtml(data.letter_body);
+      if (data.letter_sign_name) document.getElementById('letterSignName').textContent = data.letter_sign_name;
+    }
+
+    // Footer tagline from author.md tagline field
+    if (data.tagline) document.getElementById('footerTagline').textContent = data.tagline;
+
+  } catch(e) {
+    // Graceful fallback — show default content, not a broken page
+    console.warn('CMS fetch failed, showing defaults.', e);
+    document.getElementById('aboutBody').innerHTML = `
+      <p>Thatbrowncraft exists somewhere between chai stains, unfinished drafts, bookmarked pages, and fictional people who refuse to leave.</p>
+      <p>She writes stories that smell like festivals, family kitchens, rain-soaked evenings, and emotions people often leave unsaid.</p>
+      <p>Some characters <strong>heal.</strong> Some <strong>destroy.</strong> Some stay long after the final page.</p>
+      <div class="orn-row" aria-hidden="true" style="margin-top:2rem"><span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span></div>`;
+    document.getElementById('letterBody').innerHTML = `
+      <p>Thank you for reading the stories, surviving the cliffhangers, and screaming in comment sections.</p>
+      <p>Thank you for waiting for chapters.</p>
+      <p>Thank you for loving fictional people as if they were real.</p>
+      <p>Every story here belongs as much to you as it does to me.</p>
+      <p>Welcome home.</p>`;
+    document.getElementById('findsGrid').innerHTML = ['📚 Fiction that feels like home.','☕ Chai-fueled writing nights.','🌙 Slow burn romances.','🎭 Family drama and emotional chaos.','🪔 Desi traditions woven into every page.','💌 Characters that refuse to leave.']
+      .map(s => { const [i,...t]=s.split(' '); return `<div class="find-card"><span class="find-icon">${i}</span><span class="find-text">${t.join(' ')}</span></div>`; }).join('');
+    document.getElementById('currentlyGrid').innerHTML = [['Reading','Something with a slow burn.'],['Playlist','Raataan Lambiyan on repeat.'],['Obsession','A scene that won\'t be written right.'],['Favourite Trope','Forced proximity. Always.'],['Comfort Character','The one who needs more chapters.'],['Writing Beverage','Masala chai. Obviously.']]
+      .map(([l,v]) => `<div class="currently-card"><span class="currently-label">${l}</span><span class="currently-value">${v}</span></div>`).join('');
+  }
+
+  initReveal();
+}
+
+// NAV
+const nav = document.getElementById('siteNav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 24); }, { passive: true });
+const burger = document.getElementById('burger'), menu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => { const o = menu.classList.toggle('open'); burger.setAttribute('aria-expanded', String(o)); });
+menu.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => { menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }));
+
+loadContent();
+</script>
+<script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});</script>
+</body>
+</html>
