@@ -21,6 +21,12 @@ const CMS = (() => {
   const API = col =>
     `https://api.github.com/repos/${USER}/${REPO}/contents/content/${col}`;
 
+  /* CMS image fields store root-relative paths like "/images/foo.png"
+     (public_folder). That breaks on GitHub Pages project sites, where
+     "/" resolves to the domain root, not the repo subpath. Resolve
+     against the raw content host instead, same as everything else. */
+  const IMG = path => path ? RAW(`public${path}`) : '';
+
   /* ── frontmatter parser ──
      Handles scalars, booleans, numbers, multiline | blocks,
      simple lists, and lists of objects (nested key: value pairs). */
@@ -295,7 +301,7 @@ const CMS = (() => {
 
     _featuredBookHTML({ data }) {
       const cover = data.cover_image
-        ? `<img src="${esc(data.cover_image)}" alt="${esc(data.title)} cover" style="width:100%;height:100%;object-fit:cover">`
+        ? `<img src="${esc(IMG(data.cover_image))}" alt="${esc(data.title)} cover" style="width:100%;height:100%;object-fit:cover">`
         : `<div class="book-cover-ph"><span class="ph-icon">📕</span><span class="ph-title">${esc(data.title)}</span></div>`;
       const tags = Array.isArray(data.genres)
         ? data.genres.map(g => `<span class="book-tag">${esc(g)}</span>`).join('')
@@ -329,7 +335,7 @@ const CMS = (() => {
 
     _bookEntryHTML({ data, body }) {
       const cover = data.cover_image
-        ? `<img src="${esc(data.cover_image)}" alt="${esc(data.title)} cover" style="width:100%;height:100%;object-fit:cover">`
+        ? `<img src="${esc(IMG(data.cover_image))}" alt="${esc(data.title)} cover" style="width:100%;height:100%;object-fit:cover">`
         : `<div class="cover-ph"><span class="cover-ph-icon">📕</span><span class="cover-ph-title">${esc(data.title)}</span>${data.series_number ? `<span class="cover-ph-series">${esc(data.series_number)}</span>` : ''}</div>`;
       const badge = data.status === 'published'
         ? '<span class="cover-badge badge-live">Live Now</span>'
@@ -448,7 +454,7 @@ const CMS = (() => {
         el.innerHTML = preview.map(({ data }) => `
           <a href="characters.html#card-${esc(slugify(data.name))}" class="polaroid reveal">
             <div class="polaroid-image">
-              ${data.illustration ? `<img src="${esc(data.illustration)}" alt="${esc(data.name)}" style="width:100%;height:100%;object-fit:cover">` : '<span class="ph-emoji">🌸</span>'}
+              ${data.illustration ? `<img src="${esc(IMG(data.illustration))}" alt="${esc(data.name)}" style="width:100%;height:100%;object-fit:cover">` : '<span class="ph-emoji">🌸</span>'}
             </div>
             <span class="polaroid-name">${esc(data.name)}</span>
             <span class="polaroid-role">${esc(data.occupation || data.book || '')}</span>
@@ -471,7 +477,7 @@ const CMS = (() => {
       const slug = slugify(data.name);
       const initial = (data.name || '?')[0];
       const portrait = data.illustration
-        ? `<img src="${esc(data.illustration)}" alt="${esc(data.name)}" style="width:100%;height:100%;object-fit:cover">`
+        ? `<img src="${esc(IMG(data.illustration))}" alt="${esc(data.name)}" style="width:100%;height:100%;object-fit:cover">`
         : `<div class="char-portrait-ph"><span class="portrait-ph-initial">${esc(initial)}</span></div>`;
       const likes = Array.isArray(data.likes)
         ? data.likes.map(l => `<span class="like-chip">${esc(l.item || l)}</span>`).join('') : '';
@@ -785,7 +791,7 @@ const CMS = (() => {
         el.innerHTML = featured.map(({ data }) => {
           const ext = data.external_link || '';
           const img = data.image
-            ? `<img src="${esc(data.image)}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
+            ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
             : `<div class="fanart-img-placeholder">art coming soon</div>`;
           return `
             <div class="fanart-card reveal">
