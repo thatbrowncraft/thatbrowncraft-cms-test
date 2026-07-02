@@ -20,7 +20,7 @@ backend:
   name: github
   repo: thatbrowncraft/thatbrowncraft-cms-test
   branch: main
-  base_url: PASTE_YOUR_WORKER_URL_HERE
+  base_url: https://that-browncraft.workers.dev
   commit_messages:
     create: "✦ New {{collection}}: {{slug}}"
     update: "✦ Updated {{collection}}: {{slug}}"
