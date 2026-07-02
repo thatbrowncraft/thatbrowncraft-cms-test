@@ -812,9 +812,21 @@ section,nav,footer{position:relative;z-index:1}
           <div class="pc-ruled"></div>
           <div class="pc-margin-line"></div>
           <div class="pc-dear">Dear Author,</div>
-          <textarea class="pc-textarea" id="msg-postcard" rows="8" placeholder="Write whatever you want here. Feedback, demands, theories, rants, love letters to fictional characters. No word limit."></textarea>
+          <textarea class="pc-textarea" id="msg-postcard" rows="7" placeholder="Write whatever you want here. Feedback, demands, theories, rants, love letters to fictional characters. No word limit."></textarea>
           <div class="pc-sig-line"></div>
           <input class="pc-name-input" id="name-postcard" type="text" placeholder="Your name or handle (optional)">
+          <div style="margin-top:.6rem;position:relative;z-index:1">
+            <div style="font-family:'Lato',sans-serif;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(59,31,10,.32);margin-bottom:.3rem">Want a reply?</div>
+            <div style="display:flex;gap:1rem">
+              <label style="display:flex;align-items:center;gap:.3rem;font-family:'Lato',sans-serif;font-size:.72rem;color:rgba(44,24,16,.55);cursor:pointer">
+                <input type="radio" name="postcard-reply" id="reply-yes" value="Yes" style="accent-color:#C8956B"> Yes
+              </label>
+              <label style="display:flex;align-items:center;gap:.3rem;font-family:'Lato',sans-serif;font-size:.72rem;color:rgba(44,24,16,.55);cursor:pointer">
+                <input type="radio" name="postcard-reply" id="reply-no" value="No" style="accent-color:#C8956B"> No
+              </label>
+            </div>
+          </div>
+          <input class="pc-name-input" id="email-postcard" type="email" placeholder="Email (only if you want a reply)" style="margin-top:.5rem;border-top:1px solid rgba(59,31,10,.1);padding-top:.5rem">
         </div>
         <div class="pc-divider"></div>
         <div class="pc-right">
@@ -1105,9 +1117,14 @@ function sendCard(type) {
     if (!msg) { document.getElementById('msg-postcard').focus(); return; }
     if (cfg) {
       var f = cfg.fields || {};
-      if (f.message)  params.append(f.message,  msg);
       if (f.name)     params.append(f.name,     document.getElementById('name-postcard').value.trim());
       if (f.category) params.append(f.category, document.getElementById('cat-postcard').value);
+      if (f.message)  params.append(f.message,  msg);
+      if (f.reply) {
+        var replyVal = document.querySelector('input[name="postcard-reply"]:checked');
+        params.append(f.reply, replyVal ? replyVal.value : 'No');
+      }
+      if (f.email)    params.append(f.email,    document.getElementById('email-postcard').value.trim());
     }
 
   } else if (type === 'review') {

@@ -226,9 +226,11 @@ const CMS = (() => {
         postcard: {
           url: data.form_postcard_url || '',
           fields: {
-            message:  data.form_postcard_entry_message  || '',
             name:     data.form_postcard_entry_name     || '',
-            category: data.form_postcard_entry_category || ''
+            category: data.form_postcard_entry_category || '',
+            message:  data.form_postcard_entry_message  || '',
+            reply:    data.form_postcard_entry_reply    || '',
+            email:    data.form_postcard_entry_email    || ''
           }
         },
         review: {
