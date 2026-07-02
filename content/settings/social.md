@@ -1,10 +1,27 @@
 ---
-wattpad: https://www.wattpad.com/user/Thatbrowncraft
-instagram: https://www.instagram.com/that_browncraft/profilecard/?igsh=NGEzNG14aXdjZHZk
-spotify: ''
-pinterest: https://in.pinterest.com/thatbrowncraft/
-form_crafties: https://forms.gle/47gJmVcdLLAsc1MT8
-form_reviews: https://forms.gle/EsBiJ2WtypMnXKru8
-form_fanart: https://forms.gle/F1i8JxkkdRwoWstm9
-form_contact: ''
+wattpad: "https://www.wattpad.com/user/Thatbrowncraft"
+instagram: ""
+spotify: ""
+pinterest: ""
+form_crafties: ""
+form_reviews: ""
+form_fanart: ""
+form_contact: ""
+form_postcard_url: ""
+form_postcard_entry_name: ""
+form_postcard_entry_category: ""
+form_postcard_entry_message: ""
+form_postcard_entry_reply: ""
+form_postcard_entry_email: ""
+form_review_url: ""
+form_review_entry_rating: ""
+form_review_entry_review: ""
+form_review_entry_name: ""
+form_review_entry_spoiler: ""
+form_fanart_url: ""
+form_fanart_entry_name: ""
+form_fanart_entry_platform: ""
+form_fanart_entry_subject: ""
+form_fanart_entry_link: ""
+form_fanart_entry_note: ""
 ---
