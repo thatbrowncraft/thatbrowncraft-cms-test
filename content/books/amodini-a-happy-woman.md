@@ -53,7 +53,13 @@ kindle_url: https://a.co/d/8R05JHj
 paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
 inkitt_url: https://www.inkitt.com/stories/1393318
 stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
-gallery: []
+gallery:
+  - image: /images/IMG_20250201_134750_493.jpg
+    caption: ''
+  - image: /images/IMG_20250201_135208_880.jpg
+    caption: ''
+  - image: /images/IMG_20250201_140025_037.jpg
+    caption: ''
 published_at: 2025-06-14T16:45
 ---
 
