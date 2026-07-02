@@ -545,6 +545,47 @@ section, nav, footer { position: relative; z-index: 1; }
   opacity: 0.7;
 }
 
+/* ── BOOK GALLERY ─────────────────────────────────────── */
+.book-gallery-block {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: rgba(201,169,110,0.04);
+  border: 1px solid rgba(201,169,110,0.1);
+  border-left: 2px solid rgba(201,169,110,0.3);
+}
+
+.book-gallery-label {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.45);
+  margin-bottom: 1.1rem;
+  display: block;
+}
+
+.book-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+
+.book-gallery-item img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid rgba(201,169,110,0.15);
+  display: block;
+}
+
+.book-gallery-caption {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.6rem;
+  color: rgba(245,236,215,0.4);
+  text-align: center;
+}
+
 /* ── READING LINKS ─────────────────────────────────────── */
 .reading-links {
   display: flex;

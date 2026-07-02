@@ -1163,6 +1163,11 @@ function sendCard(type) {
       // Silently swallow — no-cors throws on network failure but
       // Google Forms still receives the submission in most cases.
     });
+  } else {
+    // Was previously a silent no-op: the success UI below would show
+    // even though nothing was ever sent. Surface it in devtools so a
+    // broken/stale form config doesn't go unnoticed again.
+    console.warn('[Crafties] "' + type + '" submission skipped — window.__craftiesForms.' + type + ' has no url/fields yet.', cfg);
   }
 
   // Show success state

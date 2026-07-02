@@ -113,10 +113,21 @@ const CMS = (() => {
     }
   }
 
-  /* ── fetch single settings file ── */
+  /* ── fetch single settings file ──
+     raw.githubusercontent.com sits behind Fastly's edge cache. A plain
+     fetch() here can silently return a stale cached copy of the file
+     for several minutes (or longer) after a real update is pushed —
+     independent of the browser's own HTTP cache. That's fatal for
+     social.md specifically, since it drives live form-submission
+     wiring: a stale copy missing the newest keys means __craftiesForms
+     silently gets built with empty urls/fields, and nothing ever
+     reaches Google Forms even though the file on GitHub is correct.
+     Force a fresh origin fetch every time with a cache-busting query
+     param + cache:'no-store'. */
   async function fetchFile(path) {
     try {
-      const r = await fetch(RAW(path));
+      const bust = `${path.includes('?') ? '&' : '?'}_=${Date.now()}`;
+      const r = await fetch(RAW(path) + bust, { cache: 'no-store' });
       if (!r.ok) return { data: {}, body: '' };
       return parseFM(await r.text());
     } catch (e) {
@@ -284,6 +295,13 @@ const CMS = (() => {
         }
       };
 
+      // Surface misconfiguration instead of failing silently — a
+      // missing url here means sendCard() will skip the POST while
+      // still showing the success state to the reader.
+      Object.entries(window.__craftiesForms).forEach(([key, cfg]) => {
+        if (!cfg.url) console.warn(`[CMS] __craftiesForms.${key}.url is empty — check form_${key}_url in social.md`);
+      });
+
       return data;
     },
 
@@ -376,6 +394,29 @@ const CMS = (() => {
         data.inkitt_url    && `<a href="${esc(data.inkitt_url)}" target="_blank" rel="noopener noreferrer" class="read-link">🔗 Inkitt</a>`
       ].filter(Boolean).join('');
 
+      const timelineHTML = Array.isArray(data.timeline) && data.timeline.length ? `
+        <div class="timeline-block">
+          <span class="timeline-label">Story Timeline</span>
+          <div class="timeline-list">
+            ${data.timeline.map(t => `<div class="timeline-item">${esc(t.event || t)}</div>`).join('')}
+          </div>
+        </div>` : '';
+
+      const galleryHTML = Array.isArray(data.gallery) && data.gallery.length ? `
+        <div class="book-gallery-block">
+          <span class="book-gallery-label">Book Gallery</span>
+          <div class="book-gallery-grid">
+            ${data.gallery.map(g => {
+              const src = g.image || g;
+              const caption = g.caption || '';
+              return `<div class="book-gallery-item">
+                <img src="${esc(IMG(src))}" alt="${esc(caption || (data.title || 'Book') + ' gallery image')}" loading="lazy">
+                ${caption ? `<span class="book-gallery-caption">${esc(caption)}</span>` : ''}
+              </div>`;
+            }).join('')}
+          </div>
+        </div>` : '';
+
       const quotes = Array.isArray(data.quotes) && data.quotes.length ? data.quotes : null;
       const quotesHTML = quotes ? `
         <div class="quotes-block">
@@ -422,6 +463,8 @@ const CMS = (() => {
               ${(tags || tropes) ? `<div class="tag-row">${tags}${tropes}</div>` : ''}
               ${synopsisHTML}
               ${links ? `<div class="reading-links">${links}</div>` : ''}
+              ${timelineHTML}
+              ${galleryHTML}
               ${quotesHTML}
               ${leads}
             </div>
