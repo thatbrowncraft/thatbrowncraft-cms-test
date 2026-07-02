@@ -15,7 +15,9 @@ trivia: []
 theme_song: ''
 playlist_url: ''
 relationship_map: ''
-gallery: []
+gallery:
+  - image: /images/IMG_20250201_134750_493.jpg
+    caption: ''
 ---
 
 Anjana is sunshine disguised as a person. Cheerful, affectionate, endlessly optimistic, and hopelessly addicted to fast food, she has a habit of making every room brighter simply by walking into it. Her warmth naturally draws people toward her, and her genuine kindness becomes the heart of every relationship she builds.
