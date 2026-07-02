@@ -14,8 +14,10 @@ dislikes: []
 trivia: []
 theme_song: ''
 playlist_url: ''
-relationship_map: ''
-gallery: []
+relationship_map: /images/IMG_20250201_135208_880.jpg
+gallery:
+  - image: /images/IMG_20250201_140025_037.jpg
+    caption: ''
 ---
 
 Hriday is the definition of discipline. A brilliant businessman with a sharp mind, intimidating presence, and naturally grumpy personality, he rarely lets emotions interfere with his decisions. To the world, he appears cold and impossible to read.
