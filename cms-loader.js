@@ -138,6 +138,30 @@ const CMS = (() => {
   }
 
   /* ── helpers ── */
+
+  /* Google Forms only accepts a silent POST at its .../formResponse
+     endpoint. Authors naturally paste either the shortened forms.gle
+     link or the full "Send" link ending in /viewform — neither one
+     is postable as-is. Auto-upgrade /viewform → /formResponse so the
+     author never has to know that endpoint exists.
+
+     forms.gle can't be fixed here: it's a cross-origin redirect and
+     the browser won't hand back the real destination URL (no CORS,
+     opaque redirect, no readable Location header). If one shows up,
+     warn clearly and skip the submission rather than silently
+     POSTing to a link that will just drop the data. */
+  function toFormResponseUrl(url) {
+    if (!url) return '';
+    const clean = url.trim().split('?')[0];
+    if (/\/formResponse\/?$/.test(clean)) return clean;
+    if (/\/viewform\/?$/.test(clean)) return clean.replace(/\/viewform\/?$/, '/formResponse');
+    if (/forms\.gle\//.test(clean)) {
+      console.warn(`[CMS] "${url}" is a shortened forms.gle link — Google Forms won't accept a silent submission at that address. Open the form → Send → copy the full link (ends in /viewform) into social.md instead.`);
+      return '';
+    }
+    return clean;
+  }
+
   function esc(s) {
     return (s ?? '').toString()
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -230,7 +254,7 @@ const CMS = (() => {
       // Each field shows up as entry.XXXXXXXXXX in the URL.
       window.__craftiesForms = {
         postcard: {
-          url: data.form_postcard_url || '',
+          url: toFormResponseUrl(data.form_postcard_url),
           fields: {
             name:     data.form_postcard_entry_name     || '',
             category: data.form_postcard_entry_category || '',
@@ -240,7 +264,7 @@ const CMS = (() => {
           }
         },
         review: {
-          url: data.form_review_url || '',
+          url: toFormResponseUrl(data.form_review_url),
           fields: {
             review:  data.form_review_entry_review  || '',
             name:    data.form_review_entry_name    || '',
@@ -249,7 +273,7 @@ const CMS = (() => {
           }
         },
         fanart: {
-          url: data.form_fanart_url || '',
+          url: toFormResponseUrl(data.form_fanart_url),
           fields: {
             name:     data.form_fanart_entry_name     || '',
             platform: data.form_fanart_entry_platform || '',

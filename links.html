@@ -175,6 +175,14 @@ section,nav,footer{position:relative;z-index:1}
 
 const RAW_LINKS = 'https://raw.githubusercontent.com/thatbrowncraft/thatbrowncraft-cms-test/main/content/settings/links.md';
 
+/* CMS image fields store root-relative paths like "/images/qr/scan.png"
+   (public_folder). That breaks on GitHub Pages project sites, where "/"
+   resolves to the domain root, not the repo subpath. Same fix cms-loader.js
+   already applies to every other image on the site — links.html just
+   never had it because it fetches links.md on its own instead of going
+   through cms-loader.js. */
+const resolveImg = path => path ? `https://raw.githubusercontent.com/thatbrowncraft/thatbrowncraft-cms-test/main/public${path}` : '';
+
 function parseFrontmatterLinks(text) {
   const match = text.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return {};
@@ -227,7 +235,7 @@ function renderQR(data) {
   const card = document.getElementById('qrCard');
   if (data.qr_show === false) { card.style.display = 'none'; return; }
   card.innerHTML = data.qr_image
-    ? `<img class="qr-image" src="${data.qr_image}" alt="QR Code — thatbrowncraft">
+    ? `<img class="qr-image" src="${resolveImg(data.qr_image)}" alt="QR Code — thatbrowncraft">
        <span class="qr-label">${data.qr_label || 'Scan to find the whole universe.'}</span>
        <span class="qr-sub">thatbrowncraft — everywhere</span>`
     : `<div class="qr-placeholder">Upload your QR code from the dashboard</div>
