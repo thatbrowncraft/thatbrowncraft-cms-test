@@ -180,6 +180,35 @@ const CMS = (() => {
   function slugify(s) {
     return (s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
+  function normalizeName(s) {
+    return (s || '').toString().toLowerCase().trim().replace(/\s+/g, ' ');
+  }
+  /* Matches a book's character_leads name against the published
+     Characters collection. Tries, in order:
+       1. exact name match (case/whitespace-insensitive)
+       2. exact slug match (handles punctuation differences)
+       3. substring match either direction (handles a book listing
+          a short form like "Hriday" against a full character
+          entry named "Hriday Singh Rajvansh")
+     Returns the matching character's data object, or null. */
+  function findCharacterMatch(leadName, characters) {
+    if (!leadName || !Array.isArray(characters) || !characters.length) return null;
+    const key = normalizeName(leadName);
+    if (!key) return null;
+
+    let found = characters.find(c => normalizeName(c.name) === key);
+    if (found) return found;
+
+    const leadSlug = slugify(leadName);
+    found = characters.find(c => slugify(c.name) === leadSlug);
+    if (found) return found;
+
+    found = characters.find(c => {
+      const cName = normalizeName(c.name);
+      return cName && (cName.includes(key) || key.includes(cName));
+    });
+    return found || null;
+  }
   function stars(n) {
     const full = Math.min(parseInt(n) || 5, 5);
     return '★'.repeat(full) + '☆'.repeat(5 - full);
@@ -321,16 +350,13 @@ const CMS = (() => {
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (b.data.published_at || '').localeCompare(a.data.published_at || ''));
 
-      /* Map published characters by normalized name so a book's
-         character_leads (plain name strings) can be matched to the
-         real Character CMS entry and its uploaded illustration. */
-      const characterByName = {};
-      characterEntries
+      /* Published characters, kept as plain data objects so a book's
+         character_leads names can be fuzzy-matched (see
+         findCharacterMatch) to the real Character CMS entry and its
+         uploaded illustration — not just an exact string match. */
+      const publishedCharacters = characterEntries
         .filter(c => c.data.status === 'published')
-        .forEach(c => {
-          const key = (c.data.name || '').toLowerCase().trim();
-          if (key) characterByName[key] = c.data;
-        });
+        .map(c => c.data);
 
       const featured = published.find(e => e.data.is_featured) || published[0];
 
@@ -347,7 +373,7 @@ const CMS = (() => {
           el.innerHTML = '<p class="cms-empty">No books published yet. Add one from the Author Dashboard.</p>';
           return;
         }
-        el.innerHTML = published.map((e) => this._bookEntryHTML(e, characterByName)).join(
+        el.innerHTML = published.map((e) => this._bookEntryHTML(e, publishedCharacters)).join(
           '<div class="book-separator" aria-hidden="true"></div>'
         );
         this._initBookQuoteCarousels(published);
@@ -390,7 +416,7 @@ const CMS = (() => {
         </div>`;
     },
 
-    _bookEntryHTML({ data, body }, characterByName = {}) {
+    _bookEntryHTML({ data, body }, publishedCharacters = []) {
       const cover = data.cover_image
         ? `<img src="${esc(IMG(data.cover_image))}" alt="${esc(data.title)} cover" style="width:100%;height:100%;object-fit:cover">`
         : `<div class="cover-ph"><span class="cover-ph-icon">📕</span><span class="cover-ph-title">${esc(data.title)}</span>${data.series_number ? `<span class="cover-ph-series">${esc(data.series_number)}</span>` : ''}</div>`;
@@ -454,11 +480,16 @@ const CMS = (() => {
           <div class="char-tile-row">
             ${data.character_leads.map(c => {
               const name = c.name || c;
-              const match = characterByName[(name || '').toLowerCase().trim()];
+              const match = findCharacterMatch(name, publishedCharacters);
               const thumb = match && match.illustration
                 ? `<img src="${esc(IMG(match.illustration))}" alt="${esc(name)}" style="width:100%;height:100%;object-fit:cover">`
                 : '🌸';
-              return `<a href="characters.html#card-${esc(slugify(name))}" class="char-tile">
+              /* Link using the matched character's own name so the
+                 anchor always lands on the right card, even when the
+                 book listed a short form (e.g. "Hriday" vs the full
+                 character entry "Hriday Singh Rajvansh"). */
+              const linkSlug = slugify(match ? match.name : name);
+              return `<a href="characters.html#card-${esc(linkSlug)}" class="char-tile">
                 <div class="char-tile-img">${thumb}</div>
                 <span class="char-tile-name">${esc(name)}</span>
               </a>`;
