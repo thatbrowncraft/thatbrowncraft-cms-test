@@ -20,7 +20,7 @@ backend:
   name: github
   repo: thatbrowncraft/thatbrowncraft-cms-test
   branch: main
-  base_url: https://that-browncraft.workers.dev
+  base_url: PASTE_YOUR_WORKER_URL_HERE
   commit_messages:
     create: "✦ New {{collection}}: {{slug}}"
     update: "✦ Updated {{collection}}: {{slug}}"
@@ -31,9 +31,14 @@ backend:
 media_folder: "public/images"
 public_folder: "/images"
 
-# Editorial workflow — Draft → In Review → Published stages
-# (supported by Sveltia CMS; does not affect backend/auth)
-publish_mode: editorial_workflow
+# NOTE: publish_mode: editorial_workflow was removed.
+# Sveltia CMS does not yet reliably commit media/asset uploads
+# while an editorial workflow draft status is active — the upload
+# request fails silently and the picker just resets with no file
+# committed. Text entries save fine, which is why this only
+# showed up as an image upload problem. Entries now save straight
+# to `main`. Use each collection's existing Status field
+# (Draft/Published) to control what's visible on the live site.
 
 site_url: https://thatbrowncraft.github.io/thatbrowncraft-cms-test
 display_url: https://thatbrowncraft.github.io/thatbrowncraft-cms-test
