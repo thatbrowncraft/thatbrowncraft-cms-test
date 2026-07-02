@@ -910,8 +910,7 @@ const CMS = (() => {
       const has = attr => !!document.querySelector(`[data-cms="${attr}"]`);
       const jobs = [];
 
-      if (has('social-pills') || has('form-crafties') || has('form-reviews') ||
-          has('form-fanart')  || has('form-contact'))
+      // Global site settings
         jobs.push(this.loadSocial());
 
       if (has('books-featured-shelf') || has('books-list'))
