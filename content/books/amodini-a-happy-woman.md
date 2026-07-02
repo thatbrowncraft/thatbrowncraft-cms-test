@@ -39,7 +39,8 @@ character_leads:
 wattpad_url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
 kindle_url: https://a.co/d/8R05JHj
 paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
-inkitt_url: ''
+inkitt_url: https://www.inkitt.com/stories/1393318
+stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
 gallery: []
 published_at: 2025-06-14T16:45
 ---
