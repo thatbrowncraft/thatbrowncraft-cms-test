@@ -1082,6 +1082,8 @@ function openModal(type) {
   var sent = document.getElementById('pc-sent-' + type);
   if (card) { card.classList.remove('flipped'); card.style.display = 'block'; }
   if (sent) { sent.style.display = 'none'; }
+  var errorEl = document.getElementById('pc-error-' + type);
+  if (errorEl) errorEl.style.display = 'none';
   // clear fields
   var msgEl = document.getElementById('msg-' + type);
   var nameEl = document.getElementById('name-' + type);
@@ -1105,12 +1107,49 @@ function flipCard(type) {
 // SEND — silently POSTs to Google Forms via no-cors fetch
 // window.__craftiesForms is populated by cms-loader.js loadSocial()
 // Each key holds { url, fields: { fieldName: 'entry.XXXXXXXXX' } }
-// If the CMS hasn't loaded the form config yet, we still show the
-// success state — the submission is best-effort fire-and-forget.
-function sendCard(type) {
+//
+// cms-loader.js loads as a deferred script and builds this config via
+// an async fetch — if someone clicks Send before that fetch resolves,
+// window.__craftiesForms would be undefined and the submission would
+// get silently skipped. This function awaits window.__craftiesFormsReady
+// first (capped at 6s) so a fast click doesn't lose that race.
+//
+// The success card is only shown once a real fetch() has actually been
+// dispatched. On any failure (bad/missing form URL, config not ready,
+// nothing to send) a visible on-page message is shown instead — a
+// console.warn alone is invisible on a phone with no devtools access.
+function ensureFormErrorEl(type) {
+  var id = 'pc-error-' + type;
+  var existing = document.getElementById(id);
+  if (existing) return existing;
+  var sendBtn = document.querySelector('#pc-back-' + type + ' .pc-send-btn');
+  if (!sendBtn) return null;
+  var el = document.createElement('p');
+  el.id = id;
+  el.style.cssText = "display:none;margin-top:.6rem;font-family:'Lato',sans-serif;font-size:.66rem;line-height:1.5;color:#c0796a;text-align:center";
+  sendBtn.insertAdjacentElement('afterend', el);
+  return el;
+}
+
+async function sendCard(type) {
+  var sendBtn = document.querySelector('#pc-back-' + type + ' .pc-send-btn');
+  var errorEl = ensureFormErrorEl(type);
+  if (errorEl) errorEl.style.display = 'none';
+
+  // Give the CMS config up to 6s to finish loading if it hasn't yet —
+  // covers the case where someone opens a modal and hits Send before
+  // cms-loader.js's fetch to social.md has resolved.
+  if (!window.__craftiesForms) {
+    if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = 'Sending…'; }
+    await Promise.race([
+      window.__craftiesFormsReady || Promise.resolve(),
+      new Promise(function (res) { setTimeout(res, 6000); })
+    ]);
+    if (sendBtn) { sendBtn.disabled = false; }
+  }
+
   var cfg = (window.__craftiesForms || {})[type] || null;
   var params = new URLSearchParams();
-  var valid = true;
 
   if (type === 'postcard') {
     var msg = document.getElementById('msg-postcard').value.trim();
@@ -1185,60 +1224,40 @@ function sendCard(type) {
     }
   }
 
-  // Fire and forget was the old behavior — but that's exactly what's
-  // been making Postcard/Fan Art indistinguishable from a real success
-  // with no DevTools available to check. A no-cors fetch gives an
-  // OPAQUE response, so we can never read Google's status code or
-  // body — but the PROMISE ITSELF is still meaningful:
-  //   - it RESOLVES once the request actually reaches a server and
-  //     gets any response back (even an error page) — that's the most
-  //     confirmation a no-cors request can ever give us, and it's
-  //     real information, unlike showing success no matter what.
-  //   - it REJECTS only if the request never reached a server at all
-  //     — blocked by the browser, no network, bad URL, mixed content,
-  //     CSP, etc. That is a genuine, code-visible failure.
-  // Wiring the success/failure UI to this promise, instead of firing
-  // both unconditionally, is the actual bug fix: it makes the two
-  // failure modes ("Google rejected it" vs "it never left the phone")
-  // visible in the UI itself on the very next test, with no console
-  // or network tab required.
-  var card = document.getElementById('pc-card-' + type);
-  var sent = document.getElementById('pc-sent-' + type);
+  // A submission only counts as "sent" if there's a real, resolved
+  // form URL and at least one field to send. Anything else means the
+  // reader's data never left the browser — the UI below now reflects
+  // that honestly instead of always claiming success.
+  var canSend = !!(cfg && cfg.url && params.toString());
 
-  function showSent() {
-    if (card) card.style.display = 'none';
-    if (sent) sent.style.display = 'block';
-  }
-
-  function showSendFailure(reason) {
-    console.warn('[Crafties] "' + type + '" never reached a server:', reason);
-    var btn = document.querySelector('#pc-back-' + type + ' .pc-send-btn');
-    if (btn) {
-      var original = btn.textContent;
-      btn.disabled = false;
-      btn.textContent = 'Couldn\u2019t send \u2014 check connection, tap to retry';
-      btn.style.opacity = '0.75';
-      setTimeout(function() {
-        btn.textContent = original;
-        btn.style.opacity = '';
-      }, 5000);
-    }
-  }
-
-  if (cfg && cfg.url && params.toString()) {
+  if (canSend) {
+    // Fire and forget — no-cors means we can never read the response,
+    // so we show success once the request is dispatched and let the
+    // POST run in the background.
     fetch(cfg.url, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString()
-    }).then(function() {
-      showSent();
-    }).catch(function(err) {
-      showSendFailure(err);
+    }).catch(function() {
+      // Silently swallow — no-cors throws on network failure but
+      // Google Forms still receives the submission in most cases.
     });
+
+    var card = document.getElementById('pc-card-' + type);
+    var sent = document.getElementById('pc-sent-' + type);
+    if (card) card.style.display = 'none';
+    if (sent) sent.style.display = 'block';
+
   } else {
+    // Nothing was sent. Surface this on-screen — console.warn alone
+    // is invisible without devtools, which is exactly the situation
+    // on mobile. The card stays open so the reader can try again.
     console.warn('[Crafties] "' + type + '" submission skipped — window.__craftiesForms.' + type + ' has no url/fields yet.', cfg);
-    showSendFailure('missing form config');
+    if (errorEl) {
+      errorEl.textContent = "That didn't go through — please try again in a moment. If it keeps happening, reach out to the author directly.";
+      errorEl.style.display = 'block';
+    }
   }
 }
 

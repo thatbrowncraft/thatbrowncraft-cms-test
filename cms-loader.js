@@ -12,6 +12,14 @@
 
 const CMS = (() => {
 
+  // Resolved once loadSocial() finishes building window.__craftiesForms.
+  // sendCard() in crafties.html awaits this (with a timeout) instead of
+  // reading window.__craftiesForms cold — a click that lands before this
+  // deferred script has finished its fetch would otherwise see an empty
+  // config and silently skip the submission.
+  let _resolveFormsReady;
+  window.__craftiesFormsReady = new Promise(resolve => { _resolveFormsReady = resolve; });
+
   const USER   = 'thatbrowncraft';
   const REPO   = 'thatbrowncraft-cms-test';
   const BRANCH = 'main';
@@ -163,14 +171,25 @@ const CMS = (() => {
      POSTing to a link that will just drop the data. */
   function toFormResponseUrl(url) {
     if (!url) return '';
-    const clean = url.trim().split('?')[0];
+    const clean = url.trim().split('?')[0].split('#')[0];
     if (/\/formResponse\/?$/.test(clean)) return clean;
     if (/\/viewform\/?$/.test(clean)) return clean.replace(/\/viewform\/?$/, '/formResponse');
     if (/forms\.gle\//.test(clean)) {
       console.warn(`[CMS] "${url}" is a shortened forms.gle link — Google Forms won't accept a silent submission at that address. Open the form → Send → copy the full link (ends in /viewform) into social.md instead.`);
       return '';
     }
-    return clean;
+    // Anything else — an /edit link (the address bar URL while editing
+    // the form), a bare form ID, a typo, a non-Forms URL — was
+    // previously returned as-is here. sendCard() would then fire a
+    // real fetch() at that address. Because the request runs in
+    // mode:'no-cors', the browser can never report that failure: no
+    // console error, no thrown exception, nothing. The reader (and
+    // the author testing it) sees "sent" while Google never received
+    // a submission at all. Reject it the same way forms.gle is
+    // rejected, instead of forwarding a URL that was never a valid
+    // submission endpoint.
+    console.warn(`[CMS] "${url}" doesn't look like a Google Forms /viewform or /formResponse link — check this URL in social.md. Open the form → click Send → copy the link icon URL (it should end in /viewform).`);
+    return '';
   }
 
   function esc(s) {
@@ -330,6 +349,8 @@ const CMS = (() => {
       Object.entries(window.__craftiesForms).forEach(([key, cfg]) => {
         if (!cfg.url) console.warn(`[CMS] __craftiesForms.${key}.url is empty — check form_${key}_url in social.md`);
       });
+
+      _resolveFormsReady();
 
       return data;
     },
