@@ -19,7 +19,7 @@ letter_body: |-
 
   Every story here belongs as much to you as it does to me.
 
-  Welcome home.
+  Welcome home.🤍
 letter_sign_name: Thatbrowncraft
 ---
 
