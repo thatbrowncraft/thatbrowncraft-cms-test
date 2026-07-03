@@ -10,7 +10,7 @@ about_hero_quote: Some stories become books. Some stories become homes.
 about_hero_sub: This is the corner where stories live, breathe, and occasionally refuse to end.
 letter_show: true
 letter_salutation: Dear Crafties,
-letter_body: ''
+letter_body: Welcome home, crafties.
 letter_sign_name: Thatbrowncraft
 ---
 
