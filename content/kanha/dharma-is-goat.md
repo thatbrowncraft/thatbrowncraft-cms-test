@@ -1,9 +1,9 @@
 ---
-title: Dharma is GOAT
+title: Dharma above all
 entry_type: reflection
 status: published
 is_featured: false
-display_order: 3
+display_order: 4
 gita_chapter: 4
 chapter_name: Jnana Yoga
 sanskrit_text: Yada yada hi dharmasya glanir bhavati bharata
