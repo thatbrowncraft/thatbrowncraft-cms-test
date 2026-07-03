@@ -1,5 +1,5 @@
 ---
-title: Karna kar
+title: Karma kar
 entry_type: verse
 status: published
 is_featured: false
