@@ -4,7 +4,7 @@ entry_type: reflection
 status: published
 is_featured: false
 display_order: 3
-gita_chapter: 3
+gita_chapter: 4
 chapter_name: Jnana Yoga
 sanskrit_text: Yada yada hi dharmasya glanir bhavati bharata
 english_meaning: Whenever dharma declines, I arise.
