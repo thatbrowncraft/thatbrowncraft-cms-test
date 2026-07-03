@@ -158,40 +158,6 @@ const CMS = (() => {
 
   /* ── helpers ── */
 
-  /* Google Forms only accepts a silent POST at its .../formResponse
-     endpoint. Authors naturally paste either the shortened forms.gle
-     link or the full "Send" link ending in /viewform — neither one
-     is postable as-is. Auto-upgrade /viewform → /formResponse so the
-     author never has to know that endpoint exists.
-
-     forms.gle can't be fixed here: it's a cross-origin redirect and
-     the browser won't hand back the real destination URL (no CORS,
-     opaque redirect, no readable Location header). If one shows up,
-     warn clearly and skip the submission rather than silently
-     POSTing to a link that will just drop the data. */
-  function toFormResponseUrl(url) {
-    if (!url) return '';
-    const clean = url.trim().split('?')[0].split('#')[0];
-    if (/\/formResponse\/?$/.test(clean)) return clean;
-    if (/\/viewform\/?$/.test(clean)) return clean.replace(/\/viewform\/?$/, '/formResponse');
-    if (/forms\.gle\//.test(clean)) {
-      console.warn(`[CMS] "${url}" is a shortened forms.gle link — Google Forms won't accept a silent submission at that address. Open the form → Send → copy the full link (ends in /viewform) into social.md instead.`);
-      return '';
-    }
-    // Anything else — an /edit link (the address bar URL while editing
-    // the form), a bare form ID, a typo, a non-Forms URL — was
-    // previously returned as-is here. sendCard() would then fire a
-    // real fetch() at that address. Because the request runs in
-    // mode:'no-cors', the browser can never report that failure: no
-    // console error, no thrown exception, nothing. The reader (and
-    // the author testing it) sees "sent" while Google never received
-    // a submission at all. Reject it the same way forms.gle is
-    // rejected, instead of forwarding a URL that was never a valid
-    // submission endpoint.
-    console.warn(`[CMS] "${url}" doesn't look like a Google Forms /viewform or /formResponse link — check this URL in social.md. Open the form → click Send → copy the link icon URL (it should end in /viewform).`);
-    return '';
-  }
-
   function esc(s) {
     return (s ?? '').toString()
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -287,68 +253,29 @@ const CMS = (() => {
         });
       });
 
-      // ── Google Forms silent submission config ────────────────────────
-      // The author adds these fields to content/settings/social.md:
+      // ── Crafties Post Office submission config ────────────────────────
+      // Postcard, Review, and Fan Art all POST straight to one Google
+      // Apps Script Web App (deployed from the destination Sheet), not
+      // to Google Forms. The author adds ONE field to
+      // content/settings/social.md:
       //
-      //   form_postcard_url:          "https://docs.google.com/forms/d/e/XXXX/formResponse"
-      //   form_postcard_entry_message: "entry.1234567890"
-      //   form_postcard_entry_name:    "entry.0987654321"
-      //   form_postcard_entry_category:"entry.1122334455"
+      //   google_sheets_webapp_url: "https://script.google.com/macros/s/XXXX/exec"
       //
-      //   form_review_url:             "https://docs.google.com/forms/d/e/XXXX/formResponse"
-      //   form_review_entry_review:    "entry.XXXXXXXXXX"
-      //   form_review_entry_name:      "entry.XXXXXXXXXX"
-      //   form_review_entry_rating:    "entry.XXXXXXXXXX"
-      //   form_review_entry_spoiler:   "entry.XXXXXXXXXX"
-      //
-      //   form_fanart_url:             "https://docs.google.com/forms/d/e/XXXX/formResponse"
-      //   form_fanart_entry_name:      "entry.XXXXXXXXXX"
-      //   form_fanart_entry_platform:  "entry.XXXXXXXXXX"
-      //   form_fanart_entry_subject:   "entry.XXXXXXXXXX"
-      //   form_fanart_entry_link:      "entry.XXXXXXXXXX"
-      //   form_fanart_entry_note:      "entry.XXXXXXXXXX"
-      //
-      // To find entry IDs: open your Google Form → click the ⋮ menu →
-      // "Get pre-filled link" → fill in dummy values → copy the link.
-      // Each field shows up as entry.XXXXXXXXXX in the URL.
+      // No per-field entry IDs needed — the script reads whatever plain
+      // field names sendCard() sends (name, message, category, etc.)
+      // directly off e.parameter, and a "formType" field tells it which
+      // sheet tab to append the row to. See Code.gs for the script.
       window.__craftiesForms = {
-        postcard: {
-          url: toFormResponseUrl(data.form_postcard_url),
-          fields: {
-            name:     data.form_postcard_entry_name     || '',
-            category: data.form_postcard_entry_category || '',
-            message:  data.form_postcard_entry_message  || '',
-            reply:    data.form_postcard_entry_reply    || '',
-            email:    data.form_postcard_entry_email    || ''
-          }
-        },
-        review: {
-          url: toFormResponseUrl(data.form_review_url),
-          fields: {
-            review:  data.form_review_entry_review  || '',
-            name:    data.form_review_entry_name    || '',
-            rating:  data.form_review_entry_rating  || '',
-            spoiler: data.form_review_entry_spoiler || ''
-          }
-        },
-        fanart: {
-          url: toFormResponseUrl(data.form_fanart_url),
-          fields: {
-            name:     data.form_fanart_entry_name     || '',
-            platform: data.form_fanart_entry_platform || '',
-            subject:  data.form_fanart_entry_subject  || '',
-            link:     data.form_fanart_entry_link     || '',
-            note:     data.form_fanart_entry_note     || ''
-          }
-        }
+        webAppUrl: (data.google_sheets_webapp_url || '').trim()
       };
 
       // Surface misconfiguration instead of failing silently — a
       // missing url here means sendCard() will skip the POST while
-      // still showing the success state to the reader.
-      Object.entries(window.__craftiesForms).forEach(([key, cfg]) => {
-        if (!cfg.url) console.warn(`[CMS] __craftiesForms.${key}.url is empty — check form_${key}_url in social.md`);
-      });
+      // still telling the reader (via the on-page error message,
+      // not just this console line) that nothing was sent.
+      if (!window.__craftiesForms.webAppUrl) {
+        console.warn('[CMS] google_sheets_webapp_url is empty — check content/settings/social.md. Postcard, Review, and Fan Art submissions will not work until this is set.');
+      }
 
       _resolveFormsReady();
 

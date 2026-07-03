@@ -1104,9 +1104,12 @@ function flipCard(type) {
   if (card) card.classList.toggle('flipped');
 }
 
-// SEND — silently POSTs to Google Forms via no-cors fetch
-// window.__craftiesForms is populated by cms-loader.js loadSocial()
-// Each key holds { url, fields: { fieldName: 'entry.XXXXXXXXX' } }
+// SEND — silently POSTs to a Google Apps Script Web App, which writes
+// the row straight into the destination Google Sheet.
+// window.__craftiesForms.webAppUrl is populated by cms-loader.js's
+// loadSocial() from content/settings/social.md's google_sheets_webapp_url
+// field. One URL handles all three forms — a "formType" field on every
+// submission tells the script which sheet tab to append to.
 //
 // cms-loader.js loads as a deferred script and builds this config via
 // an async fetch — if someone clicks Send before that fetch resolves,
@@ -1115,7 +1118,7 @@ function flipCard(type) {
 // first (capped at 6s) so a fast click doesn't lose that race.
 //
 // The success card is only shown once a real fetch() has actually been
-// dispatched. On any failure (bad/missing form URL, config not ready,
+// dispatched. On any failure (missing web app URL, config not ready,
 // nothing to send) a visible on-page message is shown instead — a
 // console.warn alone is invisible on a phone with no devtools access.
 function ensureFormErrorEl(type) {
@@ -1145,103 +1148,79 @@ async function sendCard(type) {
       window.__craftiesFormsReady || Promise.resolve(),
       new Promise(function (res) { setTimeout(res, 6000); })
     ]);
-    if (sendBtn) { sendBtn.disabled = false; }
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = sendBtn.dataset.label || sendBtn.textContent; }
   }
 
-  var cfg = (window.__craftiesForms || {})[type] || null;
+  var webAppUrl = ((window.__craftiesForms || {}).webAppUrl || '').trim();
   var params = new URLSearchParams();
+  params.append('formType', type);
 
   if (type === 'postcard') {
     var msg = document.getElementById('msg-postcard').value.trim();
     if (!msg) { document.getElementById('msg-postcard').focus(); return; }
-    if (cfg) {
-      var f = cfg.fields || {};
-      var nameVal  = document.getElementById('name-postcard').value.trim();
-      var emailVal = document.getElementById('email-postcard').value.trim();
-      if (f.name && nameVal) params.append(f.name, nameVal);
-      if (f.category) params.append(f.category, document.getElementById('cat-postcard').value);
-      if (f.message)  params.append(f.message,  msg);
-      if (f.reply) {
-        var replyVal = document.querySelector('input[name="postcard-reply"]:checked');
-        params.append(f.reply, replyVal ? replyVal.value : 'No');
-      }
-      // "email" is an HTML5 email-typed field — the live Google
-      // question behind it is almost certainly format-validated
-      // (Response validation -> "Email address"). Google rejects the
-      // WHOLE response if a non-empty value is submitted that doesn't
-      // parse as an email — a placeholder like "Not provided" fails
-      // that check just as badly as garbage input would. Only ever
-      // send a real value; omit the param entirely when blank so an
-      // optional, unanswered question stays valid.
-      if (f.email && emailVal) params.append(f.email, emailVal);
-    }
+    var nameVal  = document.getElementById('name-postcard').value.trim();
+    var emailVal = document.getElementById('email-postcard').value.trim();
+    var replyVal = document.querySelector('input[name="postcard-reply"]:checked');
+    params.append('message', msg);
+    if (nameVal)  params.append('name', nameVal);
+    params.append('category', document.getElementById('cat-postcard').value);
+    params.append('reply', replyVal ? replyVal.value : 'No');
+    if (emailVal) params.append('email', emailVal);
 
   } else if (type === 'review') {
     var rv = document.getElementById('msg-review').value.trim();
     if (!rv) { document.getElementById('msg-review').focus(); return; }
-    if (cfg) {
-      var f2 = cfg.fields || {};
-      if (f2.review)   params.append(f2.review,   rv);
-      if (f2.name)     params.append(f2.name,     document.getElementById('name-review').value.trim());
-      if (f2.rating)   params.append(f2.rating,   String(selectedRating || 0));
-      if (f2.spoiler)  params.append(f2.spoiler,  document.getElementById('spoiler-check').checked ? 'Yes' : 'No');
-    }
+    params.append('review', rv);
+    params.append('name', document.getElementById('name-review').value.trim());
+    params.append('rating', String(selectedRating || 0));
+    params.append('spoiler', document.getElementById('spoiler-check').checked ? 'Yes' : 'No');
 
   } else if (type === 'fanart') {
-    if (cfg) {
-      var f3 = cfg.fields || {};
-      var nameVal3     = document.getElementById('name-fanart').value.trim();
-      var platformVal3 = document.getElementById('platform-fanart').value.trim();
-      var subjectVal3  = document.getElementById('subject-fanart').value.trim();
-      var linkVal3     = document.getElementById('link-fanart').value.trim();
-      var noteVal3     = document.getElementById('note-fanart').value.trim();
-      var fileVal3     = document.getElementById('file-fanart').files[0];
+    var nameVal3     = document.getElementById('name-fanart').value.trim();
+    var platformVal3 = document.getElementById('platform-fanart').value.trim();
+    var subjectVal3  = document.getElementById('subject-fanart').value.trim();
+    var linkVal3     = document.getElementById('link-fanart').value.trim();
+    var noteVal3     = document.getElementById('note-fanart').value.trim();
+    var fileVal3     = document.getElementById('file-fanart').files[0];
 
-      if (f3.name && nameVal3)         params.append(f3.name, nameVal3);
-      if (f3.platform && platformVal3) params.append(f3.platform, platformVal3);
-      if (f3.subject && subjectVal3)   params.append(f3.subject, subjectVal3);
+    if (nameVal3)     params.append('name', nameVal3);
+    if (platformVal3) params.append('platform', platformVal3);
+    if (subjectVal3)  params.append('subject', subjectVal3);
+    if (linkVal3)     params.append('link', linkVal3);
 
-      // "link" is an HTML5 url-typed field — the live Google question
-      // is almost certainly format-validated (Response validation ->
-      // "URL"). Google rejects the WHOLE response if a non-empty
-      // value is submitted that isn't a valid URL — a placeholder or
-      // "file attached" note fails that check just like garbage input
-      // would. Only ever send it when it's an actual URL the reader
-      // typed; omit the param entirely otherwise.
-      if (f3.link && linkVal3) params.append(f3.link, linkVal3);
-
-      // File uploads can't travel through a no-cors fetch at all, and
-      // the modal invites readers to use the upload button instead of
-      // pasting a link. Fold that context into the free-text "note"
-      // field (unconstrained, so it's safe to send) instead of trying
-      // to stuff it into the URL-validated "link" field.
-      var noteWithFile = noteVal3;
-      if (fileVal3) {
-        noteWithFile = (noteWithFile ? noteWithFile + ' ' : '') +
-          '[Attached a file in-browser, not transmitted: ' + fileVal3.name + ' — ask reader to email/DM it]';
-      }
-      if (f3.note && noteWithFile) params.append(f3.note, noteWithFile);
+    // File uploads can't travel through a no-cors fetch at all, and
+    // the modal invites readers to use the upload button instead of
+    // pasting a link. Fold that context into the free-text "note"
+    // field instead — the Apps Script doesn't validate this one, so
+    // there's no format check it could fail.
+    var noteWithFile = noteVal3;
+    if (fileVal3) {
+      noteWithFile = (noteWithFile ? noteWithFile + ' ' : '') +
+        '[Attached a file in-browser, not transmitted: ' + fileVal3.name + ' — ask reader to email/DM it]';
     }
+    if (noteWithFile) params.append('note', noteWithFile);
   }
 
-  // A submission only counts as "sent" if there's a real, resolved
-  // form URL and at least one field to send. Anything else means the
-  // reader's data never left the browser — the UI below now reflects
-  // that honestly instead of always claiming success.
-  var canSend = !!(cfg && cfg.url && params.toString());
+  // A submission only counts as "sent" if there's an actual web app
+  // URL configured and at least one real field beyond formType. Anything
+  // else means the reader's data never left the browser — the UI below
+  // now reflects that honestly instead of always claiming success.
+  var canSend = !!(webAppUrl && params.toString());
 
   if (canSend) {
-    // Fire and forget — no-cors means we can never read the response,
-    // so we show success once the request is dispatched and let the
-    // POST run in the background.
-    fetch(cfg.url, {
+    // Fire and forget. Apps Script Web Apps respond via a redirect to
+    // script.googleusercontent.com that the browser can't always read
+    // back cleanly even when the request itself succeeds server-side,
+    // so mode:'no-cors' avoids a spurious console error — same
+    // reasoning as before, just pointed at a different endpoint.
+    fetch(webAppUrl, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString()
     }).catch(function() {
-      // Silently swallow — no-cors throws on network failure but
-      // Google Forms still receives the submission in most cases.
+      // Silently swallow — no-cors can throw on network failure even
+      // when the script already ran and wrote the row.
     });
 
     var card = document.getElementById('pc-card-' + type);
@@ -1253,7 +1232,7 @@ async function sendCard(type) {
     // Nothing was sent. Surface this on-screen — console.warn alone
     // is invisible without devtools, which is exactly the situation
     // on mobile. The card stays open so the reader can try again.
-    console.warn('[Crafties] "' + type + '" submission skipped — window.__craftiesForms.' + type + ' has no url/fields yet.', cfg);
+    console.warn('[Crafties] "' + type + '" submission skipped — window.__craftiesForms.webAppUrl is empty.', webAppUrl);
     if (errorEl) {
       errorEl.textContent = "That didn't go through — please try again in a moment. If it keeps happening, reach out to the author directly.";
       errorEl.style.display = 'block';
