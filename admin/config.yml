@@ -20,7 +20,7 @@ backend:
   name: github
   repo: thatbrowncraft/thatbrowncraft-cms-test
   branch: main
-  base_url: https://that-browncraft.workers.dev
+  base_url: https://sveltia-cms-auth.that-browncraft.workers.dev
   commit_messages:
     create: "✦ New {{collection}}: {{slug}}"
     update: "✦ Updated {{collection}}: {{slug}}"
