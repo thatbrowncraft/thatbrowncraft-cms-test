@@ -7,8 +7,8 @@ display_order: 2
 gita_chapter: 2
 chapter_name: Sankhya Yoga
 sanskrit_text: Nainam chindanti shastrani, nainam dahati pavakah
-english_meaning: '"The soul cannot be cut by weapons, nor burned by fire."'
-pull_quote: '"The soul cannot be cut by weapons, nor burned by fire."'
+english_meaning: The soul cannot be cut by weapons, nor burned by fire.
+pull_quote: The soul cannot be cut by weapons, nor burned by fire.
 illustration: ''
 ---
 
