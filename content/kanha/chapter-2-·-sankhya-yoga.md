@@ -1,5 +1,5 @@
 ---
-title: Chapter 2 · Sankhya Yoga
+title: Kanha's lesson
 entry_type: life_lesson
 status: published
 is_featured: true
