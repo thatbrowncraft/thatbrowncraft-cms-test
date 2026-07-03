@@ -46,8 +46,8 @@ timeline:
   - As old wounds begin to heal, Hriday and Anjana learn that some love stories survive not because they are perfect, but because they refuse to end. Together, they embrace a future filled with hope, family, and the greatest blessing of all.
 quotes: []
 character_leads:
-  - Hriday Singh Rajvansh
   - Anjana Das
+  - Hriday Singh Rajvansh
 wattpad_url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
 kindle_url: https://a.co/d/8R05JHj
 paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
@@ -63,17 +63,8 @@ gallery:
 published_at: 2025-06-14T16:45
 ---
 
-> "𝑫𝒊𝒓𝒕𝒚, 𝒂𝒎 𝑰?"
-> ֶָ֢
-> "𝒀𝒐𝒖'𝒓𝒆 𝒂 𝒎𝒆𝒔𝒔. 𝑰 𝒄𝒂𝒏'𝒕 𝒃𝒆𝒍𝒊𝒆𝒗𝒆 𝒚𝒐𝒖 𝒕𝒉𝒐𝒖𝒈𝒉𝒕 𝒄𝒍𝒆𝒂𝒏𝒊𝒏𝒈 𝒖𝒑 𝒕𝒉𝒂𝒕 𝒐𝒍𝒅 𝒓𝒐𝒐𝒎 𝒘𝒐𝒖𝒍𝒅 𝒊𝒎𝒑𝒓𝒆𝒔𝒔 𝒂𝒏𝒚𝒐𝒏𝒆."
-> ֶָ֢ ֶָ֢
-> ⋆·˚ ༘ \*
-> ֶָ֢ ֶָ֢
-> ╰┈➤ ❝𝐇𝐫𝐢𝐝𝐚𝐲 × 𝐀𝐧𝐣𝐚𝐧𝐚❞
-> ֶָ֢
-> ֶָ֢
-> | 📕Amodini A Happy Woman
-> From the chaos of campus love to the lifetime ride of tying the knot, their story starts with love so raw it practically screamed “soulmates” in 🤌🏽.
+> 📕Amodini A Happy Woman
+> From the chaos of campus love to the lifetime ride of tying the knot, their story starts with love so raw it practically screamed “soulmates” in.
 > ֶָ֢
 > ֶָ֢
 > But hold up—the plot takes a massive turn into extra melodrama when misunderstandings creep in like unwanted notifications at 3 AM.
