@@ -1,5 +1,5 @@
 ---
-title: Body before mind
+title: Sometimes the body knows before the mind admits it.
 entry_type: verse
 status: published
 is_featured: false
@@ -7,7 +7,7 @@ display_order: 1
 gita_chapter: 1
 chapter_name: ''
 sanskrit_text: Drishtvemam svajanam krishna yuyutsum samupasthitam, sidanti mama gatrani mukham cha parishushyati
-english_meaning: “Seeing my own people standing before me, ready for war, my limbs give way, and my mouth goes dry.”
+english_meaning: Seeing my own people standing before me, ready for war, my limbs give way, and my mouth goes dry.
 pull_quote: Sometimes the body knows before the mind admits it.
 illustration: ''
 ---
