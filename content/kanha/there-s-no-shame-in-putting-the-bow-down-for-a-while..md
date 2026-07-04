@@ -3,7 +3,7 @@ title: There's no shame in putting the bow down for a while.
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 3
+display_order: 2
 gita_chapter: 1
 chapter_name: ''
 sanskrit_text: Evam uktva arjunah sankhye rathopastha upavishat, visrijya sasharam chapam shoka-samvigna-manasah
