@@ -3,7 +3,7 @@ title: Some truths are too large to soften. He didn't try to soften this one.
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 1
+display_order: 2
 gita_chapter: 11
 chapter_name: ''
 sanskrit_text: Kalo 'smi loka-kshaya-krit pravriddho lokan samahartum iha pravrittah
