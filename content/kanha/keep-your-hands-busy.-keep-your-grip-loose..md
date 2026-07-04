@@ -3,7 +3,7 @@ title: Keep your hands busy. Keep your grip loose.
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 3
+display_order: 2
 gita_chapter: 3
 chapter_name: ''
 sanskrit_text: Tasmad asaktah satatam karyam karma samachara, asakto hyacharan karma param apnoti purushah
