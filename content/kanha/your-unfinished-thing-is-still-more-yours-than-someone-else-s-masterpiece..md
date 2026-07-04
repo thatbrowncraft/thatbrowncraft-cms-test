@@ -3,7 +3,7 @@ title: Your unfinished thing is still more yours than someone else's masterpiece
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 2
+display_order: 1
 gita_chapter: 3
 chapter_name: ''
 sanskrit_text: Shreyan swadharmo vigunah paradharmat svanushthitat, swadharme nidhanam shreyah paradharmo bhayavahah
