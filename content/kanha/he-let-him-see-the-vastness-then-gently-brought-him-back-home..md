@@ -3,7 +3,7 @@ title: He let him see the vastness, then gently brought him back home.
 entry_type: reflection
 status: published
 is_featured: false
-display_order: 1
+display_order: 3
 gita_chapter: 11
 chapter_name: ''
 sanskrit_text: Ity Arjunam Vasudevas tathoktva svakam rupam darshayamasa bhuyah, ashvasayamasa cha bhitam enam bhutva punah saumya-vapur mahatma
