@@ -3,7 +3,7 @@ title: Just keep faith with the path. He notices the trying.
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 1
+display_order: 3
 gita_chapter: 12
 chapter_name: ''
 sanskrit_text: Ye tu dharmyamritam idam yathoktam paryupasate, shraddadhana mat-parama bhaktas te 'tiva me priyah
