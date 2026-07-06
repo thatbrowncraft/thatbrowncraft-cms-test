@@ -219,29 +219,62 @@ const CMS = (() => {
     });
     return found || null;
   }
-  /* ── book reading-links ──
-     Fully CMS-driven: renders a button for any *_url field that has a
-     value on the book entry. Nothing is hardcoded per-book — adding a
-     new link field in config.yml (e.g. "spotify_url") and filling it
-     in for a book makes a matching button appear automatically, no
-     code change required. LINK_META only supplies a nicer icon/label
-     for the fields we know about; any other *_url field still renders
-     with a sensible auto-generated label. */
-  const LINK_META = {
+  /* ── book reading / purchase links ──
+     Fully CMS-driven: the author adds one "Purchase / Reading Links"
+     row per platform (Amazon Kindle, Paperback, Wattpad, Pothi,
+     Goodreads, Kobo, Notion Press, Inkitt, Stck, or anything else —
+     literally any label they type) inside a book's own entry. This
+     function only ever renders what's actually in that list — no
+     platform name is hardcoded anywhere, so adding, removing, or
+     reordering platforms never requires touching this file or the
+     HTML again. PLATFORM_ICONS is purely cosmetic (a nicer default
+     emoji for common platforms if the author doesn't set one) and is
+     never required for a link to appear. */
+  const PLATFORM_ICONS = {
+    'wattpad': '📖', 'amazon kindle': '📱', 'kindle': '📱',
+    'amazon paperback': '📦', 'paperback': '📦', 'pothi': '📕',
+    'goodreads': '📚', 'kobo': '🔖', 'notion press': '📘',
+    'inkitt': '🔗', 'stck': '🔗', 'spotify': '🎵', 'website': '🌐'
+  };
+
+  /* Legacy per-field links (wattpad_url, kindle_url, etc.) — kept only
+     as a fallback so books published before the "purchase_links" list
+     field existed keep showing their buttons untouched, with zero
+     migration required. Any newly edited or created book should use
+     purchase_links instead; this map is not extended going forward. */
+  const LEGACY_LINK_META = {
     wattpad_url:   { icon: '📖', label: 'Read on Wattpad', primary: true },
     paperback_url: { icon: '📦', label: 'Paperback' },
     kindle_url:    { icon: '📱', label: 'Kindle' },
     inkitt_url:    { icon: '🔗', label: 'Inkitt' },
     stck_url:      { icon: '🔗', label: 'Stck' }
   };
+
   function renderBookLinks(data, linkClass) {
-    const knownOrder = Object.keys(LINK_META);
+    /* Preferred path: the generic purchase_links list. */
+    if (Array.isArray(data.purchase_links) && data.purchase_links.length) {
+      return data.purchase_links.map((link, i) => {
+        const url = (link && (link.url || link)) || '';
+        if (!url || typeof url !== 'string') return '';
+        const platform = (link && link.platform) || 'Read';
+        const icon = (link && link.icon) || PLATFORM_ICONS[normalizeName(platform)] || '🔗';
+        // Whichever link the author lists first is treated as the
+        // primary call-to-action button, same visual role Wattpad
+        // used to always occupy.
+        const cls = linkClass + (i === 0 ? ' primary' : '');
+        return `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="${cls}">${icon} ${esc(platform)}</a>`;
+      }).filter(Boolean).join('');
+    }
+
+    /* Fallback path: legacy individual *_url fields, for books that
+       predate purchase_links and haven't been re-saved yet. */
+    const knownOrder = Object.keys(LEGACY_LINK_META);
     const extraKeys = Object.keys(data)
       .filter(k => k.endsWith('_url') && !knownOrder.includes(k));
     return knownOrder.concat(extraKeys).map(key => {
       const url = data[key];
       if (!url) return '';
-      const meta = LINK_META[key] || {
+      const meta = LEGACY_LINK_META[key] || {
         icon: '🔗',
         label: key.replace(/_url$/, '').replace(/_/g, ' ')
           .replace(/\b\w/g, ch => ch.toUpperCase())
