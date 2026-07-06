@@ -3,7 +3,7 @@ title: Wherever the two of them are together, things turn out alright in the end
 entry_type: quote
 status: published
 is_featured: false
-display_order: 3
+display_order: 4
 gita_chapter: 18
 chapter_name: ''
 sanskrit_text: Yatra yogeshvarah krishno yatra partho dhanurdharah, tatra shrir vijayo bhutir dhruva nitir matir mama
