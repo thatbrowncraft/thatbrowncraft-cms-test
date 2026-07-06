@@ -4,7 +4,7 @@ book: Amodini A Happy Woman
 role: lead
 status: published
 is_featured: true
-display_order: 1
+display_order: 8
 illustration: /images/IMG_20250131_222120_091.jpg
 age: '27'
 occupation: Personal assistant to Hriday Singh Rajvansh
