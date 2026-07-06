@@ -675,7 +675,7 @@ section, nav, footer { position:relative; z-index:1; }
 <div class="filter-bar" role="navigation" aria-label="Filter characters">
   <span class="filter-label">Filter</span>
   <button class="filter-btn active" data-filter="all">All Characters</button>
-  <button class="filter-btn" data-filter="amodini">Amodini</button>
+  <span data-cms="characters-book-filters" style="display:contents"></span>
   <button class="filter-btn" data-filter="lead">Leads Only</button>
   <button class="filter-btn" data-filter="supporting">Supporting</button>
 </div>
@@ -778,30 +778,33 @@ function toggleExpand(id) {
   }
 }
 
-// Filter buttons — char cards are queried live since cms-loader.js
-// injects them asynchronously after this script first runs.
-const filterBtns = document.querySelectorAll('.filter-btn');
+// Filter buttons — both the char cards AND the per-book buttons are
+// injected asynchronously by cms-loader.js after this script first
+// runs, so we delegate the click listener to the (static) .filter-bar
+// container instead of binding to individual buttons up front.
+const filterBar = document.querySelector('.filter-bar');
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+filterBar.addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn || !filterBar.contains(btn)) return;
 
-    const filter = btn.dataset.filter;
-    const charCards = document.querySelectorAll('.char-card');
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 
-    charCards.forEach(card => {
-      const book = card.dataset.book;
-      const role = card.dataset.role;
+  const filter = btn.dataset.filter;
+  const charCards = document.querySelectorAll('.char-card');
 
-      let show = false;
-      if (filter === 'all')              show = true;
-      else if (filter === 'lead')        show = role === 'lead';
-      else if (filter === 'supporting')  show = role === 'supporting';
-      else                               show = book === filter;
+  charCards.forEach(card => {
+    const book = card.dataset.book;
+    const role = card.dataset.role;
 
-      card.style.display = show ? '' : 'none';
-    });
+    let show = false;
+    if (filter === 'all')              show = true;
+    else if (filter === 'lead')        show = role === 'lead';
+    else if (filter === 'supporting')  show = role === 'supporting';
+    else                               show = book === filter;
+
+    card.style.display = show ? '' : 'none';
   });
 });
 </script>

@@ -194,6 +194,62 @@ const CMS = (() => {
     });
     return found || null;
   }
+  /* Matches a character's free-text "book" field against the published
+     Books collection, same fuzzy strategy as findCharacterMatch above
+     (exact name → exact slug → substring either direction). This is
+     what lets the Character Vault filter reliably by book even if the
+     text in a character entry doesn't match a book's title byte-for-byte
+     (extra whitespace, "Amodini" vs "Amodini Series", etc).
+     Returns the matching book's data object, or null. */
+  function findBookMatch(bookName, books) {
+    if (!bookName || !Array.isArray(books) || !books.length) return null;
+    const key = normalizeName(bookName);
+    if (!key) return null;
+
+    let found = books.find(b => normalizeName(b.title) === key);
+    if (found) return found;
+
+    const bookSlug = slugify(bookName);
+    found = books.find(b => slugify(b.title) === bookSlug);
+    if (found) return found;
+
+    found = books.find(b => {
+      const bTitle = normalizeName(b.title);
+      return bTitle && (bTitle.includes(key) || key.includes(bTitle));
+    });
+    return found || null;
+  }
+  /* ── book reading-links ──
+     Fully CMS-driven: renders a button for any *_url field that has a
+     value on the book entry. Nothing is hardcoded per-book — adding a
+     new link field in config.yml (e.g. "spotify_url") and filling it
+     in for a book makes a matching button appear automatically, no
+     code change required. LINK_META only supplies a nicer icon/label
+     for the fields we know about; any other *_url field still renders
+     with a sensible auto-generated label. */
+  const LINK_META = {
+    wattpad_url:   { icon: '📖', label: 'Read on Wattpad', primary: true },
+    paperback_url: { icon: '📦', label: 'Paperback' },
+    kindle_url:    { icon: '📱', label: 'Kindle' },
+    inkitt_url:    { icon: '🔗', label: 'Inkitt' },
+    stck_url:      { icon: '🔗', label: 'Stck' }
+  };
+  function renderBookLinks(data, linkClass) {
+    const knownOrder = Object.keys(LINK_META);
+    const extraKeys = Object.keys(data)
+      .filter(k => k.endsWith('_url') && !knownOrder.includes(k));
+    return knownOrder.concat(extraKeys).map(key => {
+      const url = data[key];
+      if (!url) return '';
+      const meta = LINK_META[key] || {
+        icon: '🔗',
+        label: key.replace(/_url$/, '').replace(/_/g, ' ')
+          .replace(/\b\w/g, ch => ch.toUpperCase())
+      };
+      const cls = linkClass + (meta.primary ? ' primary' : '');
+      return `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="${cls}">${meta.icon} ${esc(meta.label)}</a>`;
+    }).filter(Boolean).join('');
+  }
   function stars(n) {
     const full = Math.min(parseInt(n) || 5, 5);
     return '★'.repeat(full) + '☆'.repeat(5 - full);
@@ -337,11 +393,7 @@ const CMS = (() => {
       const tags = Array.isArray(data.genres)
         ? data.genres.map(g => `<span class="book-tag">${esc(g)}</span>`).join('')
         : '';
-      const links = [
-        data.wattpad_url   && `<a href="${esc(data.wattpad_url)}" target="_blank" rel="noopener noreferrer" class="read-btn primary">📖 Read on Wattpad</a>`,
-        data.paperback_url && `<a href="${esc(data.paperback_url)}" target="_blank" rel="noopener noreferrer" class="read-btn">📦 Paperback</a>`,
-        data.kindle_url    && `<a href="${esc(data.kindle_url)}" target="_blank" rel="noopener noreferrer" class="read-btn">📱 Kindle</a>`
-      ].filter(Boolean).join('');
+      const links = renderBookLinks(data, 'read-btn');
       const quote = data.featured_quote
         ? `<div class="book-quote"><p>${esc(data.featured_quote)}</p></div>`
         : '';
@@ -376,12 +428,7 @@ const CMS = (() => {
       const tropes = Array.isArray(data.tropes)
         ? data.tropes.map(t => `<span class="tag-chip">${esc(t.trope || t)}</span>`).join('') : '';
       const synopsisHTML = body ? body.split(/\n\n+/).map(p => `<p class="book-synopsis">${esc(p)}</p>`).join('') : '';
-      const links = [
-        data.wattpad_url   && `<a href="${esc(data.wattpad_url)}" target="_blank" rel="noopener noreferrer" class="read-link primary">📖 Read on Wattpad</a>`,
-        data.paperback_url && `<a href="${esc(data.paperback_url)}" target="_blank" rel="noopener noreferrer" class="read-link">📦 Paperback</a>`,
-        data.kindle_url    && `<a href="${esc(data.kindle_url)}" target="_blank" rel="noopener noreferrer" class="read-link">📱 Kindle</a>`,
-        data.inkitt_url    && `<a href="${esc(data.inkitt_url)}" target="_blank" rel="noopener noreferrer" class="read-link">🔗 Inkitt</a>`
-      ].filter(Boolean).join('');
+      const links = renderBookLinks(data, 'read-link');
 
       const timelineHTML = Array.isArray(data.timeline) && data.timeline.length ? `
         <div class="timeline-block">
@@ -505,10 +552,29 @@ const CMS = (() => {
                 [data-cms="characters-grid"]        (characters.html full vault)
        ──────────────────────────────────────────────────────── */
     async loadCharacters() {
-      const entries = await fetchCollection('characters');
+      const [entries, bookEntries] = await Promise.all([
+        fetchCollection('characters'),
+        fetchCollection('books')
+      ]);
       const published = entries
         .filter(e => e.data.status === 'published' && e.data.is_featured !== false)
         .sort((a, b) => (parseInt(a.data.display_order) || 99) - (parseInt(b.data.display_order) || 99));
+
+      /* Published books, used to (a) auto-generate the "Filter by book"
+         buttons on the Character Vault and (b) reliably tag each
+         character card with the book it belongs to (see findBookMatch).
+         Sorted the same way loadBooks() sorts the bookshelf, so the
+         filter order matches the shelf order. */
+      const publishedBooks = bookEntries
+        .filter(b => b.data.status === 'published')
+        .map(b => b.data)
+        .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''));
+
+      document.querySelectorAll('[data-cms="characters-book-filters"]').forEach(el => {
+        el.innerHTML = publishedBooks.map(b =>
+          `<button class="filter-btn" data-filter="${esc(slugify(b.title))}">${esc(b.title)}</button>`
+        ).join('');
+      });
 
       document.querySelectorAll('[data-cms="characters-polaroids"]').forEach(el => {
         if (!published.length) {
@@ -532,15 +598,23 @@ const CMS = (() => {
           el.innerHTML = '<p class="cms-empty">No characters published yet. Add one from the Author Dashboard.</p>';
           return;
         }
-        el.innerHTML = published.map(e => this._charCardHTML(e)).join('');
+        el.innerHTML = published.map(e => this._charCardHTML(e, publishedBooks)).join('');
       });
 
       return published;
     },
 
-    _charCardHTML({ data, body }) {
+    _charCardHTML({ data, body }, publishedBooks = []) {
       const slug = slugify(data.name);
       const initial = (data.name || '?')[0];
+      /* Resolve this character's free-text "book" field to the actual
+         published Book entry (fuzzy match — see findBookMatch), then
+         use THAT book's own title to build the filter slug. This is
+         what the auto-generated filter buttons use too, so a card
+         always matches the button for its book even if the character's
+         book text isn't a byte-for-byte match to the book title. */
+      const bookMatch = findBookMatch(data.book, publishedBooks);
+      const bookSlug = slugify(bookMatch ? bookMatch.title : (data.book || ''));
       const portrait = data.illustration
         ? `<img src="${esc(IMG(data.illustration))}" alt="${esc(data.name)}" style="width:100%;height:100%;object-fit:cover">`
         : `<div class="char-portrait-ph"><span class="portrait-ph-initial">${esc(initial)}</span></div>`;
@@ -554,7 +628,7 @@ const CMS = (() => {
       const personality = body ? esc(body) : '';
 
       return `
-        <div class="char-card reveal" data-book="${esc(slugify(data.book || ''))}" data-role="${esc(data.role || 'lead')}" id="card-${esc(slug)}">
+        <div class="char-card reveal" data-book="${esc(bookSlug)}" data-role="${esc(data.role || 'lead')}" id="card-${esc(slug)}">
           <div class="char-portrait">
             ${portrait}
             <div class="char-portrait-overlay"></div>
