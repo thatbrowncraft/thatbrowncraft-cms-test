@@ -49,7 +49,13 @@ kindle_url: ''
 paperback_url: ''
 inkitt_url: https://www.inkitt.com/stories/1445370
 stck_url: https://thatbrowncraft.stck.me/story/895547/KUTUMB-A-Tale-of-Angst-Regret-Sacrifice
-gallery: []
+gallery:
+  - image: /images/1767025501997.jpg
+    caption: Raghav x Sree
+  - image: /images/1767023918372.jpg
+    caption: Neil x Aadhya
+  - image: /images/1767024254009.jpg
+    caption: Yug x Devanshi
 published_at: 2026-06-18T15:21
 ---
 
