@@ -4,7 +4,7 @@ series_name: ''
 series_number: ''
 status: published
 is_featured: true
-cover_image: ''
+cover_image: /images/InShot_20250331_144150000.jpg
 genres:
   - Romance
   - Family Saga
