@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 4
-illustration: /images/Imagine_18377428462206391.jpg
+illustration: /images/Imagine_18377487676206391.jpg
 age: '28'
 occupation: Event organizer
 author_note: ''
