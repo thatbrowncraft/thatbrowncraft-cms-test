@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 2
-illustration: /images/Imagine_18377428312206391.jpg
+illustration: /images/Imagine_18377488558206391.jpg
 age: '29'
 occupation: Homemaker and soon to be scientist
 author_note: ''
