@@ -4,7 +4,7 @@ book: Amodini A Happy Woman
 role: lead
 status: published
 is_featured: true
-display_order: 2
+display_order: 9
 illustration: /images/IMG_20250131_215734_861.jpg
 age: '31'
 occupation: CEO of Rajvansh Industries
