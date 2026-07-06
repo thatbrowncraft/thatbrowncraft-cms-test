@@ -77,33 +77,8 @@ section,nav,footer{position:relative;z-index:1}
 .update-date{font-family:var(--font-body);font-size:.6rem;letter-spacing:.1em;color:rgba(245,236,215,.25);text-transform:uppercase}
 .update-title{font-family:var(--font-display);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:400;color:var(--cream);line-height:1.2;margin-bottom:.6rem}
 .update-body{font-family:var(--font-body);font-size:.88rem;color:rgba(245,236,215,.48);line-height:1.8;margin-bottom:1rem;font-weight:300}
-
-.update-actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem}
-.read-more-btn{font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);background:none;border:none;border-bottom:1px solid rgba(200,149,107,.3);padding:0 0 .15rem;cursor:pointer;transition:border-color .3s,color .3s}
-.read-more-btn:hover{border-color:var(--terracotta);color:var(--cream)}
-.read-more-btn:focus-visible{outline:1px solid rgba(201,169,110,.5);outline-offset:3px}
-
-.update-link,.update-external-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,236,215,.45);border-bottom:1px solid rgba(245,236,215,.2);padding-bottom:.1rem;transition:border-color .3s,color .3s}
-.update-link:hover,.update-external-link:hover{color:var(--terracotta);border-color:var(--terracotta)}
-
-/* Expand/collapse full post */
-.update-full{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .4s ease}
-.update-full.open{opacity:1}
-.update-full-inner{padding-top:1.25rem;margin-top:1.25rem;border-top:1px solid rgba(201,169,110,.14)}
-.update-full h1,.update-full h2,.update-full h3{font-family:var(--font-display);color:var(--cream);font-weight:400;line-height:1.3;margin:1.25rem 0 .6rem}
-.update-full h1{font-size:1.5rem}.update-full h2{font-size:1.3rem}.update-full h3{font-size:1.1rem}
-.update-full p{margin-bottom:1rem;color:rgba(245,236,215,.6);line-height:1.85;font-size:.92rem;font-weight:300}
-.update-full p:last-child{margin-bottom:0}
-.update-full a{color:var(--terracotta);border-bottom:1px solid rgba(200,149,107,.3)}
-.update-full a:hover{border-color:var(--terracotta)}
-.update-full strong{color:var(--cream);font-weight:700}
-.update-full em{font-style:italic;color:var(--gold)}
-.update-full ul,.update-full ol{margin:0 0 1rem 1.25rem;color:rgba(245,236,215,.6);font-size:.92rem;line-height:1.8}
-.update-full li{margin-bottom:.4rem}
-.update-full blockquote{border-left:3px solid rgba(201,169,110,.35);padding-left:1rem;margin:1rem 0;font-style:italic;color:rgba(245,236,215,.5)}
-.update-full img{border-radius:2px;margin:1rem 0;max-width:100%}
-.update-full hr{border:none;border-top:1px solid rgba(201,169,110,.15);margin:1.5rem 0}
-.update-full code{background:rgba(201,169,110,.1);padding:.15rem .4rem;border-radius:2px;font-size:.85em;color:var(--terracotta)}
+.update-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid rgba(200,149,107,.3);padding-bottom:.1rem;transition:border-color .3s}
+.update-link:hover{border-color:var(--terracotta)}
 
 .empty-state{text-align:center;padding:4rem 2rem}
 .empty-state p{font-family:var(--font-display);font-style:italic;font-size:1.2rem;color:rgba(245,236,215,.3)}
@@ -251,42 +226,20 @@ function parseMd(text) {
   return { data, body: match[2].trim() };
 }
 
-/* Plain-text preview of the first paragraph, used only when the
-   author hasn't filled in a dedicated Excerpt field. */
-function firstParagraph(text) {
-  if (!text) return '';
-  const para = text.trim().split(/\n\s*\n/)[0] || '';
-  return para.replace(/^#+\s*/, '').replace(/[*_`>#]/g, '').trim();
-}
-
-function renderCard(data, body, idx) {
+function renderCard(data, body) {
   const type     = (data.update_type || data.category || 'note').toLowerCase();
   const pinned   = data.is_pinned === 'true' || data.is_pinned === true;
   const title    = data.title || '';
   const date     = data.date  || '';
-  const excerpt  = data.excerpt || firstParagraph(body);
+  const bodyText = data.excerpt || body || '';
   const linkLabel= data.link_label || '';
   const linkUrl  = data.link_url   || '';
   const status   = data.status || 'published';
   if (status === 'draft') return '';
 
-  const typeLabel  = TYPE_LABELS[type] || type;
-  const hasFullPost = !!(body && body.trim());
-  const contentId  = `update-full-${idx}`;
-
-  /* Optional external CTA from the CMS "Button URL" field — separate
-     from Read More, since it points off-site (e.g. "Read on Wattpad")
-     rather than expanding the card. */
-  const externalLinkHtml = linkUrl
-    ? `<a href="${linkUrl}" class="update-external-link" ${!linkUrl.startsWith('mailto') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkLabel || 'Visit link'} ↗</a>`
-    : '';
-
-  const toggleHtml = hasFullPost
-    ? `<button type="button" class="read-more-btn" data-toggle-target="${contentId}" onclick="toggleUpdate('${contentId}')" aria-expanded="false" aria-controls="${contentId}">Read More →</button>`
-    : '';
-
-  const fullHtml = hasFullPost
-    ? (typeof marked !== 'undefined' ? marked.parse(body) : `<p>${body}</p>`)
+  const typeLabel = TYPE_LABELS[type] || type;
+  const linkHtml  = linkUrl
+    ? `<a href="${linkUrl}" class="update-link" ${!linkUrl.startsWith('mailto') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkLabel || 'Read more'} →</a>`
     : '';
 
   return `
@@ -296,9 +249,8 @@ function renderCard(data, body, idx) {
         <time class="update-date">${date}</time>
       </div>
       <h2 class="update-title">${title}</h2>
-      ${excerpt ? `<p class="update-body">${excerpt}</p>` : ''}
-      ${(toggleHtml || externalLinkHtml) ? `<div class="update-actions">${toggleHtml}${externalLinkHtml}</div>` : ''}
-      ${hasFullPost ? `<div class="update-full" id="${contentId}"><div class="update-full-inner">${fullHtml}</div></div>` : ''}
+      ${bodyText ? `<p class="update-body">${bodyText}</p>` : ''}
+      ${linkHtml}
     </article>`;
 }
 
@@ -311,55 +263,6 @@ function initFilters(cards) {
       cards.forEach(c => { c.style.display = (f === 'all' || c.dataset.type === f) ? '' : 'none'; });
     });
   });
-}
-
-/* ── Read More / Show Less — expands the full markdown post inline,
-   right inside the same card, instead of navigating anywhere.
-   Only one card stays expanded at a time. ── */
-let expandedId = null;
-
-function toggleUpdate(id) {
-  const content = document.getElementById(id);
-  if (!content) return;
-  const btn = document.querySelector(`[data-toggle-target="${id}"]`);
-  const opening = !content.classList.contains('open');
-
-  if (expandedId && expandedId !== id) {
-    collapsePanel(document.getElementById(expandedId));
-  }
-
-  if (opening) {
-    expandPanel(content, btn);
-    expandedId = id;
-  } else {
-    collapsePanel(content);
-    expandedId = null;
-  }
-}
-
-function expandPanel(content, btn) {
-  content.classList.add('open');
-  content.style.maxHeight = content.scrollHeight + 'px';
-  if (btn) { btn.textContent = 'Show Less ↑'; btn.setAttribute('aria-expanded', 'true'); }
-
-  content.addEventListener('transitionend', function onDone(e) {
-    if (e.propertyName === 'max-height' && content.classList.contains('open')) {
-      content.style.maxHeight = 'none'; // let it breathe if content reflows (e.g. images loading)
-    }
-    content.removeEventListener('transitionend', onDone);
-  });
-}
-
-function collapsePanel(content) {
-  if (!content) return;
-  const otherBtn = document.querySelector(`[data-toggle-target="${content.id}"]`);
-  // Lock in the current rendered height first so the transition has
-  // something to animate from (max-height:none can't animate directly).
-  content.style.maxHeight = content.scrollHeight + 'px';
-  content.offsetHeight; // force reflow
-  requestAnimationFrame(() => { content.style.maxHeight = '0px'; });
-  content.classList.remove('open');
-  if (otherBtn) { otherBtn.textContent = 'Read More →'; otherBtn.setAttribute('aria-expanded', 'false'); }
 }
 
 async function loadUpdates() {
@@ -392,7 +295,7 @@ async function loadUpdates() {
       return (b.data.date || '').localeCompare(a.data.date || '');
     });
 
-    const html = posts.map((p, i) => renderCard(p.data, p.body, i)).filter(Boolean).join('');
+    const html = posts.map(p => renderCard(p.data, p.body)).filter(Boolean).join('');
     list.innerHTML = html || `<div class="empty-state"><p>No published updates yet.</p></div>`;
 
     initFilters(list.querySelectorAll('.update-card'));
