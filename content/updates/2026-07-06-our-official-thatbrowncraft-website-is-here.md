@@ -21,7 +21,7 @@ Go explore every room!
 
  Browse the Bookshelf and discover all my stories.
 
-👀 Meet your favorite (or most whipped) characters in the Character Vault.
+Meet your favorite (or most whipped) characters in the Character Vault.
 
  Drop by Crafties' Corner! Leave a review, send me a postcard, share your theories, scream about your favorite scenes, or upload your fan arts. I genuinely want to hear every thought, feeling and emotional breakdown these books gave you.
 
