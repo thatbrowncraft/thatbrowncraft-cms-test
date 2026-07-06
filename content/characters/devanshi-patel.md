@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 6
-illustration: /images/IMG_20260706_160135_287.jpg
+illustration: /images/Imagine_18377488327206391.jpg
 age: '27'
 occupation: Account manager
 author_note: ''
