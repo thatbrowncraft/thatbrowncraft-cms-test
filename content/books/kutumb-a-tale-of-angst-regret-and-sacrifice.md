@@ -1,6 +1,6 @@
 ---
 title: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
-series_name: ''
+series_name: Gujarati Billionaire fiction romance
 series_number: ''
 status: published
 is_featured: true
