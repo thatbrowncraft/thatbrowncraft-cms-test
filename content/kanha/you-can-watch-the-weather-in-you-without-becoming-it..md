@@ -3,7 +3,7 @@ title: You can watch the weather in you without becoming it.
 entry_type: life_lesson
 status: published
 is_featured: false
-display_order: 1
+display_order: 2
 gita_chapter: 14
 chapter_name: ''
 sanskrit_text: Udasinavad asino gunair yo na vichalyate, guna vartanta ity eva yo 'vatishthati nengate
