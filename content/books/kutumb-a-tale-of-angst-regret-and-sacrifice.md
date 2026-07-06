@@ -44,11 +44,16 @@ character_leads:
   - Yug Panchal
   - Devanshi Patel
   - Idhayan Panchal
-wattpad_url: https://www.wattpad.com/story/392073394?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
-kindle_url: ''
-paperback_url: ''
-inkitt_url: https://www.inkitt.com/stories/1445370
-stck_url: https://thatbrowncraft.stck.me/story/895547/KUTUMB-A-Tale-of-Angst-Regret-Sacrifice
+purchase_links:
+  - platform: Wattpad
+    url: https://www.wattpad.com/story/392073394?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
+    icon: ✒️
+  - platform: Stck.me
+    url: https://thatbrowncraft.stck.me/story/895547/KUTUMB-A-Tale-of-Angst-Regret-Sacrifice
+    icon: ✒️
+  - platform: Inkitt
+    url: https://www.inkitt.com/stories/1445370
+    icon: ✒️
 gallery:
   - image: /images/1767025501997.jpg
     caption: Raghav x Sree
@@ -57,6 +62,11 @@ gallery:
   - image: /images/1767024254009.jpg
     caption: Yug x Devanshi
 published_at: 2026-06-18T15:21
+stck_url: https://thatbrowncraft.stck.me/story/895547/KUTUMB-A-Tale-of-Angst-Regret-Sacrifice
+inkitt_url: https://www.inkitt.com/stories/1445370
+wattpad_url: https://www.wattpad.com/story/392073394?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
+kindle_url: ''
+paperback_url: ''
 ---
 
 ᴛʜʀᴇᴇ ʙʀᴏᴛʜᴇʀꜱ. ᴛʜʀᴇᴇ ᴡɪᴠᴇꜱ. ᴏɴᴇ ɢᴜᴊᴀʀᴀᴛ-ꜱɪᴢᴇᴅ ᴇᴍᴏᴛɪᴏɴᴀʟ ʀᴏʟʟᴇʀᴄᴏᴀꜱᴛᴇʀ.
