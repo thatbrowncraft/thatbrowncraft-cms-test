@@ -4,7 +4,7 @@ category: announcement
 status: published
 date: 2026-07-07T11:11
 cover_image: ''
-excerpt: ''
+excerpt: What's there in our browncraft world. Read more to find out.
 update_type: milestone
 is_pinned: true
 link_label: ''
