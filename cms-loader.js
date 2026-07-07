@@ -438,7 +438,9 @@ const CMS = (() => {
         const facts = Array.isArray(data.fun_facts)
           ? data.fun_facts.map(f => (typeof f === 'object' ? f.fact : f)).filter(Boolean)
           : [];
-        if (!facts.length) { el.innerHTML = ''; return; }
+        // Leave whatever fallback markup the page already has in place
+        // when there's no CMS data yet, rather than blanking the section.
+        if (!facts.length) return;
         el.innerHTML = facts.map(f => `<span class="fact-pill">${esc(f)}</span>`).join('');
       });
 

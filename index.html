@@ -1403,6 +1403,39 @@ section, nav, footer { position: relative; z-index: 1; }
   font-family: var(--font-body);
 }
 
+/* Fun facts — populated by CMS.loadAuthor() as data-cms="author-fun-facts";
+   it renders <span class="fact-pill"> items, styled to match .author-tag. */
+.fact-pill {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.45);
+  border: 1px solid rgba(201,169,110,0.18);
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-body);
+}
+
+/* Author photo — CMS.loadAuthor() sets img[src]; hide the "your photo
+   here" placeholder once a real photo is populated, and keep the img
+   itself hidden until then so no broken-image icon shows. */
+.author-photo img[data-cms="author-photo"] {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.author-photo img[data-cms="author-photo"]:not([src]),
+.author-photo img[data-cms="author-photo"][src=""] {
+  display: none;
+}
+.author-photo:has(img[data-cms="author-photo"][src]:not([src=""])) .author-photo-ph {
+  display: none;
+}
+
+/* Ornamental divider — appended after the bio by CMS.loadAuthor()
+   (same markup/classes as about.html, so it renders consistently here too) */
+.orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto 0;max-width:220px}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.35),transparent)}
+.orn-motif{font-size:.65rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -1890,10 +1923,13 @@ section, nav, footer { position: relative; z-index: 1; }
       <h2 class="journal-heading" id="author-title">
         About the stories<br>behind the pen name.
       </h2>
-      <div class="journal-body">
+      <!-- Populated by CMS.loadAuthor() from content/settings/author.md
+           (same source file and function as about.html) -->
+      <div class="journal-body" data-cms="author-bio">
         <p>
-          Thatbrowncraft exists because that's what
-          
+          Thatbrowncraft exists because that's what happens when
+          chai stains, unfinished drafts, and characters who refuse
+          to leave collide.
         </p>
         <p>
           Stories rooted in desi homes, joint families,
@@ -1906,19 +1942,17 @@ section, nav, footer { position: relative; z-index: 1; }
           It's the whole thing.
         </p>
       </div>
-      <span class="journal-signature">— thatbrowncraft</span>
+      <span class="journal-signature">— <span data-cms="author-name">thatbrowncraft</span></span>
     </div>
 
     <div class="reveal reveal-delay-2">
       <div class="author-photo">
-        <!-- Replace with: <img src="/images/author/thatbrowncraft.jpg" alt="thatbrowncraft"> -->
+        <img data-cms="author-photo" alt="Author photo" loading="lazy">
         <div class="author-photo-ph">your photo here</div>
       </div>
-      <div class="author-tags">
+      <div class="author-tags" data-cms="author-fun-facts">
         <span class="author-tag">Wattpad Author</span>
-        
         <span class="author-tag">Desi Romance</span>
-        
         <span class="author-tag">Chai Dependent</span>
       </div>
       <div style="margin-top:1.5rem">
@@ -1941,7 +1975,7 @@ section, nav, footer { position: relative; z-index: 1; }
     <div class="footer-logo" aria-label="thatbrowncraft">
       <span class="fl-that">that</span><span class="fl-brown">brown</span><span class="fl-craft">craft</span>
     </div>
-    <p class="footer-tagline">stories brewed in chai &amp; candlelight</p>
+    <p class="footer-tagline" data-cms="footer-tagline">stories brewed in chai &amp; candlelight</p>
 
     <div class="footer-social" data-cms="social-pills">
       <a href="https://www.wattpad.com/user/Thatbrowncraft"
