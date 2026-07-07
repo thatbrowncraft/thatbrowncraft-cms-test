@@ -545,14 +545,9 @@ section,nav,footer{position:relative;z-index:1}
 </header>
 
 <!-- FILTER BAR -->
-<div class="filter-bar" role="navigation" aria-label="Filter scenes">
+<div class="filter-bar" role="navigation" aria-label="Filter scenes" data-cms="bonus-filters">
   <span class="filter-label">Filter</span>
   <button class="filter-btn active" data-filter="all">All Scenes</button>
-  <button class="filter-btn" data-filter="bonus_scene">Bonus</button>
-  <button class="filter-btn" data-filter="deleted_scene">Deleted Scenes</button>
-  <button class="filter-btn" data-filter="character_pov">POVs</button>
-  <button class="filter-btn" data-filter="festival_special">Festival Specials</button>
-  <button class="filter-btn" data-filter="letter">Letters</button>
 </div>
 
 <!-- SCENES -->
@@ -640,18 +635,20 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
    content/bonus-scenes/*.md and wires window.openScene/closeScene
    plus outside-click and Escape-key handling itself. */
 
-// Filter — scene cards are queried live since cms-loader.js
-// injects them asynchronously after this script first runs.
-const filterBtns = document.querySelectorAll('.filter-btn');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('.letter-card').forEach(card => {
-      card.style.display = (filter === 'all' || card.dataset.type === filter) ? '' : 'none';
-    });
+// Filter — buttons are handled via delegation on the filter bar
+// itself, since cms-loader.js appends the category buttons
+// asynchronously (after fetching bonus-scenes) and scene cards are
+// injected the same way, so neither exists yet when this script
+// first runs.
+const filterBar = document.querySelector('.filter-bar');
+filterBar.addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filter = btn.dataset.filter;
+  document.querySelectorAll('.letter-card').forEach(card => {
+    card.style.display = (filter === 'all' || card.dataset.type === filter) ? '' : 'none';
   });
 });
 </script>

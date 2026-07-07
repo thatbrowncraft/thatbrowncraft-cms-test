@@ -697,6 +697,14 @@ const CMS = (() => {
        Reads content/bonus-scenes/*.md
        Targets: [data-cms="bonus-preview"]  (index.html — first 3)
                 [data-cms="bonus-grid"]      (bonus.html full list)
+                [data-cms="bonus-filters"]   (bonus.html filter bar —
+                                               buttons generated from
+                                               whichever scene_type
+                                               values actually appear;
+                                               "All Scenes" stays as a
+                                               static button already in
+                                               the HTML, this only adds
+                                               the rest)
                 [data-cms="bonus-modal-host"] (single reusable modal container)
        ──────────────────────────────────────────────────────── */
     async loadBonusScenes() {
@@ -705,6 +713,26 @@ const CMS = (() => {
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (b.data.published_at || '').localeCompare(a.data.published_at || ''));
 
+      /* scene_type is now a free-text field in the CMS (no fixed
+         option list), so authors may type it inconsistently —
+         "Deleted Scene", "deleted-scene", "  deleted_scene " etc.
+         Normalize before grouping/comparing so all of those collapse
+         into one category and one filter button, not several. The
+         normalized form (lowercase, trimmed, spaces/hyphens →
+         underscores, repeats collapsed) is what data-filter and
+         data-type use, so the existing filter click-handler in
+         bonus.html keeps working unchanged. */
+      const normType = t => String(t || '')
+        .trim().toLowerCase()
+        .replace(/[\s-]+/g, '_')
+        .replace(/_+/g, '_');
+
+      /* Cosmetic only — a nicer label/icon for known scene_type values.
+         Neither map is required for a type to work: any scene_type
+         value the CMS produces (including brand-new ones added to the
+         dashboard later) still gets a readable auto-generated label
+         and a default seal icon, so nothing here needs editing when a
+         new category is introduced. */
       const typeLabels = {
         bonus_scene: 'Bonus Scene', deleted_scene: 'Deleted Scene',
         character_pov: 'Character POV', festival_special: 'Festival Special',
@@ -716,20 +744,44 @@ const CMS = (() => {
         festival_special: '🪔', birthday_special: '🎂', letter: '✉',
         mini_story: '📖', alternative_ending: '🔀'
       };
+      const autoLabel = t => t.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const labelFor = t => typeLabels[t] || autoLabel(t);
+
+      document.querySelectorAll('[data-cms="bonus-filters"]').forEach(el => {
+        /* Unique scene_type values actually present among published
+           entries — a type with zero entries never appears, and a
+           brand-new type the author invents in the dashboard appears
+           automatically the first time they publish one. */
+        const present = [...new Set(published.map(e => normType(e.data.scene_type)).filter(Boolean))];
+        const known = Object.keys(typeLabels).filter(t => present.includes(t));
+        const unknown = present.filter(t => !typeLabels[t]).sort();
+        const ordered = [...known, ...unknown];
+
+        /* Only append generated buttons — never touch existing
+           children, since the static "All Scenes" button (and the
+           "Filter" label) already live in this element in the HTML. */
+        el.querySelectorAll('.filter-btn[data-generated="1"]').forEach(b => b.remove());
+        el.insertAdjacentHTML('beforeend', ordered.map(t =>
+          `<button class="filter-btn" data-filter="${esc(t)}" data-generated="1">${esc(labelFor(t))}</button>`
+        ).join(''));
+      });
 
       document.querySelectorAll('[data-cms="bonus-preview"]').forEach(el => {
         if (!published.length) {
           el.innerHTML = '<p class="cms-empty">No bonus scenes published yet.</p>';
           return;
         }
-        el.innerHTML = published.slice(0, 3).map(({ data }) => `
+        el.innerHTML = published.slice(0, 3).map(({ data }) => {
+          const t = normType(data.scene_type);
+          return `
           <a href="bonus.html#scene-${esc(data._slug)}" class="letter-card reveal">
-            <div class="letter-seal" aria-hidden="true">${sealIcons[data.scene_type] || '✦'}</div>
-            <span class="letter-tag">${esc((data.characters || []).map(c => c.name || c).join(' × ')) || typeLabels[data.scene_type] || ''}</span>
+            <div class="letter-seal" aria-hidden="true">${sealIcons[t] || '✦'}</div>
+            <span class="letter-tag">${esc((data.characters || []).map(c => c.name || c).join(' × ')) || labelFor(t) || ''}</span>
             <h3 class="letter-title">${esc(data.title)}</h3>
             <p class="letter-excerpt">${esc(data.teaser || '')}</p>
             <span class="letter-read">Read the scene →</span>
-          </a>`).join('');
+          </a>`;
+        }).join('');
       });
 
       document.querySelectorAll('[data-cms="bonus-grid"]').forEach(el => {
@@ -737,19 +789,22 @@ const CMS = (() => {
           el.innerHTML = '<p class="cms-empty">No bonus scenes published yet. Add one from the Author Dashboard.</p>';
           return;
         }
-        el.innerHTML = published.map(({ data }) => `
-          <div class="letter-card reveal" data-type="${esc(data.scene_type || 'bonus_scene')}" onclick="openScene('${esc(data._slug)}')">
+        el.innerHTML = published.map(({ data }) => {
+          const t = normType(data.scene_type) || 'bonus_scene';
+          return `
+          <div class="letter-card reveal" data-type="${esc(t)}" onclick="openScene('${esc(data._slug)}')">
             <div class="letter-torn-top"></div>
             <div class="letter-body">
-              <div class="wax-seal" aria-hidden="true">${sealIcons[data.scene_type] || '✦'}</div>
-              <span class="scene-type-tag">${typeLabels[data.scene_type] || 'Bonus Scene'}</span>
+              <div class="wax-seal" aria-hidden="true">${sealIcons[t] || '✦'}</div>
+              <span class="scene-type-tag">${labelFor(t)}</span>
               <span class="couple-tag">${esc((data.characters || []).map(c => c.name || c).join(' × ')) || esc(data.book || '')}</span>
               <h2 class="letter-title">${esc(data.title)}</h2>
               <p class="letter-excerpt">${esc(data.teaser || '')}</p>
               <span class="letter-read-hint">Read the scene →</span>
             </div>
             <div class="letter-torn-bottom"></div>
-          </div>`).join('');
+          </div>`;
+        }).join('');
       });
 
       const modalHost = document.querySelector('[data-cms="bonus-modal-host"]');
@@ -778,7 +833,7 @@ const CMS = (() => {
           const entry = sceneMap[slug];
           if (!entry) return;
           const { data, body } = entry;
-          document.getElementById('cms-modal-type').textContent = `${typeLabels[data.scene_type] || 'Bonus Scene'} · ${data.book || ''}`;
+          document.getElementById('cms-modal-type').textContent = `${labelFor(normType(data.scene_type) || 'bonus_scene')} · ${data.book || ''}`;
           document.getElementById('cms-modal-couple').textContent = (data.characters || []).map(c => c.name || c).join(' × ');
           document.getElementById('cms-modal-title').textContent = data.title || '';
           const noteEl = document.getElementById('cms-modal-note');
@@ -1072,6 +1127,36 @@ const CMS = (() => {
     },
 
     /* ────────────────────────────────────────────────────────
+       STATISTICS / MILESTONES
+       Reads content/statistics/*.md
+       Each entry: value, title, subtitle, display_order, status
+       Target: [data-cms="hof-milestones"]  (hall-of-fame.html "The Milestones")
+       Fully dashboard-driven — add, remove, reorder, or edit any
+       statistic from the CMS with zero HTML/JS changes.
+       ──────────────────────────────────────────────────────── */
+    async loadMilestones() {
+      const entries = await fetchCollection('statistics');
+      const published = entries
+        .filter(e => e.data.status === 'published')
+        .sort((a, b) => (parseInt(a.data.display_order) || 99) - (parseInt(b.data.display_order) || 99));
+
+      document.querySelectorAll('[data-cms="hof-milestones"]').forEach(el => {
+        if (!published.length) {
+          el.innerHTML = '<p class="cms-empty">No statistics published yet.</p>';
+          return;
+        }
+        el.innerHTML = published.map(({ data }) => `
+          <div class="milestone-card reveal">
+            <span class="milestone-number">${esc(data.value)}</span>
+            <span class="milestone-label">${esc(data.title)}</span>
+            ${data.subtitle ? `<span class="milestone-date">${esc(data.subtitle)}</span>` : ''}
+          </div>`).join('');
+      });
+
+      return published;
+    },
+
+    /* ────────────────────────────────────────────────────────
        INIT — scans page for data-cms targets and loads only what's needed
        ──────────────────────────────────────────────────────── */
     async init() {
@@ -1087,7 +1172,7 @@ const CMS = (() => {
       if (has('characters-polaroids') || has('characters-grid'))
         jobs.push(this.loadCharacters());
 
-      if (has('bonus-preview') || has('bonus-grid'))
+      if (has('bonus-preview') || has('bonus-grid') || has('bonus-filters'))
         jobs.push(this.loadBonusScenes());
 
       if (has('kanha-preview') || has('kanha-verses') || has('kanha-chapter-pills'))
@@ -1104,6 +1189,9 @@ const CMS = (() => {
 
       if (has('hof-crafties') || has('hof-theories') || has('hof-comments') || has('hof-quotes'))
         jobs.push(this.loadHallOfFame());
+
+      if (has('hof-milestones'))
+        jobs.push(this.loadMilestones());
 
       await Promise.allSettled(jobs);
 

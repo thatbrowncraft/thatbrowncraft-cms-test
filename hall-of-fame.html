@@ -263,7 +263,10 @@ section,nav,footer{position:relative;z-index:1}
 
     <!-- ══════════════════════════════════════════
          MILESTONES
-         CMS: milestones_section_show · milestones (repeatable: number · label · date · show)
+         CMS: content/statistics/*.md — each entry has
+         value · title · subtitle · display_order · status.
+         Rendered entirely by cms-loader.js's loadMilestones();
+         add, remove, reorder, or edit any card from the dashboard.
          ══════════════════════════════════════════ -->
     <section class="hof-section reveal" aria-label="Milestones">
       <div class="section-head">
@@ -271,32 +274,8 @@ section,nav,footer{position:relative;z-index:1}
         <h2 class="section-title">The <em>Milestones</em></h2>
         <p class="section-sub">Every number is a person who chose to read.</p>
       </div>
-      <div class="milestones-grid">
-        <div class="milestone-card">
-          <span class="milestone-number">1M+</span>
-          <span class="milestone-label">Total Reads</span>
-          <span class="milestone-date">Amodini</span>
-        </div>
-        <div class="milestone-card">
-          <span class="milestone-number">800+</span>
-          <span class="milestone-label">Pages Written</span>
-          <span class="milestone-date">and counting</span>
-        </div>
-        <div class="milestone-card">
-          <span class="milestone-number">42</span>
-          <span class="milestone-label">Chapters Published</span>
-          <span class="milestone-date">Amodini</span>
-        </div>
-        <div class="milestone-card">
-          <span class="milestone-number">3</span>
-          <span class="milestone-label">Couples. All of them your favourites.</span>
-          <span class="milestone-date">Amodini universe</span>
-        </div>
-        <div class="milestone-card">
-          <span class="milestone-number">∞</span>
-          <span class="milestone-label">Comments That Made My Day</span>
-          <span class="milestone-date">ongoing</span>
-        </div>
+      <div class="milestones-grid" data-cms="hof-milestones">
+        <p class="cms-empty" style="text-align:center;font-family:var(--font-display);font-style:italic;color:rgba(245,236,215,0.3);padding:1rem 0;grid-column:1/-1;">loading the numbers...</p>
       </div>
     </section>
 
