@@ -372,6 +372,112 @@ const CMS = (() => {
     },
 
     /* ────────────────────────────────────────────────────────
+       AUTHOR PROFILE
+       Reads content/settings/author.md
+       Populates: [data-cms="author-photo"]      (author_photo)
+                  [data-cms="author-name"]        (display_name)
+                  [data-cms="author-bio"]         (bio — the file's
+                                                    markdown body, see note)
+                  [data-cms="footer-tagline"]     (tagline — every page's footer)
+                  [data-cms="author-fun-facts"]   (fun_facts list, as tag pills)
+                  [data-cms="about-hero-quote"]   (about_hero_quote)
+                  [data-cms="about-hero-sub"]     (about_hero_sub)
+                  [data-cms="letter-section"]     (whole "letter to Crafties" block —
+                                                    hidden entirely when letter_show is false)
+                  [data-cms="letter-salutation"]  (letter_salutation)
+                  [data-cms="letter-body"]        (letter_body, markdown)
+                  [data-cms="letter-sign-name"]   (letter_sign_name)
+
+       Note on author_bio: in config.yml the "Author Bio" field is
+       deliberately named "body" (a Decap CMS convention for a markdown
+       field meant to be the file's main content rather than a
+       frontmatter key). parseFM() already splits that out for us as
+       the returned `body` string, so the bio is read from `body`,
+       not from `data.author_bio` / `data.body`.
+
+       Runs on every page (like loadSocial) since tagline drives the
+       shared footer; all other fields are only present on about.html,
+       and the data-cms selectors are simply no-ops where absent.
+       ──────────────────────────────────────────────────────── */
+    async loadAuthor() {
+      const { data, body } = await fetchFile('content/settings/author.md');
+
+      // Author photo
+      document.querySelectorAll('[data-cms="author-photo"]').forEach(el => {
+        if (!data.author_photo) return;
+        const url = IMG(data.author_photo);
+        if (el.tagName === 'IMG') {
+          el.src = url;
+          el.alt = data.display_name ? `Photo of ${data.display_name}` : 'Author photo';
+        } else {
+          el.style.backgroundImage = `url("${url}")`;
+        }
+      });
+
+      // Display name
+      document.querySelectorAll('[data-cms="author-name"]').forEach(el => {
+        if (data.display_name) el.textContent = data.display_name;
+      });
+
+      // Author bio — the file's markdown body (see note above)
+      document.querySelectorAll('[data-cms="author-bio"]').forEach(el => {
+        if (!body) return;
+        el.innerHTML = md(body) +
+          `<div class="orn-row" aria-hidden="true" style="margin-top:2rem">
+             <span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span>
+           </div>`;
+      });
+
+      // Footer tagline (shared across every page's footer)
+      document.querySelectorAll('[data-cms="footer-tagline"]').forEach(el => {
+        if (data.tagline) el.textContent = data.tagline;
+      });
+
+      // Fun facts — rendered as tag pills
+      document.querySelectorAll('[data-cms="author-fun-facts"]').forEach(el => {
+        const facts = Array.isArray(data.fun_facts)
+          ? data.fun_facts.map(f => (typeof f === 'object' ? f.fact : f)).filter(Boolean)
+          : [];
+        if (!facts.length) { el.innerHTML = ''; return; }
+        el.innerHTML = facts.map(f => `<span class="fact-pill">${esc(f)}</span>`).join('');
+      });
+
+      // Hero quote — italicize the final word to match the site's
+      // existing "Some stories become <em>homes.</em>" styling.
+      document.querySelectorAll('[data-cms="about-hero-quote"]').forEach(el => {
+        const q = data.about_hero_quote;
+        if (!q) return;
+        const last = q.lastIndexOf(' ');
+        if (last === -1) { el.innerHTML = `"${esc(q)}"`; return; }
+        el.innerHTML = `"${esc(q.substring(0, last))} <em>${esc(q.substring(last + 1))}</em>"`;
+      });
+
+      // Hero subtitle
+      document.querySelectorAll('[data-cms="about-hero-sub"]').forEach(el => {
+        if (data.about_hero_sub) el.textContent = data.about_hero_sub;
+      });
+
+      // Letter to Crafties — hide the whole section when letter_show is false
+      const hideLetter = data.letter_show === false || data.letter_show === 'false';
+      document.querySelectorAll('[data-cms="letter-section"]').forEach(el => {
+        el.style.display = hideLetter ? 'none' : '';
+      });
+      if (!hideLetter) {
+        document.querySelectorAll('[data-cms="letter-salutation"]').forEach(el => {
+          if (data.letter_salutation) el.textContent = data.letter_salutation;
+        });
+        document.querySelectorAll('[data-cms="letter-body"]').forEach(el => {
+          if (data.letter_body) el.innerHTML = md(data.letter_body);
+        });
+        document.querySelectorAll('[data-cms="letter-sign-name"]').forEach(el => {
+          if (data.letter_sign_name) el.textContent = data.letter_sign_name;
+        });
+      }
+
+      return { data, body };
+    },
+
+    /* ────────────────────────────────────────────────────────
        BOOKS
        Reads content/books/*.md
        Targets: [data-cms="books-featured-shelf"]  (index.html hero book)
@@ -1165,6 +1271,7 @@ const CMS = (() => {
 
       // Global site settings
         jobs.push(this.loadSocial());
+        jobs.push(this.loadAuthor());
 
       if (has('books-featured-shelf') || has('books-list'))
         jobs.push(this.loadBooks());
