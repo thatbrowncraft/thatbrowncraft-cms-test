@@ -1,6 +1,6 @@
 ---
 reader_name: alaira_16
-reader_handle: ''
+reader_handle: alaira_16
 book: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 rating: 5
 contains_spoilers: false
