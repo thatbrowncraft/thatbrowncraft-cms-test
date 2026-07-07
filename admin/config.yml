@@ -12,7 +12,7 @@
 #       e.g. https://sveltia-cms-auth.YOUR-NAME.workers.dev
 #
 # Everything else is final and production-ready.
-# All 10 collections, every widget, every field, every
+# All 11 collections, every widget, every field, every
 # media folder, slug, summary, and commit message is preserved.
 # ============================================================
 
@@ -1149,6 +1149,49 @@ collections:
           label: "Tag"
           name: "tag"
           widget: "string"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 11: STATISTICS / MILESTONES
+# ────────────────────────────────────────────────────────────
+
+  - name: "statistics"
+    label: "📊 Statistics / Milestones"
+    label_singular: "Milestone"
+    folder: "content/statistics"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{value}} — {{title}} ({{status}})"
+    description: >
+      The milestone cards on the Hall of Fame page's "The Milestones"
+      section (e.g. "1M+ Total Reads"). Add, remove, reorder, or edit
+      any milestone straight from the dashboard — no code changes needed.
+    fields:
+      - label: "Value"
+        name: "value"
+        widget: "string"
+        hint: "The big headline number — e.g. 1M+, 50K, 4.9★"
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "What the value represents — e.g. Total Reads"
+      - label: "Subtitle"
+        name: "subtitle"
+        widget: "string"
+        required: false
+        hint: "Optional smaller line under the title — e.g. Across all platforms"
+      - label: "Display Order"
+        name: "display_order"
+        widget: "number"
+        default: 1
+        hint: "Lower numbers appear first. Use 1, 2, 3... to control the order milestones are shown in."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+        hint: "Only Published milestones appear on the live site."
 
 # ============================================================
 # END OF CONFIG
