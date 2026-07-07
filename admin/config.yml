@@ -358,17 +358,8 @@ collections:
         widget: "string"
       - label: "Scene Type"
         name: "scene_type"
-        widget: "select"
-        options:
-          - { label: "Bonus Scene",        value: "bonus_scene"        }
-          - { label: "Deleted Scene",       value: "deleted_scene"      }
-          - { label: "Character POV",       value: "character_pov"      }
-          - { label: "Festival Special",    value: "festival_special"   }
-          - { label: "Birthday Special",    value: "birthday_special"   }
-          - { label: "Letter",              value: "letter"             }
-          - { label: "Mini Story",          value: "mini_story"         }
-          - { label: "Alternative Ending",  value: "alternative_ending" }
-        default: "bonus_scene"
+        widget: "string"
+        hint: "Type any category name you want."
       - label: "Related Book"
         name: "book"
         widget: "string"
