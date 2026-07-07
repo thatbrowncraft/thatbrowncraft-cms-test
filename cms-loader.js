@@ -844,31 +844,51 @@ const CMS = (() => {
           <span class="verse-lotus" aria-hidden="true">🪷</span>`;
       });
 
+      // Group verses by chapter (frontend-only grouping — CMS entries stay one-per-verse)
+      const chapterOrder = [];
+      const chapterGroups = {};
+      published.forEach(entry => {
+        const ch = entry.data.gita_chapter;
+        if (!chapterGroups[ch]) {
+          chapterGroups[ch] = [];
+          chapterOrder.push(ch);
+        }
+        chapterGroups[ch].push(entry);
+      });
+
       document.querySelectorAll('[data-cms="kanha-verses"]').forEach(el => {
         if (!published.length) {
           el.innerHTML = '<p class="cms-empty">No verses published yet. Add one from the Author Dashboard.</p>';
           return;
         }
-        el.innerHTML = published.map(({ data, body }, i) => `
-          <div class="verse-entry reveal" id="ch${esc(data.gita_chapter)}">
+        el.innerHTML = chapterOrder.map((ch, chIdx) => {
+          const verses = chapterGroups[ch];
+          const versesHTML = verses.map(({ data, body }, i) => `
             <div class="verse-card">
               <div class="verse-card-glow"></div>
-              <span class="verse-chapter-label">Chapter ${esc(data.gita_chapter)} · ${esc(chapterNames[data.gita_chapter] || '')} Yoga${data.title ? ' · ' + esc(data.title) : ''}</span>
+              <span class="verse-chapter-label">Chapter ${esc(ch)} · ${esc(chapterNames[ch] || '')} Yoga${data.title ? ' · ' + esc(data.title) : ''}</span>
               ${data.sanskrit_text ? `<p class="verse-sanskrit">${esc(data.sanskrit_text)}</p>` : ''}
               ${data.english_meaning ? `<p class="verse-meaning">"${esc(data.english_meaning)}"</p>` : ''}
               <div class="verse-rule"></div>
               <p class="verse-reflection">${esc(body)}</p>
               <span class="verse-lotus" aria-hidden="true">🪷</span>
             </div>
-          </div>
-          ${i < published.length - 1 ? `<div class="verse-divider reveal" aria-hidden="true"><div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div></div>` : ''}
-        `).join('');
+            ${i < verses.length - 1 ? `<div class="verse-divider reveal" aria-hidden="true"><div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div></div>` : ''}
+          `).join('');
+
+          return `
+            <div class="verse-entry reveal" id="ch${esc(ch)}">
+              ${versesHTML}
+            </div>
+            ${chIdx < chapterOrder.length - 1 ? `<div class="verse-divider reveal" aria-hidden="true"><div class="vd-line"></div><span class="vd-icon">🪈</span><div class="vd-line"></div></div>` : ''}
+          `;
+        }).join('');
       });
 
       document.querySelectorAll('[data-cms="kanha-chapter-pills"]').forEach(el => {
         if (!published.length) return;
-        el.innerHTML = published.map(({ data }) =>
-          `<button class="chapter-pill" onclick="jumpTo('ch${esc(data.gita_chapter)}')">Ch ${esc(data.gita_chapter)} · ${esc(chapterNames[data.gita_chapter] || '')}</button>`
+        el.innerHTML = chapterOrder.map(ch =>
+          `<button class="chapter-pill" onclick="jumpTo('ch${esc(ch)}')">Ch ${esc(ch)} · ${esc(chapterNames[ch] || '')}</button>`
         ).join('');
       });
 
