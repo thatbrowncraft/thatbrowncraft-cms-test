@@ -26,14 +26,150 @@ const CMS = (() => {
 
   const RAW = path =>
     `https://raw.githubusercontent.com/${USER}/${REPO}/${BRANCH}/${path}`;
-  const API = col =>
-    `https://api.github.com/repos/${USER}/${REPO}/contents/content/${col}`;
+
+  /* One request lists every file in the whole repo, replacing what used
+     to be one GitHub Contents API call PER collection PER page. That
+     per-folder pattern was the actual source of the 429s: GitHub's
+     unauthenticated REST API allows only 60 requests/hour/IP, and a
+     single page can use half a dozen collections. The Git Trees API
+     (recursive) returns the full file listing in one shot regardless
+     of how many collections a page needs. */
+  const TREE_API = () =>
+    `https://api.github.com/repos/${USER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
 
   /* CMS image fields store root-relative paths like "/images/foo.png"
      (public_folder). That breaks on GitHub Pages project sites, where
      "/" resolves to the domain root, not the repo subpath. Resolve
      against the raw content host instead, same as everything else. */
   const IMG = path => path ? RAW(`public${path}`) : '';
+
+  /* ==========================================================
+     CACHING + REQUEST DE-DUPLICATION
+
+     Two problems, two mechanisms:
+
+     1. Same page load asking for the same thing twice (e.g. loadBooks
+        and loadCharacters both touching the "books" collection) —
+        solved by `_inflight`, an in-memory map of promises. The
+        second caller gets the first caller's in-flight promise
+        instead of firing a second network request.
+
+     2. Navigating between pages within the same visit re-fetching
+        content that hasn't changed — solved by sessionStorage, keyed
+        per resource, with a short TTL. Cleared automatically when the
+        tab closes; refreshed automatically once the TTL passes, so
+        newly published content still shows up within a few minutes.
+
+     Both layers fail closed: if sessionStorage is unavailable (private
+     browsing, quota exceeded, etc.) caching just quietly stops
+     happening — nothing else breaks.
+     ========================================================== */
+  const CACHE_PREFIX     = 'cms_cache_v1:';
+  const TREE_TTL_MS       = 5 * 60 * 1000;  // how long the repo file listing is trusted
+  const CONTENT_TTL_MS    = 5 * 60 * 1000;  // how long individual file content is trusted
+
+  function cacheGet(key) {
+    try {
+      const raw = sessionStorage.getItem(CACHE_PREFIX + key);
+      if (!raw) return null;
+      const entry = JSON.parse(raw);
+      if (!entry || typeof entry.t !== 'number') return null;
+      return entry; // { t: <timestamp>, v: <value> }
+    } catch (e) {
+      return null; // corrupted or unreadable — treat as a cache miss
+    }
+  }
+  function cacheSet(key, value) {
+    try {
+      sessionStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ t: Date.now(), v: value }));
+    } catch (e) {
+      /* sessionStorage full or disabled — caching silently stops
+         working for this session, nothing else is affected. */
+    }
+  }
+  function cacheFresh(entry, ttl) {
+    return !!entry && (Date.now() - entry.t) < ttl;
+  }
+
+  const _inflight = new Map();
+  function dedupe(key, fn) {
+    if (_inflight.has(key)) return _inflight.get(key);
+    const p = Promise.resolve().then(fn).finally(() => _inflight.delete(key));
+    _inflight.set(key, p);
+    return p;
+  }
+
+  /* Heuristic guard against treating a GitHub error/outage page as real
+     content. raw.githubusercontent.com and api.github.com both return
+     proper non-200 status codes for rate limits and missing files
+     (already caught by res.ok below), but this is a cheap extra check
+     against the rarer case of a 200 response body that isn't actually
+     the file we asked for — a captive portal, a CDN incident page, etc. */
+  function looksLikeErrorPage(text) {
+    return /^\s*<(!DOCTYPE|html)/i.test(text || '');
+  }
+
+  /* ── repo file listing (replaces per-folder Contents API calls) ── */
+  async function getRepoTree() {
+    const key = 'tree';
+    const cached = cacheGet(key);
+    if (cacheFresh(cached, TREE_TTL_MS)) return cached.v;
+
+    return dedupe(key, async () => {
+      try {
+        const res = await fetch(TREE_API());
+        if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
+        const json = await res.json();
+        if (!json || !Array.isArray(json.tree)) throw new Error('unexpected tree response shape');
+        const paths = json.tree
+          .filter(node => node && node.type === 'blob' && typeof node.path === 'string')
+          .map(node => node.path);
+        cacheSet(key, paths);
+        return paths;
+      } catch (e) {
+        console.warn('CMS: could not list repository files (likely GitHub API rate limiting)', e);
+        // A stale listing is still far more useful than none — file
+        // paths practically never change shape, so serving yesterday's
+        // list is safe even if it misses a brand-new file for a bit.
+        if (cached) return cached.v;
+        return null; // genuinely unknown — callers must treat this as "can't confirm", not "empty"
+      }
+    });
+  }
+
+  /* ── single markdown file, cached + de-duplicated ── */
+  async function fetchMarkdown(path, { bypassCache = false } = {}) {
+    const key = `file:${path}`;
+    if (!bypassCache) {
+      const cached = cacheGet(key);
+      if (cacheFresh(cached, CONTENT_TTL_MS)) return cached.v;
+    }
+
+    return dedupe(key, async () => {
+      try {
+        // social.md drives live form-submission wiring and sits behind
+        // Fastly's edge cache, which can serve a stale copy for minutes
+        // after a real update — independent of any cache of ours. When
+        // bypassCache is set we fight that with a cache-busting query
+        // param and a hard no-store, same as before this refactor.
+        const bust = bypassCache ? `${path.includes('?') ? '&' : '?'}_=${Date.now()}` : '';
+        const res = await fetch(RAW(path) + bust, bypassCache ? { cache: 'no-store' } : undefined);
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const text = await res.text();
+        if (looksLikeErrorPage(text)) throw new Error('response body looks like an HTML error page, not markdown');
+        const parsed = parseFM(text);
+        if (!bypassCache) cacheSet(key, parsed);
+        return parsed;
+      } catch (e) {
+        console.warn(`CMS: file fetch failed: ${path}`, e);
+        if (!bypassCache) {
+          const stale = cacheGet(key);
+          if (stale) return stale.v; // old content beats no content
+        }
+        return null; // signals failure — caller must not treat this as "file is empty"
+      }
+    });
+  }
 
   /* ── frontmatter parser ──
      Handles scalars, booleans, numbers, multiline | blocks,
@@ -103,22 +239,42 @@ const CMS = (() => {
     return { data, body };
   }
 
-  /* ── fetch entire collection ── */
+  /* ── fetch entire collection ──
+     Returns a plain array (so every existing .filter/.map/.sort call
+     site keeps working unchanged) but marks it with a non-enumerable
+     `.__failed` flag when the fetch genuinely failed, as opposed to
+     the collection genuinely having zero entries. Render code checks
+     this flag before deciding whether to show an empty-state message —
+     see anyFailed()/renderList() below. */
+  function markFailed(arr) {
+    Object.defineProperty(arr, '__failed', { value: true, enumerable: false });
+    return arr;
+  }
+
   async function fetchCollection(folder) {
-    try {
-      const res = await fetch(API(folder));
-      if (!res.ok) return [];
-      const files = (await res.json()).filter(f => f.name.endsWith('.md'));
-      return Promise.all(files.map(async f => {
-        const r = await fetch(RAW(`content/${folder}/${f.name}`));
-        const { data, body } = parseFM(await r.text());
-        data._slug = f.name.replace('.md', '');
-        return { data, body };
-      }));
-    } catch (e) {
-      console.warn(`CMS collection fetch failed: ${folder}`, e);
-      return [];
-    }
+    const tree = await getRepoTree();
+    if (!tree) return markFailed([]); // couldn't even determine what files exist
+
+    const prefix = `content/${folder}/`;
+    const paths = tree.filter(p => p.startsWith(prefix) && p.endsWith('.md'));
+    if (!paths.length) return []; // confirmed empty collection — not a failure
+
+    const results = await Promise.all(paths.map(p => fetchMarkdown(p)));
+    const good = [];
+    let anyFileFailed = false;
+    results.forEach((r, i) => {
+      if (!r) { anyFileFailed = true; return; }
+      const { data, body } = r;
+      data._slug = paths[i].slice(prefix.length).replace(/\.md$/, '');
+      good.push({ data, body });
+    });
+
+    // Some files failing while others succeed still renders what we
+    // have (better than showing nothing) with just a console warning.
+    // Only mark the whole thing as failed if literally nothing came
+    // through, so real emptiness and total failure aren't confused.
+    if (anyFileFailed && !good.length) return markFailed(good);
+    return good;
   }
 
   /* ── legacy Hall of Fame bridge ──
@@ -226,26 +382,15 @@ const CMS = (() => {
   }
 
   /* ── fetch single settings file ──
-     raw.githubusercontent.com sits behind Fastly's edge cache. A plain
-     fetch() here can silently return a stale cached copy of the file
-     for several minutes (or longer) after a real update is pushed —
-     independent of the browser's own HTTP cache. That's fatal for
-     social.md specifically, since it drives live form-submission
-     wiring: a stale copy missing the newest keys means __craftiesForms
-     silently gets built with empty urls/fields, and nothing ever
-     reaches Google Forms even though the file on GitHub is correct.
-     Force a fresh origin fetch every time with a cache-busting query
-     param + cache:'no-store'. */
-  async function fetchFile(path) {
-    try {
-      const bust = `${path.includes('?') ? '&' : '?'}_=${Date.now()}`;
-      const r = await fetch(RAW(path) + bust, { cache: 'no-store' });
-      if (!r.ok) return { data: {}, body: '' };
-      return parseFM(await r.text());
-    } catch (e) {
-      console.warn(`CMS file fetch failed: ${path}`, e);
-      return { data: {}, body: '' };
-    }
+     Cached and de-duplicated by default, same as collection files.
+     Pass { bypassCache: true } for anything that must always be
+     genuinely fresh — currently just social.md, which drives live
+     form-submission wiring and sits behind Fastly's edge cache (a
+     separate staleness problem from our own caching, fought the same
+     way as before: a cache-busting query param + no-store). */
+  async function fetchFile(path, opts) {
+    const parsed = await fetchMarkdown(path, opts);
+    return parsed || { data: {}, body: '' };
   }
 
   /* ── markdown to html ── */
@@ -430,6 +575,30 @@ const CMS = (() => {
     });
   }
 
+  /* ── failure-aware list rendering ──
+     True if ANY of the given fetches (collections or legacy bridges)
+     came back marked failed by fetchCollection's markFailed(). Called
+     with the raw fetched arrays, before any .filter()/.map() — those
+     return plain new arrays and don't carry the flag forward. */
+  function anyFailed(...arrs) {
+    return arrs.some(a => a && a.__failed);
+  }
+
+  /* Renders a simple item list into every element with this data-cms
+     attribute. On genuine emptiness, shows emptyMessage. On fetch
+     failure, leaves whatever's already in the element untouched
+     (static fallback markup, or a previous successful render) instead
+     of overwriting real content with a false "nothing published yet". */
+  function renderList(selector, items, failed, emptyMessage, renderItem, joinWith = '') {
+    document.querySelectorAll(`[data-cms="${selector}"]`).forEach(el => {
+      if (!items.length) {
+        if (!failed) el.innerHTML = `<p class="cms-empty">${esc(emptyMessage)}</p>`;
+        return;
+      }
+      el.innerHTML = items.map(renderItem).join(joinWith);
+    });
+  }
+
   /* ==========================================================
      PUBLIC METHODS
      ========================================================== */
@@ -442,7 +611,7 @@ const CMS = (() => {
        Wires:     [data-cms="form-crafties"] etc to Google Form URLs
        ──────────────────────────────────────────────────────── */
     async loadSocial() {
-      const { data } = await fetchFile('content/settings/social.md');
+      const { data } = await fetchFile('content/settings/social.md', { bypassCache: true });
 
       document.querySelectorAll('[data-cms="social-pills"]').forEach(el => {
         const pills = [
@@ -623,6 +792,7 @@ const CMS = (() => {
         fetchCollection('books'),
         fetchCollection('characters')
       ]);
+      const failed = anyFailed(entries, characterEntries);
 
       const published = entries
         .filter(e => e.data.status === 'published')
@@ -640,7 +810,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="books-featured-shelf"]').forEach(el => {
         if (!featured) {
-          el.innerHTML = '<p class="cms-empty">No books published yet. Add one from the dashboard.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No books published yet. Add one from the dashboard.</p>';
           return;
         }
         el.innerHTML = this._featuredBookHTML(featured);
@@ -648,7 +818,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="books-list"]').forEach(el => {
         if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No books published yet. Add one from the Author Dashboard.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No books published yet. Add one from the Author Dashboard.</p>';
           return;
         }
         el.innerHTML = published.map((e) => this._bookEntryHTML(e, publishedCharacters)).join(
@@ -830,6 +1000,8 @@ const CMS = (() => {
         fetchCollection('characters'),
         fetchCollection('books')
       ]);
+      const failed = anyFailed(entries, bookEntries);
+
       const published = entries
         .filter(e => e.data.status === 'published' && e.data.is_featured !== false)
         .sort((a, b) => (parseInt(a.data.display_order) || 99) - (parseInt(b.data.display_order) || 99));
@@ -845,6 +1017,10 @@ const CMS = (() => {
         .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''));
 
       document.querySelectorAll('[data-cms="characters-book-filters"]').forEach(el => {
+        // A failed fetch means publishedBooks is an empty guess, not a
+        // confirmed "no books" — don't wipe out filter buttons already
+        // sitting in the DOM from a previous successful render.
+        if (failed && !publishedBooks.length) return;
         el.innerHTML = publishedBooks.map(b =>
           `<button class="filter-btn" data-filter="${esc(slugify(b.title))}">${esc(b.title)}</button>`
         ).join('');
@@ -852,7 +1028,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="characters-polaroids"]').forEach(el => {
         if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No characters published yet.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No characters published yet.</p>';
           return;
         }
         const preview = published.slice(0, 6);
@@ -867,13 +1043,9 @@ const CMS = (() => {
           `<a href="characters.html" class="polaroid-see-all reveal"><span>→</span><span>Meet the full cast</span></a>`;
       });
 
-      document.querySelectorAll('[data-cms="characters-grid"]').forEach(el => {
-        if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No characters published yet. Add one from the Author Dashboard.</p>';
-          return;
-        }
-        el.innerHTML = published.map(e => this._charCardHTML(e, publishedBooks)).join('');
-      });
+      renderList('characters-grid', published, failed,
+        'No characters published yet. Add one from the Author Dashboard.',
+        e => this._charCardHTML(e, publishedBooks));
 
       return published;
     },
@@ -950,6 +1122,7 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadBonusScenes() {
       const entries = await fetchCollection('bonus-scenes');
+      const failed = anyFailed(entries);
       const published = entries
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (b.data.published_at || '').localeCompare(a.data.published_at || ''));
@@ -989,6 +1162,11 @@ const CMS = (() => {
       const labelFor = t => typeLabels[t] || autoLabel(t);
 
       document.querySelectorAll('[data-cms="bonus-filters"]').forEach(el => {
+        // A failed fetch means "published" is an empty guess, not a
+        // confirmed empty collection — don't erase filter buttons a
+        // previous successful load already generated.
+        if (failed && !published.length) return;
+
         /* Unique scene_type values actually present among published
            entries — a type with zero entries never appears, and a
            brand-new type the author invents in the dashboard appears
@@ -1007,14 +1185,9 @@ const CMS = (() => {
         ).join(''));
       });
 
-      document.querySelectorAll('[data-cms="bonus-preview"]').forEach(el => {
-        if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No bonus scenes published yet.</p>';
-          return;
-        }
-        el.innerHTML = published.slice(0, 3).map(({ data }) => {
-          const t = normType(data.scene_type);
-          return `
+      renderList('bonus-preview', published.slice(0, 3), failed, 'No bonus scenes published yet.', ({ data }) => {
+        const t = normType(data.scene_type);
+        return `
           <a href="bonus.html#scene-${esc(data._slug)}" class="letter-card reveal">
             <div class="letter-seal" aria-hidden="true">${sealIcons[t] || '✦'}</div>
             <span class="letter-tag">${esc((data.characters || []).map(c => c.name || c).join(' × ')) || labelFor(t) || ''}</span>
@@ -1022,17 +1195,11 @@ const CMS = (() => {
             <p class="letter-excerpt">${esc(data.teaser || '')}</p>
             <span class="letter-read">Read the scene →</span>
           </a>`;
-        }).join('');
       });
 
-      document.querySelectorAll('[data-cms="bonus-grid"]').forEach(el => {
-        if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No bonus scenes published yet. Add one from the Author Dashboard.</p>';
-          return;
-        }
-        el.innerHTML = published.map(({ data }) => {
-          const t = normType(data.scene_type) || 'bonus_scene';
-          return `
+      renderList('bonus-grid', published, failed, 'No bonus scenes published yet. Add one from the Author Dashboard.', ({ data }) => {
+        const t = normType(data.scene_type) || 'bonus_scene';
+        return `
           <div class="letter-card reveal" data-type="${esc(t)}" onclick="openScene('${esc(data._slug)}')">
             <div class="letter-torn-top"></div>
             <div class="letter-body">
@@ -1045,7 +1212,6 @@ const CMS = (() => {
             </div>
             <div class="letter-torn-bottom"></div>
           </div>`;
-        }).join('');
       });
 
       const modalHost = document.querySelector('[data-cms="bonus-modal-host"]');
@@ -1113,6 +1279,7 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadKanha() {
       const entries = await fetchCollection('kanha');
+      const failed = anyFailed(entries);
       const published = entries
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (parseInt(a.data.gita_chapter) || 99) - (parseInt(b.data.gita_chapter) || 99));
@@ -1128,7 +1295,7 @@ const CMS = (() => {
       document.querySelectorAll('[data-cms="kanha-preview"]').forEach(el => {
         const featured = published.find(e => e.data.is_featured) || published[0];
         if (!featured) {
-          el.innerHTML = '<p class="cms-empty">No verses published yet.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No verses published yet.</p>';
           return;
         }
         const { data, body } = featured;
@@ -1154,7 +1321,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="kanha-verses"]').forEach(el => {
         if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No verses published yet. Add one from the Author Dashboard.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No verses published yet. Add one from the Author Dashboard.</p>';
           return;
         }
         el.innerHTML = chapterOrder.map((ch, chIdx) => {
@@ -1200,23 +1367,18 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadUpdatesPreview() {
       const entries = await fetchCollection('updates');
+      const failed = anyFailed(entries);
       const published = entries
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (b.data.date || '').localeCompare(a.data.date || ''))
         .slice(0, 3);
 
-      document.querySelectorAll('[data-cms="updates-latest"]').forEach(el => {
-        if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No updates yet.</p>';
-          return;
-        }
-        el.innerHTML = published.map(({ data, body }) => `
+      renderList('updates-latest', published, failed, 'No updates yet.', ({ data, body }) => `
           <div class="update-preview">
             <span class="update-date">${formatDate(data.date)}</span>
             <h4 class="update-title">${esc(data.title)}</h4>
             <p class="update-excerpt">${esc(data.excerpt || firstPara(body))}</p>
-          </div>`).join('');
-      });
+          </div>`);
 
       return published;
     },
@@ -1229,6 +1391,7 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadReviews() {
       const entries = await fetchCollection('featured-reviews');
+      const failed = anyFailed(entries);
       /* Reviews created before the Status field existed have no
          `status` key at all — treat that as Published so nothing
          that was already live silently vanishes. */
@@ -1238,7 +1401,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="reviews-grid"], [data-cms="hof-reviews"]').forEach(el => {
         if (!sorted.length) {
-          el.innerHTML = '<p class="cms-empty">No reviews yet. Be the first to leave one.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No reviews yet. Be the first to leave one.</p>';
           return;
         }
         el.innerHTML = sorted.map(({ data, body }) => `
@@ -1255,7 +1418,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="reviews-featured"]').forEach(el => {
         const pinned = sorted.find(e => e.data.is_pinned) || sorted[0];
-        if (!pinned) return;
+        if (!pinned) return; // no placeholder message here before or after — leave as is either way
         el.innerHTML = `
           <blockquote class="featured-review">
             <p>${esc(firstPara(pinned.body))}</p>
@@ -1276,6 +1439,7 @@ const CMS = (() => {
         fetchCollection('fan-art'),
         fetchLegacyHallOfFame(),
       ]);
+      const failed = anyFailed(entries, legacy);
       /* Older pieces have no `status` key — treat that as Published.
          `is_featured` still works exactly like it did before Status
          existed, so either flag can hide a piece. */
@@ -1289,7 +1453,7 @@ const CMS = (() => {
 
       document.querySelectorAll('[data-cms="fanart-grid"], [data-cms="hof-fanart"]').forEach(el => {
         if (!featured.length) {
-          el.innerHTML = '<p class="cms-empty">No fan art yet. Submit yours through the Crafties Post Office.</p>';
+          if (!failed) el.innerHTML = '<p class="cms-empty">No fan art yet. Submit yours through the Crafties Post Office.</p>';
           return;
         }
         el.innerHTML = featured.map(({ data }) => {
@@ -1321,6 +1485,7 @@ const CMS = (() => {
         fetchCollection('hof-comments'),
         fetchLegacyHallOfFame(),
       ]);
+      const failed = anyFailed(entries, legacy);
       const fresh = entries.filter(e => e.data.status === 'published');
       const legacyComments = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'reader_letter'))
         .map(legacyToComment);
@@ -1329,7 +1494,10 @@ const CMS = (() => {
         .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
       document.querySelectorAll('[data-cms="hof-comments"]').forEach(el => {
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No comments yet.</p>'; return; }
+        if (!items.length) {
+          if (!failed) el.innerHTML = '<p class="cms-empty">No comments yet.</p>';
+          return;
+        }
         el.innerHTML = items.map(({ data }) => `
           <div class="comment-card${data.is_pinned ? ' pinned' : ''} reveal">
             <span class="comment-quote-mark">"</span>
@@ -1355,20 +1523,18 @@ const CMS = (() => {
         fetchCollection('golden-quotes'),
         fetchLegacyHallOfFame(),
       ]);
+      const failed = anyFailed(entries, legacy);
       const fresh = entries.filter(e => e.data.status === 'published');
       const legacyQuotes = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'reaction_wall'))
         .map(legacyToQuote);
 
       const items = [...fresh, ...legacyQuotes];
 
-      document.querySelectorAll('[data-cms="hof-quotes"]').forEach(el => {
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No quotes yet.</p>'; return; }
-        el.innerHTML = items.map(({ data }) => `
+      renderList('hof-quotes', items, failed, 'No quotes yet.', ({ data }) => `
           <div class="quote-card reveal">
             <p class="quote-text">"${esc(data.quote || '')}"</p>
             <span class="quote-reader">— ${esc(data.reader_handle || data.reader_name || '')}</span>
-          </div>`).join('');
-      });
+          </div>`);
 
       return items;
     },
@@ -1383,6 +1549,7 @@ const CMS = (() => {
         fetchCollection('reader-theories'),
         fetchLegacyHallOfFame(),
       ]);
+      const failed = anyFailed(entries, legacy);
       const fresh = entries.filter(e => e.data.status === 'published');
       const legacyTheories = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'theorist'))
         .map(legacyToTheory);
@@ -1390,7 +1557,10 @@ const CMS = (() => {
       const items = [...fresh, ...legacyTheories];
 
       document.querySelectorAll('[data-cms="hof-theories"]').forEach(el => {
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No theories yet.</p>'; return; }
+        if (!items.length) {
+          if (!failed) el.innerHTML = '<p class="cms-empty">No theories yet.</p>';
+          return;
+        }
         el.innerHTML = items.map(({ data, body }) => `
           <div class="theory-card reveal">
             <span class="theory-label">Theory${data.theory_correct === 'correct' ? ' · ✓ correct' : data.theory_correct === 'wrong' ? ' · ✗ wrong but fun' : ''}</span>
@@ -1417,6 +1587,7 @@ const CMS = (() => {
         fetchCollection('featured-crafties'),
         fetchLegacyHallOfFame(),
       ]);
+      const failed = anyFailed(entries, legacy);
       const fresh = entries.filter(e => e.data.status === 'published');
       const legacyCrafties = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'featured_reader'))
         .map(legacyToCraftie);
@@ -1424,17 +1595,14 @@ const CMS = (() => {
       const items = [...fresh, ...legacyCrafties]
         .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
-      document.querySelectorAll('[data-cms="hof-crafties"]').forEach(el => {
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No featured readers yet.</p>'; return; }
-        const badges = ['🌟', '💌', '🔥', '🪔', '☕', '📖'];
-        el.innerHTML = items.map(({ data }, i) => `
+      const badges = ['🌟', '💌', '🔥', '🪔', '☕', '📖'];
+      renderList('hof-crafties', items, failed, 'No featured readers yet.', ({ data }, i) => `
           <div class="craftie-card reveal">
             <span class="craftie-badge">${badges[i % badges.length]}</span>
             <div class="craftie-name">${esc(data.reader_name)}</div>
             ${data.reader_handle ? `<span class="craftie-handle">${esc(data.reader_handle)}</span>` : ''}
             <p class="craftie-note">${esc(data.author_note_about_reader || '')}</p>
-          </div>`).join('');
-      });
+          </div>`);
 
       return items;
     },
@@ -1449,22 +1617,17 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadMilestones() {
       const entries = await fetchCollection('statistics');
+      const failed = anyFailed(entries);
       const published = entries
         .filter(e => e.data.status === 'published')
         .sort((a, b) => (parseInt(a.data.display_order) || 99) - (parseInt(b.data.display_order) || 99));
 
-      document.querySelectorAll('[data-cms="hof-milestones"]').forEach(el => {
-        if (!published.length) {
-          el.innerHTML = '<p class="cms-empty">No statistics published yet.</p>';
-          return;
-        }
-        el.innerHTML = published.map(({ data }) => `
+      renderList('hof-milestones', published, failed, 'No statistics published yet.', ({ data }) => `
           <div class="milestone-card reveal">
             <span class="milestone-number">${esc(data.value)}</span>
             <span class="milestone-label">${esc(data.title)}</span>
             ${data.subtitle ? `<span class="milestone-date">${esc(data.subtitle)}</span>` : ''}
-          </div>`).join('');
-      });
+          </div>`);
 
       return published;
     },
