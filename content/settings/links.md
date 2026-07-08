@@ -9,7 +9,7 @@ links:
     is_active: true
     description: Where stories first learn to breathe.
   - label: Instagram
-    url: https://www.instagram.com/that_browncraft/profilecard/?igsh=NGEzNG14aXdjZHZk
+    url: https://www.instagram.com/that_browncraft
     icon: ✒️
     is_active: true
     description: Chaos, aesthetics, and emotional damage.
@@ -33,12 +33,12 @@ links:
     icon: ✒️
     is_active: true
     description: Moodboards and fictional lives.
-  - label: Kindle
+  - label: Amodini on Kindle
     url: https://a.co/d/8R05JHj
     icon: ✒️
     is_active: true
     description: Secret comfortplace
-  - label: Unfiltered me journal
+  - label: Unfiltered me journal paperback
     url: https://store.pothi.com/book/thatbrowncraft-unfiltered-me-journal-chaos-clarity-and-confessions-you-never-said-out-loud/
     icon: ✒️
     is_active: true
@@ -48,4 +48,10 @@ links:
     icon: ✒️
     is_active: true
     description: For Indian readers
+  - label: Amazon author page
+    url: https://www.amazon.com/author/thatbrowncraft
+    icon: ✒️
+    category: ''
+    is_active: true
+    description: For international readers
 ---
