@@ -572,18 +572,9 @@ collections:
         hint: "Write your full update here. Think of it like a blog post."
       - label: "Update Type"
         name: "update_type"
-        widget: "select"
+        widget: "string"
         required: false
-        options:
-          - { label: "📖 New Chapter",     value: "chapter"   }
-          - { label: "✨ Bonus Scene",      value: "bonus"     }
-          - { label: "🏆 Milestone",        value: "milestone" }
-          - { label: "✍️ Author Note",      value: "note"      }
-          - { label: "📦 Paperback",        value: "paperback" }
-          - { label: "🌟 Character Reveal", value: "reveal"    }
-          - { label: "🎵 New Playlist",     value: "playlist"  }
-          - { label: "🎉 Reader Event",     value: "event"     }
-          - { label: "🌿 Writing Break",    value: "break"     }
+        hint: "Type any category, e.g. chapter, bonus, milestone, note, paperback, reveal, playlist, event, break, or a brand-new one. The Updates page filter bar picks up new categories automatically."
       - label: "Pin to Top"
         name: "is_pinned"
         widget: "boolean"
