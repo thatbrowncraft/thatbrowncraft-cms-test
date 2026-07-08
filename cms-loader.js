@@ -1466,7 +1466,8 @@ const CMS = (() => {
           // (the artist's original post), that's offered as its own
           // small, clearly-a-link line below the caption instead —
           // never as something covering the artwork.
-          const img = data.image
+          const hasImage = typeof data.image === 'string' && data.image.trim().length > 0;
+          const img = hasImage
             ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
             : '';
           return `
