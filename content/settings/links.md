@@ -28,11 +28,22 @@ links:
     icon: ✒️
     is_active: true
     description: Cozy reader home
+  - label: Amazon author page
+    url: https://www.amazon.com/author/thatbrowncraft
+    icon: ✒️
+    category: ''
+    is_active: true
+    description: For international readers
   - label: Pinterest
     url: https://in.pinterest.com/thatbrowncraft/
     icon: ✒️
     is_active: true
     description: Moodboards and fictional lives.
+  - label: Amodini paperback
+    url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
+    icon: ✒️
+    is_active: true
+    description: For Indian readers
   - label: Amodini on Kindle
     url: https://a.co/d/8R05JHj
     icon: ✒️
@@ -43,15 +54,4 @@ links:
     icon: ✒️
     is_active: true
     description: Unfiltered me💅🏽
-  - label: Amodini paperback
-    url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
-    icon: ✒️
-    is_active: true
-    description: For Indian readers
-  - label: Amazon author page
-    url: https://www.amazon.com/author/thatbrowncraft
-    icon: ✒️
-    category: ''
-    is_active: true
-    description: For international readers
 ---
