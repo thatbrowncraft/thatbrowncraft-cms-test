@@ -153,17 +153,28 @@ section,nav,footer{position:relative;z-index:1}
 .fanart-info{padding:0.9rem 1rem}
 .fanart-artist{font-family:var(--font-body);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta);display:block;margin-bottom:0.25rem}
 .fanart-caption{font-family:var(--font-display);font-style:italic;font-size:0.92rem;color:rgba(245,236,215,0.5);line-height:1.4}
+.fanart-original-link{font-family:var(--font-body);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(201,169,110,0.45);display:inline-block;margin-top:0.5rem;transition:color 0.3s}
+.fanart-original-link:hover{color:var(--terracotta);text-decoration:underline}
 
-/* ───── READER REVIEWS ───── */
+/* ───── READER REVIEWS ─────
+   Class names below match what cms-loader.js actually renders for
+   each review card (.review-pin, .review-star per star, .review-avatar,
+   .review-name, .review-book) — kept in sync deliberately so review
+   cards are never missing styling the way fan art briefly was. */
 /* CMS: reader_reviews collection (repeatable: review · reader · platform · rating · show) */
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
-.review-card{background:rgba(59,31,10,0.35);border:1px solid rgba(201,169,110,0.1);padding:1.5rem 1.4rem;transition:border-color 0.3s}
+.review-card{background:rgba(59,31,10,0.35);border:1px solid rgba(201,169,110,0.1);padding:1.5rem 1.4rem;position:relative;transition:border-color 0.3s}
 .review-card:hover{border-color:rgba(201,169,110,0.2)}
-.review-stars{font-size:0.8rem;color:var(--gold);letter-spacing:0.1rem;display:block;margin-bottom:0.75rem}
+.review-card.pinned{border-color:rgba(201,169,110,0.28);background:rgba(201,169,110,0.05)}
+.review-pin{position:absolute;top:1rem;right:1.25rem;font-family:var(--font-body);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);opacity:0.7}
+.review-stars{display:flex;gap:3px;margin-bottom:0.75rem}
+.review-star{font-size:0.85rem;color:var(--gold)}
+.review-star.empty{color:rgba(201,169,110,0.18)}
 .review-text{font-family:var(--font-display);font-style:italic;font-size:1.05rem;color:rgba(245,236,215,0.65);line-height:1.7;margin-bottom:1rem}
-.review-meta{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
-.review-reader{font-family:var(--font-body);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta)}
-.review-platform{font-family:var(--font-body);font-size:0.55rem;letter-spacing:0.08em;color:rgba(245,236,215,0.2);text-transform:uppercase}
+.review-meta{display:flex;align-items:center;gap:0.75rem}
+.review-avatar{width:32px;height:32px;border-radius:50%;background:rgba(200,149,107,0.2);border:1px solid rgba(200,149,107,0.25);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
+.review-name{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+.review-book{font-family:var(--font-body);font-size:0.6rem;color:rgba(245,236,215,0.25);letter-spacing:0.05em}
 
 /* ───── MILESTONES ───── */
 /* CMS: milestones collection (repeatable: number · label · date · show) */

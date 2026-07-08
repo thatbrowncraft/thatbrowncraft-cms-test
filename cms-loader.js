@@ -1458,15 +1458,24 @@ const CMS = (() => {
         }
         el.innerHTML = featured.map(({ data }) => {
           const ext = data.external_link || '';
+          // The image itself is always a plain, static <img> — never
+          // wrapped in a link. No lightbox/gallery exists on this site
+          // to open instead, so an image with no real destination must
+          // not be clickable at all (that's what was sending clicks to
+          // a 404). If the entry does have a genuine external_link
+          // (the artist's original post), that's offered as its own
+          // small, clearly-a-link line below the caption instead —
+          // never as something covering the artwork.
           const img = data.image
             ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
             : `<div class="fanart-img-placeholder">art coming soon</div>`;
           return `
             <div class="fanart-card reveal">
-              ${ext ? `<a href="${esc(ext)}" target="_blank" rel="noopener noreferrer">${img}</a>` : img}
+              ${img}
               <div class="fanart-info">
                 <span class="fanart-artist">${esc(data.artist_name || '')}${data.artist_handle ? ' — ' + esc(data.artist_handle) : ''}</span>
                 <span class="fanart-caption">${esc(data.description || data.book_or_character || '')}</span>
+                ${ext ? `<a href="${esc(ext)}" target="_blank" rel="noopener noreferrer" class="fanart-original-link">View original ↗</a>` : ''}
               </div>
             </div>`;
         }).join('');
