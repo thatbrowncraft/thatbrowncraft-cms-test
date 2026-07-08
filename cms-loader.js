@@ -1468,7 +1468,7 @@ const CMS = (() => {
           // never as something covering the artwork.
           const img = data.image
             ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
-            : `<div class="fanart-img-placeholder">art coming soon</div>`;
+            : '';
           return `
             <div class="fanart-card reveal">
               ${img}

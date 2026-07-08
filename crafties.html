@@ -575,9 +575,19 @@ section,nav,footer{position:relative;z-index:1}
    property inline (see .pc-back style="..." in the HTML), which
    would otherwise win over this media query and cause the
    horizontal overflow/clipping this fixes.
+
+   .pc-back is also switched from the shared .pc-face absolute/
+   inset:0 positioning to a normal in-flow block here. Desktop
+   relies on that absolute positioning to stack front/back exactly
+   on top of each other at a fixed 480px height, which is fine
+   there since the 3-column form fits. On mobile the single-column
+   form is taller than 480px, and the fixed-height absolute box
+   was clipping the bottom of it (Send button, flip-back button).
+   Letting it size to its own content on mobile fixes that without
+   touching desktop.
    ============================================================ */
 @media(max-width:768px){
-  .pc-back{grid-template-columns:1fr!important}
+  .pc-back{grid-template-columns:1fr!important;position:relative;top:auto;right:auto;bottom:auto;left:auto;height:auto}
   .pc-divider{display:none}
   .pc-right{border-top:1px solid rgba(59,31,10,.12);padding:1.25rem 1.5rem}
 }
