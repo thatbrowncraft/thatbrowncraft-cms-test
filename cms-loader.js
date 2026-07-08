@@ -639,7 +639,11 @@ const CMS = (() => {
       document.querySelectorAll('[data-cms="social-pills"]').forEach(el => {
         const pills = SOCIAL_PLATFORMS
           .map(p => {
-            const raw = (data[p.key] || '').trim();
+            // Strip stray leading/trailing quote characters — the shared
+            // frontmatter parser can leave literal '' or "" behind for
+            // fields the CMS wrote as an empty quoted string, which would
+            // otherwise pass the emptiness check below as truthy text.
+            const raw = (data[p.key] || '').replace(/^['"]+|['"]+$/g, '').trim();
             if (!raw) return null;
             return { url: p.isEmail ? `mailto:${raw}` : raw, label: p.label };
           })
