@@ -643,8 +643,14 @@ const CMS = (() => {
             // frontmatter parser can leave literal '' or "" behind for
             // fields the CMS wrote as an empty quoted string, which would
             // otherwise pass the emptiness check below as truthy text.
-            const raw = (data[p.key] || '').replace(/^['"]+|['"]+$/g, '').trim();
-            if (!raw) return null;
+            // Also reject bare `null`/`undefined` placeholder text: an
+            // untouched optional field can come back from Sveltia/Decap
+            // as an unquoted YAML null, which parseFM's scalar parser
+            // passes through as the literal string "null" (it only
+            // special-cases true/false/numbers) — no quotes to strip,
+            // so it used to sail past the check above as a "real" URL.
+            const raw = String(data[p.key] ?? '').replace(/^['"]+|['"]+$/g, '').trim();
+            if (!raw || raw === 'null' || raw === 'undefined') return null;
             return { url: p.isEmail ? `mailto:${raw}` : raw, label: p.label };
           })
           .filter(Boolean);
