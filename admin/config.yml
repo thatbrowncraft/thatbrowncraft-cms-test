@@ -906,6 +906,43 @@ collections:
             name: "pinterest"
             widget: "string"
             required: false
+          - label: "YouTube URL"
+            name: "youtube"
+            widget: "string"
+            required: false
+          - label: "Goodreads URL"
+            name: "goodreads"
+            widget: "string"
+            required: false
+          - label: "Amazon Author Page URL"
+            name: "amazon_author"
+            widget: "string"
+            required: false
+          - label: "Linktree URL"
+            name: "linktree"
+            widget: "string"
+            required: false
+          - label: "Threads URL"
+            name: "threads"
+            widget: "string"
+            required: false
+          - label: "Facebook URL"
+            name: "facebook"
+            widget: "string"
+            required: false
+          - label: "X (Twitter) URL"
+            name: "x_twitter"
+            widget: "string"
+            required: false
+          - label: "Website URL"
+            name: "website"
+            widget: "string"
+            required: false
+          - label: "Email"
+            name: "email"
+            widget: "string"
+            required: false
+            hint: "Your contact email address. Shown as a mailto: link in the footer."
           - label: "Google Form — Crafties Post Office"
             name: "form_crafties"
             widget: "string"
