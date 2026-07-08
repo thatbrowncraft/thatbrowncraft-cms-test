@@ -121,6 +121,110 @@ const CMS = (() => {
     }
   }
 
+  /* ── legacy Hall of Fame bridge ──
+     content/hall-of-fame/ is the old one-form-fits-all collection.
+     It's kept archived (create: false in config.yml) instead of
+     deleted, so every existing entry keeps working with zero
+     migration required. Each of the four split sections below reads
+     its own new collection AND this legacy one, pulls out just the
+     matching entry_type, reshapes the old field names to match the
+     new schema, and merges the two lists together.
+
+     Fetched once and cached, since up to five loaders may ask for it. */
+  let _legacyHofPromise = null;
+  function fetchLegacyHallOfFame() {
+    if (!_legacyHofPromise) _legacyHofPromise = fetchCollection('hall-of-fame');
+    return _legacyHofPromise;
+  }
+
+  function legacyEntriesOfType(entries, type) {
+    return entries.filter(e => e.data.entry_type === type && e.data.status === 'published');
+  }
+
+  /* Once you copy a legacy entry over into its new collection by hand,
+     set the legacy copy's Status to Draft or Archived so it drops out
+     of legacyEntriesOfType above. This slug check is just a safety net
+     in case the same entry briefly exists live in both places at once. */
+  function dedupeBySlug(alreadyHave, legacyCandidates) {
+    const seen = new Set(alreadyHave.map(e => e.data._slug));
+    return legacyCandidates.filter(e => !seen.has(e.data._slug));
+  }
+
+  function legacyToComment(e) {
+    return {
+      data: {
+        _slug: e.data._slug,
+        reader_name: e.data.reader_name || '',
+        reader_handle: e.data.reader_handle || '',
+        related_book: e.data.related_book || '',
+        comment: firstPara(e.body || '') || e.data.letter_subject || '',
+        status: e.data.status,
+        is_pinned: !!e.data.is_pinned,
+      },
+      body: '',
+    };
+  }
+
+  function legacyToQuote(e) {
+    return {
+      data: {
+        _slug: e.data._slug,
+        reader_name: e.data.reader_name || '',
+        reader_handle: e.data.reader_handle || '',
+        related_book: e.data.related_book || '',
+        quote: e.data.reader_favourite_quote || firstPara(e.body || ''),
+        status: e.data.status,
+      },
+      body: '',
+    };
+  }
+
+  function legacyToTheory(e) {
+    return {
+      data: {
+        _slug: e.data._slug,
+        reader_name: e.data.reader_name || '',
+        reader_handle: e.data.reader_handle || '',
+        related_book: e.data.related_book || '',
+        theory_title: e.data.theory_title || '',
+        theory_correct: e.data.theory_correct || 'unrevealed',
+        status: e.data.status,
+      },
+      body: e.body || '', // kept as markdown, same as the original renderer expects
+    };
+  }
+
+  function legacyToCraftie(e) {
+    return {
+      data: {
+        _slug: e.data._slug,
+        reader_name: e.data.reader_name || '',
+        reader_handle: e.data.reader_handle || '',
+        author_note_about_reader: e.data.author_note_about_reader || '',
+        status: e.data.status,
+        is_pinned: !!e.data.is_pinned,
+      },
+      body: '',
+    };
+  }
+
+  function legacyToFanArt(e) {
+    return {
+      data: {
+        _slug: e.data._slug,
+        artist_name: e.data.reader_name || '',
+        artist_handle: e.data.reader_handle || '',
+        book_or_character: e.data.related_book || e.data.artwork_title || '',
+        description: e.data.artist_description || '',
+        image: e.data.artwork_image || '',
+        external_link: e.data.artwork_external_url || '',
+        is_featured: true,
+        status: e.data.status,
+      },
+      body: '',
+    };
+  }
+
   /* ── fetch single settings file ──
      raw.githubusercontent.com sits behind Fastly's edge cache. A plain
      fetch() here can silently return a stale cached copy of the file
@@ -1168,12 +1272,20 @@ const CMS = (() => {
        Target: [data-cms="fanart-grid"]
        ──────────────────────────────────────────────────────── */
     async loadFanArt() {
-      const entries = await fetchCollection('fan-art');
+      const [entries, legacy] = await Promise.all([
+        fetchCollection('fan-art'),
+        fetchLegacyHallOfFame(),
+      ]);
       /* Older pieces have no `status` key — treat that as Published.
          `is_featured` still works exactly like it did before Status
          existed, so either flag can hide a piece. */
-      const featured = entries.filter(e =>
+      const fresh = entries.filter(e =>
         e.data.status !== 'draft' && e.data.status !== 'archived' && e.data.is_featured !== false);
+
+      const legacyFanArt = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'fan_art_showcase'))
+        .map(legacyToFanArt);
+
+      const featured = [...fresh, ...legacyFanArt];
 
       document.querySelectorAll('[data-cms="fanart-grid"], [data-cms="hof-fanart"]').forEach(el => {
         if (!featured.length) {
@@ -1201,12 +1313,19 @@ const CMS = (() => {
 
     /* ────────────────────────────────────────────────────────
        COMMENTS
-       Reads content/hof-comments/*.md
+       Reads content/hof-comments/*.md, merged with any
+       legacy reader_letter entries still in content/hall-of-fame/
        ──────────────────────────────────────────────────────── */
     async loadComments() {
-      const entries = await fetchCollection('hof-comments');
-      const items = entries
-        .filter(e => e.data.status === 'published')
+      const [entries, legacy] = await Promise.all([
+        fetchCollection('hof-comments'),
+        fetchLegacyHallOfFame(),
+      ]);
+      const fresh = entries.filter(e => e.data.status === 'published');
+      const legacyComments = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'reader_letter'))
+        .map(legacyToComment);
+
+      const items = [...fresh, ...legacyComments]
         .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
       document.querySelectorAll('[data-cms="hof-comments"]').forEach(el => {
@@ -1228,11 +1347,19 @@ const CMS = (() => {
 
     /* ────────────────────────────────────────────────────────
        GOLDEN QUOTES
-       Reads content/golden-quotes/*.md
+       Reads content/golden-quotes/*.md, merged with any
+       legacy reaction_wall entries still in content/hall-of-fame/
        ──────────────────────────────────────────────────────── */
     async loadGoldenQuotes() {
-      const entries = await fetchCollection('golden-quotes');
-      const items = entries.filter(e => e.data.status === 'published');
+      const [entries, legacy] = await Promise.all([
+        fetchCollection('golden-quotes'),
+        fetchLegacyHallOfFame(),
+      ]);
+      const fresh = entries.filter(e => e.data.status === 'published');
+      const legacyQuotes = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'reaction_wall'))
+        .map(legacyToQuote);
+
+      const items = [...fresh, ...legacyQuotes];
 
       document.querySelectorAll('[data-cms="hof-quotes"]').forEach(el => {
         if (!items.length) { el.innerHTML = '<p class="cms-empty">No quotes yet.</p>'; return; }
@@ -1248,11 +1375,19 @@ const CMS = (() => {
 
     /* ────────────────────────────────────────────────────────
        READER THEORIES
-       Reads content/reader-theories/*.md
+       Reads content/reader-theories/*.md, merged with any
+       legacy theorist entries still in content/hall-of-fame/
        ──────────────────────────────────────────────────────── */
     async loadReaderTheories() {
-      const entries = await fetchCollection('reader-theories');
-      const items = entries.filter(e => e.data.status === 'published');
+      const [entries, legacy] = await Promise.all([
+        fetchCollection('reader-theories'),
+        fetchLegacyHallOfFame(),
+      ]);
+      const fresh = entries.filter(e => e.data.status === 'published');
+      const legacyTheories = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'theorist'))
+        .map(legacyToTheory);
+
+      const items = [...fresh, ...legacyTheories];
 
       document.querySelectorAll('[data-cms="hof-theories"]').forEach(el => {
         if (!items.length) { el.innerHTML = '<p class="cms-empty">No theories yet.</p>'; return; }
@@ -1274,12 +1409,19 @@ const CMS = (() => {
 
     /* ────────────────────────────────────────────────────────
        FEATURED CRAFTIES
-       Reads content/featured-crafties/*.md
+       Reads content/featured-crafties/*.md, merged with any
+       legacy featured_reader entries still in content/hall-of-fame/
        ──────────────────────────────────────────────────────── */
     async loadFeaturedCrafties() {
-      const entries = await fetchCollection('featured-crafties');
-      const items = entries
-        .filter(e => e.data.status === 'published')
+      const [entries, legacy] = await Promise.all([
+        fetchCollection('featured-crafties'),
+        fetchLegacyHallOfFame(),
+      ]);
+      const fresh = entries.filter(e => e.data.status === 'published');
+      const legacyCrafties = dedupeBySlug(fresh, legacyEntriesOfType(legacy, 'featured_reader'))
+        .map(legacyToCraftie);
+
+      const items = [...fresh, ...legacyCrafties]
         .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
       document.querySelectorAll('[data-cms="hof-crafties"]').forEach(el => {
