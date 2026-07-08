@@ -639,7 +639,7 @@ const CMS = (() => {
       document.querySelectorAll('[data-cms="social-pills"]').forEach(el => {
         const pills = SOCIAL_PLATFORMS
           .map(p => {
-            const raw = data[p.key];
+            const raw = (data[p.key] || '').trim();
             if (!raw) return null;
             return { url: p.isEmail ? `mailto:${raw}` : raw, label: p.label };
           })
