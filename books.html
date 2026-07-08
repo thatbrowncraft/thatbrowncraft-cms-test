@@ -1106,34 +1106,8 @@ section, nav, footer { position: relative; z-index: 1; }
   <span class="mote m19"></span><span class="mote m20"></span>
 </div>
 
-<!-- NAV -->
-<nav class="site-nav" id="siteNav">
-  <a href="index.html" class="nav-logo" aria-label="thatbrowncraft home">
-    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
-  </a>
-  <div class="nav-links">
-    <a href="books.html"      class="nav-link active-page">Books</a>
-    <a href="characters.html" class="nav-link">Characters</a>
-    <a href="bonus.html"      class="nav-link">One More Chapter</a>
-    <a href="crafties.html"   class="nav-link">Crafties</a>
-    <a href="kanha.html"      class="nav-link">Kanha's Corner</a>
-    <a href="about.html"      class="nav-link">About</a>
-    <a href="links.html"      class="nav-link">Find Me</a>
-  </div>
-  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="nav-mobile" id="mobileMenu">
-  <a href="books.html"      class="nav-link">Books</a>
-  <a href="characters.html" class="nav-link">Characters</a>
-  <a href="bonus.html"      class="nav-link">One More Chapter</a>
-  <a href="crafties.html"   class="nav-link">Crafties</a>
-  <a href="kanha.html"      class="nav-link">Kanha's Corner</a>
-  <a href="about.html"      class="nav-link">About</a>
-  <a href="links.html"      class="nav-link">Find Me</a>
-</div>
+<!-- NAV — shared component, injected by nav.js -->
+<div id="site-nav-mount"></div>
 
 <main>
 
@@ -1190,25 +1164,8 @@ section, nav, footer { position: relative; z-index: 1; }
 
 
 <script>
-// Nav scroll
-const nav = document.getElementById('siteNav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 24);
-}, { passive: true });
-
-// Hamburger
-const burger = document.getElementById('burger');
-const menu   = document.getElementById('mobileMenu');
-burger.addEventListener('click', () => {
-  const open = menu.classList.toggle('open');
-  burger.setAttribute('aria-expanded', String(open));
-});
-menu.querySelectorAll('.nav-link').forEach(l => {
-  l.addEventListener('click', () => {
-    menu.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  });
-});
+// Nav scroll behaviour + hamburger are now wired up by nav.js
+// once it injects the shared nav (see site-nav-mount above).
 
 // Scroll reveal
 const revealObs = new IntersectionObserver((entries) => {
@@ -1229,6 +1186,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 </script>
 
 <script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});</script>
+<script src="nav.js" defer></script>
 <script src="cms-loader.js" defer></script>
 </body>
 </html>

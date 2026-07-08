@@ -132,32 +132,8 @@ section,nav,footer{position:relative;z-index:1}
   <div class="mote m1"></div><div class="mote m2"></div><div class="mote m3"></div><div class="mote m4"></div><div class="mote m5"></div><div class="mote m6"></div><div class="mote m7"></div><div class="mote m8"></div><div class="mote m9"></div><div class="mote m10"></div><div class="mote m11"></div><div class="mote m12"></div><div class="mote m13"></div><div class="mote m14"></div><div class="mote m15"></div><div class="mote m16"></div><div class="mote m17"></div><div class="mote m18"></div><div class="mote m19"></div><div class="mote m20"></div>
 </div>
 
-<nav class="site-nav" id="siteNav" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="thatbrowncraft home">
-    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
-  </a>
-  <ul class="nav-links" role="list">
-    <li><a href="books.html"        class="nav-link">Books</a></li>
-    <li><a href="characters.html"   class="nav-link">Characters</a></li>
-    <li><a href="bonus.html"        class="nav-link">One More Chapter</a></li>
-    <li><a href="kanha.html"        class="nav-link">Kanha's Courtyard</a></li>
-    <li><a href="crafties.html"     class="nav-link">Crafties</a></li>
-    <li><a href="updates.html"      class="nav-link">Updates</a></li>
-    <li><a href="about.html"        class="nav-link active-page">About</a></li>
-  </ul>
-  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-mobile" id="mobileMenu" role="navigation">
-  <a href="books.html"      class="nav-link">Books</a>
-  <a href="characters.html" class="nav-link">Characters</a>
-  <a href="bonus.html"      class="nav-link">One More Chapter</a>
-  <a href="kanha.html"      class="nav-link">Kanha's Courtyard</a>
-  <a href="crafties.html"   class="nav-link">Crafties</a>
-  <a href="updates.html"    class="nav-link">Updates</a>
-  <a href="about.html"      class="nav-link active-page">About</a>
-</div>
+<!-- NAV — shared component, injected by nav.js -->
+<div id="site-nav-mount"></div>
 
 <main>
   <header class="page-header">
@@ -257,6 +233,7 @@ section,nav,footer{position:relative;z-index:1}
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="nav.js" defer></script>
 <script src="cms-loader.js"></script>
 <script>
 /* ============================================================
@@ -410,12 +387,8 @@ async function loadContent() {
   initReveal();
 }
 
-// NAV
-const nav = document.getElementById('siteNav');
-window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 24); }, { passive: true });
-const burger = document.getElementById('burger'), menu = document.getElementById('mobileMenu');
-burger.addEventListener('click', () => { const o = menu.classList.toggle('open'); burger.setAttribute('aria-expanded', String(o)); });
-menu.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => { menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }));
+// Nav scroll behaviour + hamburger are now wired up by nav.js
+// once it injects the shared nav (see site-nav-mount above).
 
 loadContent();
 </script>

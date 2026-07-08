@@ -215,7 +215,8 @@ ul { list-style: none; }
   transition: color 0.3s;
 }
 
-.nav-link:hover { color: var(--terracotta); }
+.nav-link:hover,
+.nav-link.active-page { color: var(--terracotta); }
 
 .nav-hamburger {
   display: none;
@@ -1622,41 +1623,10 @@ section, nav, footer { position: relative; z-index: 1; }
 </div>
 
 <!-- ============================================================
-     NAV
+     NAV — shared component, injected by nav.js (see that file
+     to add/edit links for the whole site in one place)
      ============================================================ -->
-<nav class="site-nav" id="siteNav">
-  <a href="index.html" class="nav-logo" aria-label="thatbrowncraft home">
-    <span class="logo-that">that</span><span class="logo-brown">brown</span><span class="logo-craft">craft</span>
-  </a>
-
-  <div class="nav-links">
-    <a href="books.html"      class="nav-link">Books</a>
-    <a href="characters.html" class="nav-link">Characters</a>
-    <a href="bonus.html"      class="nav-link">One More Chapter</a>
-    <a href="crafties.html"   class="nav-link">Crafties</a>
-    <a href="kanha.html"      class="nav-link">Kanha's Corner</a>
-    <a href="hall-of-fame.html" class="nav-link">Hall of Fame</a>
-    <a href="updates.html"    class="nav-link">Updates</a>
-    <a href="about.html"      class="nav-link">About</a>
-    <a href="links.html"      class="nav-link">Find Me</a>
-  </div>
-
-  <button class="nav-hamburger" id="burger" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="nav-mobile" id="mobileMenu">
-  <a href="books.html"      class="nav-link">Books</a>
-  <a href="characters.html" class="nav-link">Characters</a>
-  <a href="bonus.html"      class="nav-link">One More Chapter</a>
-  <a href="crafties.html"   class="nav-link">Crafties</a>
-  <a href="kanha.html"      class="nav-link">Kanha's Corner</a>
-  <a href="hall-of-fame.html" class="nav-link">Hall of Fame</a>
-  <a href="updates.html"    class="nav-link">Updates</a>
-  <a href="about.html"      class="nav-link">About</a>
-  <a href="links.html"      class="nav-link">Find Me</a>
-</div>
+<div id="site-nav-mount"></div>
 
 <main>
 
@@ -2006,27 +1976,8 @@ section, nav, footer { position: relative; z-index: 1; }
      JAVASCRIPT
      ============================================================ -->
 <script>
-// Nav scroll behaviour
-const nav = document.getElementById('siteNav');
-window.addEventListener('scroll', function () {
-  nav.classList.toggle('scrolled', window.scrollY > 24);
-}, { passive: true });
-
-// Hamburger
-const burger  = document.getElementById('burger');
-const mobileMenu = document.getElementById('mobileMenu');
-
-burger.addEventListener('click', function () {
-  const open = mobileMenu.classList.toggle('open');
-  burger.setAttribute('aria-expanded', String(open));
-});
-
-mobileMenu.querySelectorAll('.nav-link').forEach(function (link) {
-  link.addEventListener('click', function () {
-    mobileMenu.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  });
-});
+// Nav scroll behaviour + hamburger are now wired up by nav.js
+// once it injects the shared nav (see site-nav-mount above).
 
 // Scroll reveal
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2050,6 +2001,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 </script>
 
 <script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});var jd=document.getElementById("journal-date");if(jd){var d=new Date();jd.textContent=d.toLocaleDateString("en-IN",{month:"long",year:"numeric"});};</script>
+<script src="nav.js" defer></script>
 <script src="cms-loader.js" defer></script>
 </body>
 </html>
