@@ -613,13 +613,37 @@ const CMS = (() => {
     async loadSocial() {
       const { data } = await fetchFile('content/settings/social.md', { bypassCache: true });
 
+      // Ordered list of every platform the footer knows how to render.
+      // A platform only becomes a button when its field in
+      // content/settings/social.md is filled in — nothing here is a
+      // guaranteed button. Add a new platform to this list (and to
+      // config.yml) and it starts appearing automatically with zero
+      // further HTML/JS changes; remove a URL in the CMS and its
+      // button disappears, with no gaps left behind.
+      const SOCIAL_PLATFORMS = [
+        { key: 'wattpad',       label: '📖 Wattpad'    },
+        { key: 'instagram',     label: '📸 Instagram'  },
+        { key: 'spotify',       label: '🎵 Spotify'    },
+        { key: 'pinterest',     label: '📌 Pinterest'  },
+        { key: 'youtube',       label: '▶️ YouTube'    },
+        { key: 'goodreads',     label: '📚 Goodreads'  },
+        { key: 'amazon_author', label: '📦 Amazon'     },
+        { key: 'linktree',      label: '🔗 Linktree'   },
+        { key: 'threads',       label: '🧵 Threads'    },
+        { key: 'facebook',      label: '📘 Facebook'   },
+        { key: 'x_twitter',     label: '✕ X'           },
+        { key: 'website',       label: '🌐 Website'    },
+        { key: 'email',         label: '✉️ Email', isEmail: true }
+      ];
+
       document.querySelectorAll('[data-cms="social-pills"]').forEach(el => {
-        const pills = [
-          data.wattpad   && { url: data.wattpad,   label: '📖 Wattpad'   },
-          data.instagram && { url: data.instagram, label: '📸 Instagram' },
-          data.spotify   && { url: data.spotify,   label: '🎵 Spotify'   },
-          data.pinterest && { url: data.pinterest, label: '📌 Pinterest' }
-        ].filter(Boolean);
+        const pills = SOCIAL_PLATFORMS
+          .map(p => {
+            const raw = data[p.key];
+            if (!raw) return null;
+            return { url: p.isEmail ? `mailto:${raw}` : raw, label: p.label };
+          })
+          .filter(Boolean);
         if (pills.length) {
           el.innerHTML = pills.map(p =>
             `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" class="social-pill">${p.label}</a>`
