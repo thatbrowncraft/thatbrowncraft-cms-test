@@ -603,14 +603,18 @@ collections:
 # ────────────────────────────────────────────────────────────
 
   - name: "featured_reviews"
-    label: "⭐ Featured Reviews"
+    label: "⭐ Reader Reviews"
     label_singular: "Review"
     folder: "content/featured-reviews"
     create: true
     slug: "{{slug}}"
     summary: "{{reader_name}} — {{book}} ({{rating}} stars)"
+    description: >
+      One simple form per review. Nothing shared with any other
+      collection — safe to add, edit, or archive reviews without
+      touching anything else on the site.
     fields:
-      - label: "Reader Name"
+      - label: "Reviewer Name"
         name: "reader_name"
         widget: "string"
       - label: "Reader Handle"
@@ -618,10 +622,19 @@ collections:
         widget: "string"
         required: false
         hint: "Their Wattpad or Instagram handle — e.g. @raghav_simp"
-      - label: "Book"
+      - label: "Related Book"
         name: "book"
         widget: "string"
         hint: "Which book is this review for?"
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "published"
+        hint: "Older reviews created before this field existed are treated as Published automatically, so nothing disappears."
       - label: "Rating"
         name: "rating"
         widget: "select"
@@ -655,12 +668,16 @@ collections:
 # ────────────────────────────────────────────────────────────
 
   - name: "fan_art"
-    label: "🎨 Featured Fan Art"
+    label: "🎨 Fan Art"
     label_singular: "Fan Art"
     folder: "content/fan-art"
     create: true
     slug: "{{slug}}"
     summary: "{{artist_name}} — {{book_or_character}}"
+    description: >
+      One simple form per piece of fan art. This already lived
+      outside the old giant Hall of Fame form — it just gets a
+      Status field now instead of only a Feature toggle.
     fields:
       - label: "Artist Name"
         name: "artist_name"
@@ -675,15 +692,10 @@ collections:
         widget: "string"
         required: false
         hint: "Where to find them — Instagram, Twitter, DeviantArt..."
-      - label: "Book or Character"
+      - label: "Related Book"
         name: "book_or_character"
         widget: "string"
         hint: "What does this art depict? e.g. Raghav & Sree, Amodini"
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        required: false
-        hint: "The artist's own description of their work."
       - label: "Artwork Image"
         name: "image"
         widget: "image"
@@ -691,15 +703,35 @@ collections:
         hint: "Upload the fan art file. Get permission from the artist first."
         media_folder: "/public/images/fan-art"
         public_folder: "/images/fan-art"
-      - label: "External Link"
+      - label: "Artwork Link"
         name: "external_link"
         widget: "string"
         required: false
         hint: "If art is on Instagram/DeviantArt, paste the link here instead of uploading."
+      - label: "Artist Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "The artist's own description of their work."
+      - label: "Author Reaction"
+        name: "author_reaction"
+        widget: "text"
+        required: false
+        hint: "What did you feel when you first saw this? Not shown on the site yet, just kept for you."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "published"
+        hint: "Older pieces created before this field existed are treated as Published automatically, so nothing disappears."
       - label: "Feature This Piece"
         name: "is_featured"
         widget: "boolean"
         default: true
+        hint: "Kept from before — Status now does the same job, but this stays so nothing you already set gets overridden."
       - label: "Date"
         name: "date"
         widget: "datetime"
@@ -928,20 +960,251 @@ collections:
             hint: "Image shown when someone shares your website on WhatsApp or Instagram."
 
 # ────────────────────────────────────────────────────────────
-# COLLECTION 10: HALL OF FAME
+# COLLECTION 10: COMMENTS
 # ────────────────────────────────────────────────────────────
 
-  - name: "hall_of_fame"
-    label: "🏅 Hall of Fame"
-    label_singular: "Hall of Fame Entry"
-    folder: "content/hall-of-fame"
+  - name: "hof_comments"
+    label: "💬 Comments"
+    label_singular: "Comment"
+    folder: "content/hof-comments"
     create: true
+    slug: "{{slug}}"
+    summary: "{{reader_name}} — {{status}}"
+    description: >
+      The "Comments I Saved" section on the Hall of Fame page.
+      One small form per comment — nothing else on the site is
+      affected by anything you do here.
+    fields:
+      - label: "Reader Name"
+        name: "reader_name"
+        widget: "string"
+        hint: "How they want to be known — real name, Wattpad handle, or anonymous."
+      - label: "Reader Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+        hint: "e.g. @raghav_simp_4ever — shown instead of their name if filled in."
+      - label: "Related Book"
+        name: "related_book"
+        widget: "string"
+        required: false
+        hint: "Which book is this comment about? e.g. Amodini"
+      - label: "Comment"
+        name: "comment"
+        widget: "text"
+        hint: "Paste the comment here exactly as they wrote it."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "draft"
+      - label: "Pin to Top"
+        name: "is_pinned"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Pinned comments always appear first, above all others."
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 11: GOLDEN QUOTES
+# ────────────────────────────────────────────────────────────
+
+  - name: "golden_quotes"
+    label: "✨ Golden Quotes"
+    label_singular: "Golden Quote"
+    folder: "content/golden-quotes"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{reader_name}} — {{status}}"
+    description: >
+      The "Golden Quotes" section on the Hall of Fame page.
+      Short and sweet — one quote per entry.
+    fields:
+      - label: "Reader Name"
+        name: "reader_name"
+        widget: "string"
+      - label: "Reader Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+        hint: "e.g. @raghav_simp_4ever — shown instead of their name if filled in."
+      - label: "Related Book"
+        name: "related_book"
+        widget: "string"
+        required: false
+        hint: "Which book is this quote about? e.g. Amodini"
+      - label: "Quote"
+        name: "quote"
+        widget: "text"
+        hint: "The line that hit harder than your own writing."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "draft"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 12: READER THEORIES
+# ────────────────────────────────────────────────────────────
+
+  - name: "reader_theories"
+    label: "🔍 Reader Theories"
+    label_singular: "Theory"
+    folder: "content/reader-theories"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{reader_name}} — {{theory_title}} ({{status}})"
+    description: >
+      The "Reader Theories" section on the Hall of Fame page.
+      One form per theory, with a spot to say whether they
+      called it or not.
+    fields:
+      - label: "Reader Name"
+        name: "reader_name"
+        widget: "string"
+      - label: "Reader Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+        hint: "e.g. @raghav_simp_4ever — shown instead of their name if filled in."
+      - label: "Related Book"
+        name: "related_book"
+        widget: "string"
+        required: false
+        hint: "Which book is this theory about? e.g. Amodini"
+      - label: "Theory Title"
+        name: "theory_title"
+        widget: "string"
+        hint: "Give their theory a title."
+      - label: "Theory"
+        name: "theory"
+        widget: "markdown"
+        hint: "What did they predict?"
+        toolbar_buttons:
+          - bold
+          - italic
+          - link
+      - label: "Were They Right?"
+        name: "theory_correct"
+        widget: "select"
+        options:
+          - { label: "✓ Exactly right",        value: "correct"    }
+          - { label: "◑ Partially right",       value: "partial"    }
+          - { label: "✗ Wrong but well argued", value: "wrong"      }
+          - { label: "🔒 Not revealing yet",    value: "unrevealed" }
+        default: "unrevealed"
+        hint: "Shown as a badge on their card."
+      - label: "Author Response"
+        name: "author_theory_response"
+        widget: "text"
+        required: false
+        hint: "Optional — respond to their theory."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "draft"
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 13: FEATURED CRAFTIES
+# ────────────────────────────────────────────────────────────
+
+  - name: "featured_crafties"
+    label: "🌟 Featured Crafties"
+    label_singular: "Craftie"
+    folder: "content/featured-crafties"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{reader_name}} — {{status}}"
+    description: >
+      The "The Crafties" section on the Hall of Fame page — your
+      most devoted readers, one card each.
+    fields:
+      - label: "Reader Name"
+        name: "reader_name"
+        widget: "string"
+      - label: "Reader Handle"
+        name: "reader_handle"
+        widget: "string"
+        required: false
+        hint: "e.g. @raghav_simp_4ever — shown instead of their name if filled in."
+      - label: "Profile Image"
+        name: "reader_image"
+        widget: "image"
+        required: false
+        hint: "Upload only with their permission. Not shown on the site yet, just kept for you."
+        media_folder: "/public/images/hall-of-fame/readers"
+        public_folder: "/images/hall-of-fame/readers"
+      - label: "Favourite Scene"
+        name: "favourite_scene"
+        widget: "string"
+        required: false
+        hint: "The moment that got them. Not shown on the site yet, just kept for you."
+      - label: "Reader Since"
+        name: "reader_since"
+        widget: "string"
+        required: false
+        hint: "e.g. Chapter 3, or Since 2023. Not shown on the site yet, just kept for you."
+      - label: "Author Note"
+        name: "author_note_about_reader"
+        widget: "text"
+        required: false
+        hint: "A short note about why they're featured."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+          - { label: "Archived", value: "archived" }
+        default: "draft"
+      - label: "Pin to Top"
+        name: "is_pinned"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Pinned crafties always appear first, above all others."
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 14: HALL OF FAME (LEGACY — ARCHIVED)
+# ────────────────────────────────────────────────────────────
+# This is the old giant one-form-fits-all collection. It is kept
+# here on purpose, not deleted, so every entry ever created stays
+# visible and reachable in the dashboard, and so you can undo any
+# of this by just deleting collections 10–13 above and turning
+# `create: true` back on here. `create: false` just stops NEW
+# entries from being added to this collection — it does not touch
+# any file already saved in content/hall-of-fame/.
+#
+# All of its published entries have been copied (not moved) into
+# the new collections above by the migration script. The original
+# files in content/hall-of-fame/ are untouched. Once you've checked
+# the new dashboards for a week or two and you're confident nothing
+# is missing, you can delete this whole collection block (and, if
+# you want, the content/hall-of-fame/ folder itself) — but there's
+# no rush and no harm in leaving it exactly as it is.
+
+  - name: "hall_of_fame"
+    label: "🗄️ Hall of Fame (Legacy — Archived)"
+    label_singular: "Legacy Entry"
+    folder: "content/hall-of-fame"
+    create: false
     slug: "{{year}}-{{month}}-{{slug}}"
     summary: "{{reader_name}} — {{entry_type}} ({{status}})"
     description: >
-      Your readers' wall. Feature the people who showed up for
-      your stories — in letters, theories, art, reactions, and
-      monthly spotlights. Everything here is curated by you.
+      Archived. New entries now belong in Comments, Golden Quotes,
+      Reader Theories, or Featured Crafties above — this collection
+      is read-only (no "New" button) and kept only so old entries
+      stay visible for reference. Nothing here has been deleted.
     fields:
       - label: "Entry Type"
         name: "entry_type"
@@ -953,7 +1216,6 @@ collections:
           - { label: "😭 Reaction Wall",       value: "reaction_wall"     }
           - { label: "🔍 Theorist Corner",     value: "theorist"          }
           - { label: "💌 Reader Letter",       value: "reader_letter"     }
-        hint: "Choose what kind of Hall of Fame entry this is. Each type has its own display style on the website."
       - label: "Status"
         name: "status"
         widget: "select"
@@ -966,20 +1228,16 @@ collections:
         name: "is_pinned"
         widget: "boolean"
         default: false
-        hint: "Pinned entries always appear first, above all others. Use for your most treasured submissions."
       - label: "Date"
         name: "date"
         widget: "datetime"
-        hint: "When this entry was added or when the spotlight is for."
       - label: "Reader Name or Handle"
         name: "reader_name"
         widget: "string"
-        hint: "How they want to be known — real name, Wattpad handle, or anonymous."
       - label: "Reader Platform Handle"
         name: "reader_handle"
         widget: "string"
         required: false
-        hint: "e.g. @raghav_simp_4ever — shown as a clickable credit."
       - label: "Platform"
         name: "platform"
         widget: "select"
@@ -997,17 +1255,14 @@ collections:
         name: "reader_profile_url"
         widget: "string"
         required: false
-        hint: "Link to their Wattpad or Instagram profile, if they want to be credited."
       - label: "Related Book"
         name: "related_book"
         widget: "string"
         required: false
-        hint: "Which book is this entry about? e.g. Amodini"
       - label: "Related Characters"
         name: "related_characters"
         widget: "list"
         required: false
-        hint: "Which characters does this entry feature or mention?"
         field:
           label: "Character Name"
           name: "name"
@@ -1024,7 +1279,6 @@ collections:
         name: "reader_since"
         widget: "string"
         required: false
-        hint: "Featured Reader only — e.g. Chapter 3, or Since 2023."
       - label: "Favourite Character"
         name: "favourite_character"
         widget: "string"
@@ -1033,51 +1287,42 @@ collections:
         name: "favourite_scene"
         widget: "string"
         required: false
-        hint: "Featured Reader only — the moment that got them."
       - label: "Reader Photo or Avatar"
         name: "reader_image"
         widget: "image"
         required: false
-        hint: "Featured Reader only — upload only with their permission."
         media_folder: "/public/images/hall-of-fame/readers"
         public_folder: "/images/hall-of-fame/readers"
       - label: "Artwork Title"
         name: "artwork_title"
         widget: "string"
         required: false
-        hint: "Fan Art Showcase only — the name the artist gave this piece."
       - label: "Artwork Image"
         name: "artwork_image"
         widget: "image"
         required: false
-        hint: "Fan Art Showcase only — upload the artwork file."
         media_folder: "/public/images/hall-of-fame/fan-art"
         public_folder: "/images/hall-of-fame/fan-art"
       - label: "Artwork External Link"
         name: "artwork_external_url"
         widget: "string"
         required: false
-        hint: "Fan Art Showcase only — if the art is on Instagram or DeviantArt, paste the link here instead of or in addition to uploading."
       - label: "Artist's Description"
         name: "artist_description"
         widget: "text"
         required: false
-        hint: "Fan Art Showcase only — what the artist said about their piece."
       - label: "Author's Reaction to the Art"
         name: "author_art_reaction"
         widget: "text"
         required: false
-        hint: "Fan Art Showcase only — what did you feel when you first saw this?"
       - label: "Why You're Featuring This Letter"
         name: "author_feature_reason"
         widget: "text"
         required: false
-        hint: "Reader Letter only — a short note from you about why this letter stayed with you."
       - label: "Theory Title"
         name: "theory_title"
         widget: "string"
         required: false
-        hint: "Theorist Corner only — give their theory a title."
       - label: "Were They Right?"
         name: "theory_correct"
         widget: "select"
@@ -1087,22 +1332,18 @@ collections:
           - { label: "◑ Partially right",       value: "partial"    }
           - { label: "✗ Wrong but well argued", value: "wrong"      }
           - { label: "🔒 Not revealing yet",    value: "unrevealed" }
-        hint: "Theorist Corner only — shown as a badge on their card."
       - label: "Author's Response to the Theory"
         name: "author_theory_response"
         widget: "text"
         required: false
-        hint: "Theorist Corner only — respond to their theory."
       - label: "Spotlight Month"
         name: "spotlight_month"
         widget: "string"
         required: false
-        hint: "e.g. June 2025"
       - label: "Why They Were Chosen"
         name: "spotlight_reason"
         widget: "markdown"
         required: false
-        hint: "Monthly Spotlight only — write about why this reader earned the spotlight this month."
       - label: "Their Favourite Quote"
         name: "reader_favourite_quote"
         widget: "text"
@@ -1111,14 +1352,12 @@ collections:
         name: "reaction_image"
         widget: "image"
         required: false
-        hint: "Reaction Wall only — upload a screenshot of the reaction (DM, comment, story reply). Blur names if the reader prefers anonymity."
         media_folder: "/public/images/hall-of-fame/reactions"
         public_folder: "/images/hall-of-fame/reactions"
       - label: "Reaction Context"
         name: "reaction_context"
         widget: "string"
         required: false
-        hint: "e.g. After Chapter 42 dropped."
       - label: "What This Reaction Meant to You"
         name: "author_reaction_note"
         widget: "text"
@@ -1131,12 +1370,10 @@ collections:
         name: "body"
         widget: "markdown"
         required: false
-        hint: "Used for letter text, theory text, and reaction text."
       - label: "Permission to Feature"
         name: "has_permission"
         widget: "boolean"
         default: false
-        hint: "Never publish without this switched on."
       - label: "Feature on Homepage"
         name: "is_homepage_feature"
         widget: "boolean"
@@ -1151,11 +1388,12 @@ collections:
           widget: "string"
 
 # ────────────────────────────────────────────────────────────
-# COLLECTION 11: STATISTICS / MILESTONES
+# ────────────────────────────────────────────────────────────
+# COLLECTION 15: MILESTONES
 # ────────────────────────────────────────────────────────────
 
   - name: "statistics"
-    label: "📊 Statistics / Milestones"
+    label: "🏆 Milestones"
     label_singular: "Milestone"
     folder: "content/statistics"
     create: true
