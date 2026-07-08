@@ -1468,7 +1468,7 @@ const CMS = (() => {
           // never as something covering the artwork.
           const hasImage = typeof data.image === 'string' && data.image.trim().length > 0;
           const img = hasImage
-            ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy">`
+            ? `<img src="${esc(IMG(data.image))}" alt="${esc(data.artist_name || 'Fan art')}" class="fanart-img" loading="lazy" onerror="this.remove()">`
             : '';
           return `
             <div class="fanart-card reveal">
