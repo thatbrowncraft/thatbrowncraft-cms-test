@@ -297,6 +297,35 @@ const CMS = (() => {
     return dt.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
   }
 
+  /* Adds a "read more / read less" toggle to any text block that
+     visually overflows its clamp (see .clamped in hall-of-fame.html).
+     Short entries never get a button at all — it only appears when
+     there's actually more to read. Safe to call repeatedly; it will
+     not double up buttons on cards that already have one. */
+  function enableReadMore(cardSelector, textSelector) {
+    requestAnimationFrame(() => {
+      document.querySelectorAll(cardSelector).forEach(card => {
+        const textEl = card.querySelector(textSelector);
+        if (!textEl || textEl.dataset.readMoreReady) return;
+        textEl.dataset.readMoreReady = '1';
+        textEl.classList.add('clamped');
+        if (textEl.scrollHeight <= textEl.clientHeight + 2) {
+          textEl.classList.remove('clamped');
+          return;
+        }
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'read-more-btn';
+        btn.textContent = 'read more';
+        btn.addEventListener('click', () => {
+          const expanded = textEl.classList.toggle('clamped') === false;
+          btn.textContent = expanded ? 'read less' : 'read more';
+        });
+        textEl.insertAdjacentElement('afterend', btn);
+      });
+    });
+  }
+
   /* ==========================================================
      PUBLIC METHODS
      ========================================================== */
@@ -1096,7 +1125,11 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadReviews() {
       const entries = await fetchCollection('featured-reviews');
-      const sorted = [...entries].sort((a, b) =>
+      /* Reviews created before the Status field existed have no
+         `status` key at all — treat that as Published so nothing
+         that was already live silently vanishes. */
+      const visible = entries.filter(e => e.data.status !== 'draft' && e.data.status !== 'archived');
+      const sorted = [...visible].sort((a, b) =>
         (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
       document.querySelectorAll('[data-cms="reviews-grid"], [data-cms="hof-reviews"]').forEach(el => {
@@ -1136,7 +1169,11 @@ const CMS = (() => {
        ──────────────────────────────────────────────────────── */
     async loadFanArt() {
       const entries = await fetchCollection('fan-art');
-      const featured = entries.filter(e => e.data.is_featured !== false);
+      /* Older pieces have no `status` key — treat that as Published.
+         `is_featured` still works exactly like it did before Status
+         existed, so either flag can hide a piece. */
+      const featured = entries.filter(e =>
+        e.data.status !== 'draft' && e.data.status !== 'archived' && e.data.is_featured !== false);
 
       document.querySelectorAll('[data-cms="fanart-grid"], [data-cms="hof-fanart"]').forEach(el => {
         if (!featured.length) {
@@ -1163,37 +1200,61 @@ const CMS = (() => {
     },
 
     /* ────────────────────────────────────────────────────────
-       HALL OF FAME
-       Reads content/hall-of-fame/*.md
-       Maps entry_type to the matching section on hall-of-fame.html:
-         featured_reader → hof-crafties
-         theorist        → hof-theories
-         reader_letter   → hof-comments
-         reaction_wall   → hof-quotes
+       COMMENTS
+       Reads content/hof-comments/*.md
        ──────────────────────────────────────────────────────── */
-    async loadHallOfFame() {
-      const entries = await fetchCollection('hall-of-fame');
-      const published = entries.filter(e => e.data.status === 'published');
-
-      const byType = type => published
-        .filter(e => e.data.entry_type === type)
+    async loadComments() {
+      const entries = await fetchCollection('hof-comments');
+      const items = entries
+        .filter(e => e.data.status === 'published')
         .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
 
-      document.querySelectorAll('[data-cms="hof-crafties"]').forEach(el => {
-        const items = byType('featured_reader');
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No featured readers yet.</p>'; return; }
-        const badges = ['🌟', '💌', '🔥', '🪔', '☕', '📖'];
-        el.innerHTML = items.map(({ data }, i) => `
-          <div class="craftie-card reveal">
-            <span class="craftie-badge">${badges[i % badges.length]}</span>
-            <div class="craftie-name">${esc(data.reader_name)}</div>
-            ${data.reader_handle ? `<span class="craftie-handle">${esc(data.reader_handle)}</span>` : ''}
-            <p class="craftie-note">${esc(data.author_note_about_reader || '')}</p>
+      document.querySelectorAll('[data-cms="hof-comments"]').forEach(el => {
+        if (!items.length) { el.innerHTML = '<p class="cms-empty">No comments yet.</p>'; return; }
+        el.innerHTML = items.map(({ data }) => `
+          <div class="comment-card${data.is_pinned ? ' pinned' : ''} reveal">
+            <span class="comment-quote-mark">"</span>
+            <p class="comment-text">${esc(data.comment || '')}</p>
+            <div class="comment-meta">
+              <span class="comment-reader">${esc(data.reader_handle || data.reader_name || '')}</span>
+              ${data.related_book ? `<span class="comment-chapter">${esc(data.related_book)}</span>` : ''}
+            </div>
+          </div>`).join('');
+        enableReadMore('.comment-card', '.comment-text');
+      });
+
+      return items;
+    },
+
+    /* ────────────────────────────────────────────────────────
+       GOLDEN QUOTES
+       Reads content/golden-quotes/*.md
+       ──────────────────────────────────────────────────────── */
+    async loadGoldenQuotes() {
+      const entries = await fetchCollection('golden-quotes');
+      const items = entries.filter(e => e.data.status === 'published');
+
+      document.querySelectorAll('[data-cms="hof-quotes"]').forEach(el => {
+        if (!items.length) { el.innerHTML = '<p class="cms-empty">No quotes yet.</p>'; return; }
+        el.innerHTML = items.map(({ data }) => `
+          <div class="quote-card reveal">
+            <p class="quote-text">"${esc(data.quote || '')}"</p>
+            <span class="quote-reader">— ${esc(data.reader_handle || data.reader_name || '')}</span>
           </div>`).join('');
       });
 
+      return items;
+    },
+
+    /* ────────────────────────────────────────────────────────
+       READER THEORIES
+       Reads content/reader-theories/*.md
+       ──────────────────────────────────────────────────────── */
+    async loadReaderTheories() {
+      const entries = await fetchCollection('reader-theories');
+      const items = entries.filter(e => e.data.status === 'published');
+
       document.querySelectorAll('[data-cms="hof-theories"]').forEach(el => {
-        const items = byType('theorist');
         if (!items.length) { el.innerHTML = '<p class="cms-empty">No theories yet.</p>'; return; }
         el.innerHTML = items.map(({ data, body }) => `
           <div class="theory-card reveal">
@@ -1205,33 +1266,35 @@ const CMS = (() => {
               ${data.related_book ? `<span class="theory-ref">${esc(data.related_book)}</span>` : ''}
             </div>
           </div>`).join('');
+        enableReadMore('.theory-card', '.theory-body');
       });
 
-      document.querySelectorAll('[data-cms="hof-comments"]').forEach(el => {
-        const items = byType('reader_letter');
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No comments yet.</p>'; return; }
-        el.innerHTML = items.map(({ data, body }) => `
-          <div class="comment-card${data.is_pinned ? ' pinned' : ''} reveal">
-            <span class="comment-quote-mark">"</span>
-            <p class="comment-text">${esc(firstPara(body))}</p>
-            <div class="comment-meta">
-              <span class="comment-reader">${esc(data.reader_handle || data.reader_name || '')}</span>
-              ${data.related_book ? `<span class="comment-chapter">${esc(data.related_book)}</span>` : ''}
-            </div>
+      return items;
+    },
+
+    /* ────────────────────────────────────────────────────────
+       FEATURED CRAFTIES
+       Reads content/featured-crafties/*.md
+       ──────────────────────────────────────────────────────── */
+    async loadFeaturedCrafties() {
+      const entries = await fetchCollection('featured-crafties');
+      const items = entries
+        .filter(e => e.data.status === 'published')
+        .sort((a, b) => (b.data.is_pinned ? 1 : 0) - (a.data.is_pinned ? 1 : 0));
+
+      document.querySelectorAll('[data-cms="hof-crafties"]').forEach(el => {
+        if (!items.length) { el.innerHTML = '<p class="cms-empty">No featured readers yet.</p>'; return; }
+        const badges = ['🌟', '💌', '🔥', '🪔', '☕', '📖'];
+        el.innerHTML = items.map(({ data }, i) => `
+          <div class="craftie-card reveal">
+            <span class="craftie-badge">${badges[i % badges.length]}</span>
+            <div class="craftie-name">${esc(data.reader_name)}</div>
+            ${data.reader_handle ? `<span class="craftie-handle">${esc(data.reader_handle)}</span>` : ''}
+            <p class="craftie-note">${esc(data.author_note_about_reader || '')}</p>
           </div>`).join('');
       });
 
-      document.querySelectorAll('[data-cms="hof-quotes"]').forEach(el => {
-        const items = byType('reaction_wall');
-        if (!items.length) { el.innerHTML = '<p class="cms-empty">No quotes yet.</p>'; return; }
-        el.innerHTML = items.map(({ data, body }) => `
-          <div class="quote-card reveal">
-            <p class="quote-text">"${esc(firstPara(body))}"</p>
-            <span class="quote-reader">— ${esc(data.reader_handle || data.reader_name || '')}</span>
-          </div>`).join('');
-      });
-
-      return published;
+      return items;
     },
 
     /* ────────────────────────────────────────────────────────
@@ -1296,8 +1359,17 @@ const CMS = (() => {
       if (has('fanart-grid') || has('hof-fanart'))
         jobs.push(this.loadFanArt());
 
-      if (has('hof-crafties') || has('hof-theories') || has('hof-comments') || has('hof-quotes'))
-        jobs.push(this.loadHallOfFame());
+      if (has('hof-crafties'))
+        jobs.push(this.loadFeaturedCrafties());
+
+      if (has('hof-theories'))
+        jobs.push(this.loadReaderTheories());
+
+      if (has('hof-comments'))
+        jobs.push(this.loadComments());
+
+      if (has('hof-quotes'))
+        jobs.push(this.loadGoldenQuotes());
 
       if (has('hof-milestones'))
         jobs.push(this.loadMilestones());

@@ -107,6 +107,9 @@ section,nav,footer{position:relative;z-index:1}
 .comment-meta{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
 .comment-reader{font-family:var(--font-body);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta)}
 .comment-chapter{font-family:var(--font-body);font-size:0.58rem;letter-spacing:0.08em;color:rgba(245,236,215,0.22)}
+.comment-text.clamped{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.read-more-btn{font-family:var(--font-body);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta);background:none;border:none;padding:0;margin:-0.4rem 0 1rem;cursor:pointer;display:block;opacity:0.85;transition:opacity 0.2s}
+.read-more-btn:hover{opacity:1;text-decoration:underline}
 
 /* ───── GOLDEN QUOTES ───── */
 /* CMS: golden_quotes collection (repeatable: quote · reader · show) */
@@ -125,6 +128,7 @@ section,nav,footer{position:relative;z-index:1}
 .theory-label{font-family:var(--font-body);font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,149,107,0.45);display:block;margin-bottom:0.5rem}
 .theory-title{font-family:var(--font-display);font-size:1.15rem;font-weight:500;color:var(--cream);line-height:1.3;margin-bottom:0.6rem}
 .theory-body{font-family:var(--font-body);font-size:0.82rem;color:rgba(245,236,215,0.45);line-height:1.75;margin-bottom:0.85rem;font-weight:300}
+.theory-body.clamped{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .theory-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.4rem}
 .theory-reader{font-family:var(--font-body);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta)}
 .theory-ref{font-family:var(--font-body);font-size:0.55rem;color:rgba(245,236,215,0.2);letter-spacing:0.08em}
