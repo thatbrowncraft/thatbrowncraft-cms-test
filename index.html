@@ -579,48 +579,36 @@ section, nav, footer { position: relative; z-index: 1; }
   100% { opacity: 1;    transform: translateX(-50%) scale(1.05); }
 }
 
-/* The open book resting at the bottom center — a real photograph,
-   not an illustration. Only ~72% of it is visible; the mask fades
-   the lower portion into the hero's bottom edge so it reads as part
-   of the background rather than a pasted-on image. Populate via
-   CMS.loadHome() (or hand-edit) as data-cms="hero-book-photo",
-   same pattern as .author-photo elsewhere on the site. Source a
-   licensed/royalty-free photo (warm, low, candle-lit open book) and
-   export it as a compressed .webp before publishing. */
+/* The open book resting at the bottom center — a real, transparent-
+   background photo/cutout, not a rectangular image tile. No box,
+   border, or background of its own: the feathered mask below fades
+   every edge (top and sides most, base least) so it simply floats
+   into the hero rather than sitting in a visible container. Populate
+   via CMS.loadHome() (or hand-edit) as data-cms="hero-book-photo",
+   same pattern as .author-photo elsewhere on the site. */
 .hero-book-photo {
   position: absolute;
-  bottom: 0;
+  bottom: 6%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(78vw, 620px);
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 90%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 90%);
+  width: min(94vw, 748px);
+  z-index: 1;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 58%, #000 42%, rgba(0,0,0,0.7) 66%, transparent 100%);
+          mask-image: radial-gradient(ellipse 78% 88% at 50% 58%, #000 42%, rgba(0,0,0,0.7) 66%, transparent 100%);
 }
 
 .hero-book-photo img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 30%;
+  height: auto;
   display: block;
-  /* Colour-grades any source photo toward the site's espresso/gold
-     palette so it feels native rather than dropped in. */
+  background: none;
+  /* Colour-grades the photo toward the site's espresso/gold palette;
+     transparent pixels are untouched, so no box is ever visible. */
   filter: sepia(0.28) saturate(1.2) brightness(0.9) contrast(1.08) hue-rotate(-6deg);
-}
-
-/* Warm vignette + light bloom laid over the photo, tying it into
-   the candlelight glow rising from beneath it. */
-.hero-book-photo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 22%, rgba(233,197,138,0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(26,15,8,0.75) 0%, transparent 65%),
-    linear-gradient(180deg, rgba(44,24,16,0.15) 0%, rgba(44,24,16,0.55) 100%);
-  mix-blend-mode: multiply;
 }
 
 /* Placeholder shown until a real photo is populated, so the layout
@@ -637,9 +625,6 @@ section, nav, footer { position: relative; z-index: 1; }
   font-style: italic;
   font-size: 0.9rem;
   color: rgba(245,236,215,0.16);
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 15%, rgba(233,197,138,0.18) 0%, transparent 65%),
-    linear-gradient(160deg, #4a2a15 0%, #2C1810 70%);
 }
 .hero-book-photo img[data-cms="hero-book-photo"]:not([src]),
 .hero-book-photo img[data-cms="hero-book-photo"][src=""] {
@@ -653,8 +638,8 @@ section, nav, footer { position: relative; z-index: 1; }
    in ink on the page itself. */
 .hero-book-caption {
   position: absolute;
-  right: 8%;
-  bottom: 30%;
+  right: 10%;
+  bottom: 26%;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
@@ -665,6 +650,10 @@ section, nav, footer { position: relative; z-index: 1; }
   white-space: nowrap;
   pointer-events: none;
 }
+
+/* Dust motes render above the book photo, not behind it, so the
+   sparkles read as rising off the page rather than hidden beneath it. */
+.hero-dust-field { position: relative; z-index: 2; }
 
 /* ---- Golden dust field ------------------------------------- */
 .hero-dust-field {
@@ -717,10 +706,10 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 @media (max-width: 480px) {
-  .hero-book-photo { width: min(90vw, 340px); }
+  .hero-book-photo { width: min(100vw, 400px); bottom: 4%; }
   .hero-book-glow { height: 30%; }
   .hero-book-glow-far { height: 55%; }
-  .hero-book-caption { bottom: 26%; right: 6%; }
+  .hero-book-caption { bottom: 24%; right: 8%; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
 
