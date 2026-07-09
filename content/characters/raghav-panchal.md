@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 1
-illustration: /images/IMG_20250131_215611_446.jpg
+illustration: /images/Raghav.png
 age: '32'
 occupation: Businessman
 author_note: ''
