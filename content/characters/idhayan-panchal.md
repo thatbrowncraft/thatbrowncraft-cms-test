@@ -5,7 +5,7 @@ role: supporting
 status: published
 is_featured: true
 display_order: 7
-illustration: /images/Screenshot_20260422_212435_Instagram.jpg
+illustration: /images/Idhayan.jpg
 age: '2'
 occupation: Troublemaker
 author_note: ''
