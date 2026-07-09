@@ -718,6 +718,14 @@ const CMS = (() => {
                   [data-cms="author-fun-facts"]   (fun_facts list, as tag pills)
                   [data-cms="about-hero-quote"]   (about_hero_quote)
                   [data-cms="about-hero-sub"]     (about_hero_sub)
+                  [data-cms="finds-section-label"] (finds_section_label)
+                  [data-cms="finds-section-title"] (finds_section_title,
+                                                    last word emphasized)
+                  [data-cms="finds-section-sub"]   (finds_section_sub)
+                  [data-cms="currently-section-label"] (currently_section_label)
+                  [data-cms="currently-section-title"] (currently_section_title,
+                                                    last word emphasized)
+                  [data-cms="currently-section-sub"]   (currently_section_sub)
                   [data-cms="letter-section"]     (whole "letter to Crafties" block —
                                                     hidden entirely when letter_show is false)
                   [data-cms="letter-salutation"]  (letter_salutation)
@@ -793,6 +801,38 @@ const CMS = (() => {
       // Hero subtitle
       document.querySelectorAll('[data-cms="about-hero-sub"]').forEach(el => {
         if (data.about_hero_sub) el.textContent = data.about_hero_sub;
+      });
+
+      // Small helper shared by the two section titles below — italicizes
+      // the final word to match the existing "Fiction that <em>feels.</em>"
+      // / "In <em>this season</em>" styling already on the page.
+      const setEmphasizedTitle = (el, title) => {
+        if (!title) return;
+        const last = title.lastIndexOf(' ');
+        if (last === -1) { el.textContent = title; return; }
+        el.innerHTML = `${esc(title.substring(0, last))} <em>${esc(title.substring(last + 1))}</em>`;
+      };
+
+      // "What You'll Find Here" section label/title/subtitle
+      document.querySelectorAll('[data-cms="finds-section-label"]').forEach(el => {
+        if (data.finds_section_label) el.textContent = data.finds_section_label;
+      });
+      document.querySelectorAll('[data-cms="finds-section-title"]').forEach(el => {
+        setEmphasizedTitle(el, data.finds_section_title);
+      });
+      document.querySelectorAll('[data-cms="finds-section-sub"]').forEach(el => {
+        if (data.finds_section_sub) el.textContent = data.finds_section_sub;
+      });
+
+      // "Currently Loving" section label/title/subtitle
+      document.querySelectorAll('[data-cms="currently-section-label"]').forEach(el => {
+        if (data.currently_section_label) el.textContent = data.currently_section_label;
+      });
+      document.querySelectorAll('[data-cms="currently-section-title"]').forEach(el => {
+        setEmphasizedTitle(el, data.currently_section_title);
+      });
+      document.querySelectorAll('[data-cms="currently-section-sub"]').forEach(el => {
+        if (data.currently_section_sub) el.textContent = data.currently_section_sub;
       });
 
       // Letter to Crafties — hide the whole section when letter_show is false
@@ -1677,8 +1717,37 @@ const CMS = (() => {
     },
 
     /* ────────────────────────────────────────────────────────
-       INIT — scans page for data-cms targets and loads only what's needed
+       FEATURED POSTCARDS
+       Reads content/postcards/*.md
+       Target: [data-cms="postcards-grid"]  (crafties.html "Things you sent me")
+
+       Adding, editing, removing, or reordering postcards from the
+       dashboard updates this grid automatically — no HTML/JS changes
+       needed. Order is controlled by display_order (lower first);
+       only Status: Published postcards are shown.
        ──────────────────────────────────────────────────────── */
+    async loadPostcards() {
+      const entries = await fetchCollection('postcards');
+      const failed = anyFailed(entries);
+      const published = entries
+        .filter(e => e.data.status === 'published')
+        .sort((a, b) => (parseInt(a.data.display_order) || 99) - (parseInt(b.data.display_order) || 99));
+
+      renderList('postcards-grid', published, failed, 'No postcards yet. Be the first to send one.', ({ data }, i) => `
+          <div class="postcard reveal${i % 5 ? ` d${i % 5}` : ''}">
+            <div class="postcard-header">
+              <div class="postcard-to">${esc(data.recipient || 'To: thatbrowncraft')}</div>
+              <div class="postcard-stamp">${data.show_heart_icon !== false ? '💌' : ''}</div>
+            </div>
+            <div class="postcard-body">
+              <span class="postcard-category">${esc(data.category || '')}</span>
+              <p class="postcard-message">"${esc(data.message || '')}"</p>
+              <div class="postcard-from">— ${esc(data.signature || '')}</div>
+            </div>
+          </div>`);
+
+      return published;
+    },
     async init() {
       const has = attr => !!document.querySelector(`[data-cms="${attr}"]`);
       const jobs = [];
@@ -1722,6 +1791,9 @@ const CMS = (() => {
 
       if (has('hof-milestones'))
         jobs.push(this.loadMilestones());
+
+      if (has('postcards-grid'))
+        jobs.push(this.loadPostcards());
 
       await Promise.allSettled(jobs);
 

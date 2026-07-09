@@ -67,7 +67,7 @@ section,nav,footer{position:relative;z-index:1}
 .author-photo:not([src]),.author-photo[src=""]{display:none}
 .author-name{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);font-style:italic;font-weight:400;color:var(--gold)}
 .author-name:empty{display:none}
-.fun-facts-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin:1.6rem auto 0;max-width:640px}
+.fun-facts-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin:1.6rem auto 48px;max-width:640px}
 .fact-pill{font-family:var(--font-body);font-size:.66rem;letter-spacing:.08em;color:rgba(245,236,215,.6);border:1px solid rgba(201,169,110,.18);background:rgba(59,31,10,.35);padding:.45rem .95rem;border-radius:100px}
 
 .about-body{text-align:center;margin-bottom:clamp(3.5rem,7vw,6rem)}
@@ -168,21 +168,21 @@ section,nav,footer{position:relative;z-index:1}
     <!-- FUN FACTS — from author.md → fun_facts -->
     <div class="fun-facts-row reveal" data-cms="author-fun-facts" aria-label="Fun facts about the author"></div>
 
-    <!-- FINDS CARDS — from author.md → finds_cards -->
+    <!-- FINDS CARDS — from author.md → finds_section_label/title/sub, finds_cards -->
     <section class="reveal" id="findsSection" aria-label="What you will find here">
-      <span class="section-label">what you'll find here</span>
-      <h2 class="section-title">Fiction that <em>feels.</em></h2>
-      <p class="section-sub">A few things that live in this corner of the internet.</p>
+      <span class="section-label" data-cms="finds-section-label">what you'll find here</span>
+      <h2 class="section-title" data-cms="finds-section-title">Fiction that <em>feels.</em></h2>
+      <p class="section-sub" data-cms="finds-section-sub">A few things that live in this corner of the internet.</p>
       <div class="finds-grid" id="findsGrid">
         <div class="cms-loading">loading...</div>
       </div>
     </section>
 
-    <!-- CURRENTLY LOVING — from author.md → currently_cards -->
+    <!-- CURRENTLY LOVING — from author.md → currently_section_label/title/sub, currently_cards -->
     <section class="currently-section reveal" id="currentlySection" aria-label="Currently loving">
-      <span class="section-label">currently</span>
-      <h2 class="section-title">In <em>this season</em></h2>
-      <p class="section-sub">Updated whenever the mood changes. Which is often.</p>
+      <span class="section-label" data-cms="currently-section-label">currently</span>
+      <h2 class="section-title" data-cms="currently-section-title">In <em>this season</em></h2>
+      <p class="section-sub" data-cms="currently-section-sub">Updated whenever the mood changes. Which is often.</p>
       <div class="currently-grid" id="currentlyGrid">
         <div class="cms-loading">loading...</div>
       </div>
