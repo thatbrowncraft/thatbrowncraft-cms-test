@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 3
-illustration: /images/IMG_20250131_215637_370.jpg
+illustration: /images/Nisarg.png
 age: '29'
 occupation: Legal Advisor
 author_note: ''
