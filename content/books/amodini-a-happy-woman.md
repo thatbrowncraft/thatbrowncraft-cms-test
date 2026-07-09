@@ -44,15 +44,16 @@ timeline:
   - An unexpected danger forces Hriday and Anjana to face each other beyond hatred. Long forgotten secrets connected to a royal legacy slowly emerge, revealing that the story everyone believed for years was far from complete.
   - The answers that everyone desperately searched for come to light, exposing sacrifices, hidden motives, and painful choices that rewrite everything the family believed about Anjana. Love, guilt, forgiveness, and healing finally find their place.
   - As old wounds begin to heal, Hriday and Anjana learn that some love stories survive not because they are perfect, but because they refuse to end. Together, they embrace a future filled with hope, family, and the greatest blessing of all.
-quotes: []
+quotes:
+  - text: '"𝑫𝒊𝒓𝒕𝒚, 𝒂𝒎 𝑰?"'
+    context: ''
+  - text: '"𝒀𝒐𝒖''𝒓𝒆 𝒂 𝒎𝒆𝒔𝒔. 𝑰 𝒄𝒂𝒏''𝒕 𝒃𝒆𝒍𝒊𝒆𝒗𝒆 𝒚𝒐𝒖 𝒕𝒉𝒐𝒖𝒈𝒉𝒕 𝒄𝒍𝒆𝒂𝒏𝒊𝒏𝒈 𝒖𝒑 𝒕𝒉𝒂𝒕 𝒐𝒍𝒅 𝒓𝒐𝒐𝒎 𝒘𝒐𝒖𝒍𝒅 𝒊𝒎𝒑𝒓𝒆𝒔𝒔 𝒂𝒏𝒚𝒐𝒏𝒆."'
+    context: ''
+  - text: ❝𝐇𝐫𝐢𝐝𝐚𝐲 × 𝐀𝐧𝐣𝐚𝐧𝐚❞
+    context: ''
 character_leads:
   - Anjana Das
   - Hriday Singh Rajvansh
-wattpad_url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
-kindle_url: https://a.co/d/8R05JHj
-paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
-inkitt_url: https://www.inkitt.com/stories/1393318
-stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
 gallery:
   - image: /images/IMG_20250201_134750_493.jpg
     caption: ''
@@ -61,23 +62,21 @@ gallery:
   - image: /images/IMG_20250201_140025_037.jpg
     caption: ''
 published_at: 2025-06-14T16:45
+stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
+inkitt_url: https://www.inkitt.com/stories/1393318
+wattpad_url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
+kindle_url: https://a.co/d/8R05JHj
+paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
 ---
 
-> 📕Amodini A Happy Woman
-> From the chaos of campus love to the lifetime ride of tying the knot, their story starts with love so raw it practically screamed “soulmates” in.
-> ֶָ֢
-> ֶָ֢
-> But hold up—the plot takes a massive turn into extra melodrama when misunderstandings creep in like unwanted notifications at 3 AM.
-> .
-> ♛Hriday’s bad decisions- so elite!
-> Burdened with emotional scars and haunted by his own darkness, yet, in a cruel twist of fate, love turned to ruin when Hriday committed the one unforgivable act—an act that became his life’s deepest regret.
-> .
-> ♛Anjana’s forgiveness- so unforgettable!
-> A web of deception, hidden enemies, and devastating betrayals threaten not only their love but their very existence.
-> .
-> ֶָ֢
-> ֶָ֢
-> Sparking a slow-burn drama that had us all thinking my characters needed a therapy group ASAP.
-> ֶָ֢
-> ֶָ֢
-> ֶָ֢
+> Amodini A Happy Woman
+> From the chaos of campus love to the lifetime ride of tying the knot, their story starts with love so raw it practically screamed “soulmates” in. But hold up—the plot takes a massive turn into extra melodrama when misunderstandings creep in like unwanted notifications at 3 AM. 
+
+         ♛Hriday’s bad decisions- so elite!
+         Burdened with emotional scars and haunted by his own darkness, yet, in a.  cruel twist of fate, love turned to ruin when Hriday committed the one unforgivable act—an act that became his life’s deepest regret.
+
+
+        ♛Anjana’s forgiveness- so unforgettable!
+A web of deception, hidden enemies, and devastating betrayals threaten not only their love but their very existence.
+
+Sparking a slow-burn drama that had us all thinking my characters needed a therapy group ASAP.
