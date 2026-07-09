@@ -577,17 +577,36 @@ section, nav, footer { position: relative; z-index: 1; }
   filter: blur(9px);
 }
 
-/* Soft contact shadow directly beneath the book — kept faint
-   (8-12% opacity) so it reads as resting weight, not a platform. */
+/* Soft elliptical contact shadow directly beneath the book — dark
+   (not amber-glow), extremely blurred, and kept to ~8-10% peak
+   opacity so it reads as subconscious resting weight, never a
+   visible platform or floor. */
 .hero-book-ground {
   position: absolute;
   bottom: -1.5%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(70vw, 500px);
-  height: 11%;
-  background: radial-gradient(ellipse 58% 100% at 50% 50%, rgba(18,10,5,0.12) 0%, rgba(18,10,5,0.06) 50%, transparent 80%);
-  filter: blur(9px);
+  width: min(64vw, 460px);
+  height: 9%;
+  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(15,9,5,0.09) 0%, rgba(15,9,5,0.04) 55%, transparent 82%);
+  filter: blur(17px);
+}
+
+/* Faint dark vignette immediately below the pages themselves — sits
+   higher and tighter than .hero-book-ground, so the bottom edge of
+   the book visually settles into the hero rather than ending in a
+   hard edge. Same dark, un-tinted tone as the contact shadow above;
+   no additional theme-colored glow. */
+.hero-book-vignette {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(78vw, 540px);
+  height: 12%;
+  background: radial-gradient(ellipse 64% 100% at 50% 100%, rgba(12,7,4,0.10) 0%, rgba(12,7,4,0.05) 50%, transparent 80%);
+  filter: blur(14px);
+  pointer-events: none;
 }
 
 /* Faint atmospheric haze specifically around the lower half of the
@@ -769,6 +788,7 @@ section, nav, footer { position: relative; z-index: 1; }
   .hero-book-crease-glow { width: min(42vw, 150px); height: 18%; }
   .hero-book-candlelight { height: 44%; }
   .hero-book-ground { width: min(80vw, 340px); }
+  .hero-book-vignette { width: min(90vw, 400px); height: 14%; }
   .hero-book-haze { height: 34%; }
   .hero-book-caption { bottom: -20px; right: 0; font-size: 0.7rem; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
@@ -1916,6 +1936,7 @@ section, nav, footer { position: relative; z-index: 1; }
     <div class="hero-book-haze"></div>
     <div class="hero-book-candlelight"></div>
     <div class="hero-book-ground"></div>
+    <div class="hero-book-vignette"></div>
     <div class="hero-book-crease-glow"></div>
 
     <!-- Golden dust drifting up from the spine in a widening cone.
@@ -2034,7 +2055,6 @@ section, nav, footer { position: relative; z-index: 1; }
   </div>
 
   <div class="hero-scroll" aria-hidden="true">
-    <span class="hero-scroll-text">Turn the page.</span>
     <div class="hero-scroll-arrow"></div>
   </div>
 </section>
