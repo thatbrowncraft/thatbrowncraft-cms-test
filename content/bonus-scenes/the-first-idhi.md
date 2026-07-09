@@ -10,7 +10,7 @@ published_at: 2026-07-08T11:11
 teaser: |-
   "You've been calling bhabhi 'Idhi' since forever... but why Idhi?"
 
-  Raghav's fingers froze over the keyboard. A single question.bOne forgotten night. One hungry girl who chose silence over asking for help. And one word that slipped from his lips without permission... A word that quietly became home.
+  Raghav's fingers froze over the keyboard. A single question. One forgotten night. One hungry girl who chose silence over asking for help. And one word that slipped from his lips without permission... A word that quietly became home.
 author_note: Fulfilling most demanded scene of the century.
 images: []
 pdf_url: ''
@@ -333,10 +333,5 @@ The office became quiet once again. Both brothers go back to their work. Yug's c
 Only this time...
 
 The silence carried warmth.
-
-
-
-
-
 
 -ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈
