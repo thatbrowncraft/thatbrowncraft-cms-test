@@ -5,7 +5,7 @@ role: lead
 status: published
 is_featured: true
 display_order: 5
-illustration: /images/IMG_20250131_215306_051.jpg
+illustration: /images/Yug.png
 age: '28'
 occupation: Certified  coder
 author_note: ''
