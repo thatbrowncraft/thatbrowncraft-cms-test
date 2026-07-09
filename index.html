@@ -320,16 +320,17 @@ section, nav, footer { position: relative; z-index: 1; }
   );
 }
 
-/* Botanical corner decorations */
-.hero-corner {
+/* Faint corner tulips — tucked into the extreme corners, almost gone.
+   Replaces the old abstract botanical corner motif. */
+.hero-tulip {
   position: absolute;
-  opacity: 0.12;
+  opacity: 0.07;
   pointer-events: none;
+  width: clamp(50px, 8vw, 78px);
+  height: auto;
 }
-.hero-corner.tl { top: 70px; left: 0; }
-.hero-corner.tr { top: 70px; right: 0; transform: scaleX(-1); }
-.hero-corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
-.hero-corner.br { bottom: 0; right: 0; transform: scale(-1,-1); }
+.hero-tulip.bl { bottom: 0; left: 0.5rem; }
+.hero-tulip.br { bottom: 0; right: 0.5rem; transform: scaleX(-1); }
 
 .hero-eyebrow {
   font-family: var(--font-accent);
@@ -515,6 +516,212 @@ section, nav, footer { position: relative; z-index: 1; }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ============================================================
+   HERO MAGIC LAYER — a book quietly opened, its stories
+   drifting up as warm dust and soft light. Pure CSS/SVG,
+   purely decorative, sits behind hero content. The book stays
+   still; only the light and dust move. Tune overall strength
+   with --deco below if it ever feels too strong or too faint.
+   ============================================================ */
+.hero-magic {
+  --deco: 1;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The faintest hint of handwriting somewhere behind everything —
+   two small hand-drawn scrawls, not a repeating pattern. */
+.hero-manuscript {
+  position: absolute;
+  inset: 0;
+  opacity: calc(var(--deco) * 0.065);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='140' viewBox='0 0 260 140'%3E%3Cg fill='none' stroke='%23F5ECD7' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M6 20 Q34 8 60 18 Q80 26 100 16 Q118 8 140 20'/%3E%3Cpath d='M10 42 Q30 34 50 42 Q70 50 92 40 Q112 32 130 42'/%3E%3Cpath d='M4 64 Q40 52 70 62 Q95 70 122 58'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='120' viewBox='0 0 220 120'%3E%3Cg fill='none' stroke='%23C9A96E' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M8 16 Q30 6 54 14 Q74 22 96 12'/%3E%3Cpath d='M14 38 Q34 28 58 36 Q80 44 100 34'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat;
+  background-position: 8% 22%, 84% 68%;
+  background-size: 260px 140px, 200px 110px;
+  mix-blend-mode: soft-light;
+}
+
+/* Soft candlelight glow rising from inside the open book.
+   Two stacked layers so it reaches gently toward the buttons
+   without ever brightening past the logo above it. */
+.hero-book-glow {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(70vw, 480px);
+  height: 38%;
+  background: radial-gradient(ellipse at center, rgba(233,197,138,0.4) 0%, rgba(200,149,107,0.16) 45%, transparent 75%);
+  filter: blur(3px);
+  animation: glowBreathe 9s ease-in-out infinite alternate;
+}
+
+.hero-book-glow-far {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(94vw, 720px);
+  height: 68%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(200,149,107,0.16) 0%, transparent 70%);
+  filter: blur(4px);
+}
+
+@keyframes glowBreathe {
+  0%   { opacity: 0.85; transform: translateX(-50%) scale(1); }
+  100% { opacity: 1;    transform: translateX(-50%) scale(1.05); }
+}
+
+/* The open book resting at the bottom center — a real photograph,
+   not an illustration. Only ~72% of it is visible; the mask fades
+   the lower portion into the hero's bottom edge so it reads as part
+   of the background rather than a pasted-on image. Populate via
+   CMS.loadHome() (or hand-edit) as data-cms="hero-book-photo",
+   same pattern as .author-photo elsewhere on the site. Source a
+   licensed/royalty-free photo (warm, low, candle-lit open book) and
+   export it as a compressed .webp before publishing. */
+.hero-book-photo {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(78vw, 620px);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 90%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 90%);
+}
+
+.hero-book-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  display: block;
+  /* Colour-grades any source photo toward the site's espresso/gold
+     palette so it feels native rather than dropped in. */
+  filter: sepia(0.28) saturate(1.2) brightness(0.9) contrast(1.08) hue-rotate(-6deg);
+}
+
+/* Warm vignette + light bloom laid over the photo, tying it into
+   the candlelight glow rising from beneath it. */
+.hero-book-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 22%, rgba(233,197,138,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(26,15,8,0.75) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(44,24,16,0.15) 0%, rgba(44,24,16,0.55) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* Placeholder shown until a real photo is populated, so the layout
+   never breaks or shows a broken-image icon before then. */
+.hero-book-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(245,236,215,0.16);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 15%, rgba(233,197,138,0.18) 0%, transparent 65%),
+    linear-gradient(160deg, #4a2a15 0%, #2C1810 70%);
+}
+.hero-book-photo img[data-cms="hero-book-photo"]:not([src]),
+.hero-book-photo img[data-cms="hero-book-photo"][src=""] {
+  display: none;
+}
+.hero-book-photo:has(img[data-cms="hero-book-photo"][src]:not([src=""])) .hero-book-ph {
+  display: none;
+}
+
+/* "Turn the page." written faintly in the corner of the book, as if
+   in ink on the page itself. */
+.hero-book-caption {
+  position: absolute;
+  right: 8%;
+  bottom: 30%;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.68rem, 1.4vw, 0.85rem);
+  color: rgba(92,58,30,0.55);
+  letter-spacing: 0.02em;
+  transform: rotate(-3deg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- Golden dust field ------------------------------------- */
+.hero-dust-field {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-mote {
+  position: absolute;
+  bottom: var(--start, 8%);
+  left: var(--x, 50%);
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,236,215,0.9) 0%, rgba(201,169,110,0.5) 55%, transparent 100%);
+  box-shadow: 0 0 4px 0.5px rgba(201,169,110,0.3);
+  opacity: 0;
+  animation-name: var(--path, driftStraight);
+  animation-duration: var(--dur, 16s);
+  animation-timing-function: ease-in-out;
+  animation-delay: var(--delay, 0s);
+  animation-iteration-count: infinite;
+}
+
+/* Motes that drift left as they rise */
+@keyframes driftLeft {
+  0%   { opacity: 0;                          transform: translate(0, 0) scale(0.7); }
+  10%  { opacity: var(--peak, 0.55); }
+  38%  { transform: translate(calc(var(--sway, -22px) * 0.6), calc(var(--rise, -260px) * 0.4)) scale(0.9); }
+  68%  { opacity: calc(var(--peak, 0.55) * 0.45); transform: translate(var(--sway, -22px), calc(var(--rise, -260px) * 0.78)) scale(1); }
+  100% { opacity: 0;                          transform: translate(calc(var(--sway, -22px) * 1.15), var(--rise, -260px)) scale(1.05); }
+}
+
+/* Motes that drift right as they rise */
+@keyframes driftRight {
+  0%   { opacity: 0;                          transform: translate(0, 0) scale(0.7); }
+  10%  { opacity: var(--peak, 0.55); }
+  38%  { transform: translate(calc(var(--sway, 22px) * 0.6), calc(var(--rise, -260px) * 0.4)) scale(0.9); }
+  68%  { opacity: calc(var(--peak, 0.55) * 0.45); transform: translate(var(--sway, 22px), calc(var(--rise, -260px) * 0.78)) scale(1); }
+  100% { opacity: 0;                          transform: translate(calc(var(--sway, 22px) * 1.15), var(--rise, -260px)) scale(1.05); }
+}
+
+/* Motes that rise almost straight, barely swaying */
+@keyframes driftStraight {
+  0%   { opacity: 0;                          transform: translate(0, 0) scale(0.7); }
+  10%  { opacity: var(--peak, 0.5); }
+  50%  { transform: translate(calc(var(--sway, 6px) * 0.5), calc(var(--rise, -220px) * 0.55)) scale(0.95); }
+  75%  { opacity: calc(var(--peak, 0.5) * 0.4); }
+  100% { opacity: 0;                          transform: translate(var(--sway, 6px), var(--rise, -220px)) scale(1.05); }
+}
+
+@media (max-width: 480px) {
+  .hero-book-photo { width: min(90vw, 340px); }
+  .hero-book-glow { height: 30%; }
+  .hero-book-glow-far { height: 55%; }
+  .hero-book-caption { bottom: 26%; right: 6%; }
+  .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
 
 /* ============================================================
@@ -1233,7 +1440,7 @@ section, nav, footer { position: relative; z-index: 1; }
   font-size: 0.92rem;
   color: rgba(245,236,215,0.45);
   line-height: 1.85;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.25rem;
   font-weight: 300;
 }
 
@@ -1243,14 +1450,18 @@ section, nav, footer { position: relative; z-index: 1; }
   font-size: 1.05rem;
   color: var(--terracotta);
   display: block;
-  margin-bottom: 2rem;
+  margin-bottom: 2.75rem;
 }
 
 .crafties-btns {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 1.25rem;
 }
+
+/* Extra breathing room specific to this section only */
+.crafties-right .section-eyebrow { margin-bottom: 1rem; }
+.crafties-right .section-heading { margin-bottom: 2rem; }
 
 /* ============================================================
    AUTHOR NOTE — open journal
@@ -1636,19 +1847,75 @@ section, nav, footer { position: relative; z-index: 1; }
 <section class="hero">
   <div class="hero-border-top" aria-hidden="true"></div>
 
-  <!-- Corner botanical SVGs -->
-  <svg class="hero-corner tl" width="140" height="140" viewBox="0 0 140 140" fill="none" aria-hidden="true">
-    <path d="M10 130 Q10 80 50 60 Q90 40 80 10" stroke="#C9A96E" stroke-width="1.5" fill="none" opacity="0.5"/>
-    <ellipse cx="60" cy="55" rx="28" ry="14" transform="rotate(-35 60 55)" fill="#C9A96E" opacity="0.25"/>
-    <ellipse cx="42" cy="80" rx="22" ry="11" transform="rotate(20 42 80)"  fill="#C9A96E" opacity="0.2"/>
-    <circle cx="80" cy="10" r="6" fill="#C8956B" opacity="0.4"/>
+  <!-- ============================================================
+       HERO MAGIC LAYER — decorative only, purely visual.
+       Sits behind all existing hero content; does not touch
+       layout, logo, tagline, buttons, or navigation. The book
+       stays still — only the glow and dust move.
+       ============================================================ -->
+  <div class="hero-magic" aria-hidden="true">
+
+    <!-- The faintest hint of handwriting, almost invisible -->
+    <div class="hero-manuscript"></div>
+
+    <!-- Soft candlelight glow rising from the book -->
+    <div class="hero-book-glow-far"></div>
+    <div class="hero-book-glow"></div>
+
+    <!-- Golden dust drifting up from the pages, thinning as it rises -->
+    <div class="hero-dust-field">
+    <span class="hero-mote" style="--path:driftLeft; --x:30.4%; --size:3.1px; --dur:17.6s; --delay:11.3s; --sway:-25px; --rise:-262px; --peak:0.58; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:50.2%; --size:2.1px; --dur:26.5s; --delay:11.1s; --sway:14px; --rise:-474px; --peak:0.35; --start:5%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:35.4%; --size:1.7px; --dur:15.5s; --delay:7.6s; --sway:8px; --rise:-244px; --peak:0.39; --start:12%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:57.4%; --size:3.7px; --dur:20.9s; --delay:2.3s; --sway:-24px; --rise:-402px; --peak:0.41; --start:12%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:45.2%; --size:1.9px; --dur:17.8s; --delay:2.8s; --sway:34px; --rise:-260px; --peak:0.43; --start:11%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:67.1%; --size:3.0px; --dur:18.9s; --delay:7.8s; --sway:10px; --rise:-288px; --peak:0.39; --start:7%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:42.0%; --size:1.9px; --dur:13.3s; --delay:4.5s; --sway:-22px; --rise:-214px; --peak:0.47; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:37.5%; --size:3.4px; --dur:20.0s; --delay:10.5s; --sway:29px; --rise:-506px; --peak:0.31; --start:5%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:55.3%; --size:2.8px; --dur:16.0s; --delay:4.9s; --sway:8px; --rise:-186px; --peak:0.51; --start:10%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:40.0%; --size:1.8px; --dur:25.4s; --delay:0.5s; --sway:-31px; --rise:-424px; --peak:0.34; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:58.0%; --size:2.1px; --dur:18.7s; --delay:6.9s; --sway:21px; --rise:-181px; --peak:0.5; --start:7%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:36.3%; --size:3.5px; --dur:23.1s; --delay:0.8s; --sway:10px; --rise:-397px; --peak:0.35; --start:6%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:71.1%; --size:3.0px; --dur:21.2s; --delay:9.0s; --sway:-20px; --rise:-443px; --peak:0.31; --start:4%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:29.3%; --size:3.2px; --dur:26.7s; --delay:6.7s; --sway:33px; --rise:-415px; --peak:0.36; --start:15%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:75.4%; --size:2.4px; --dur:24.2s; --delay:4.3s; --sway:10px; --rise:-474px; --peak:0.35; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:38.2%; --size:3.3px; --dur:26.7s; --delay:4.6s; --sway:-28px; --rise:-412px; --peak:0.3; --start:5%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:82.3%; --size:2.5px; --dur:11.2s; --delay:2.6s; --sway:13px; --rise:-175px; --peak:0.4; --start:11%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:65.9%; --size:1.8px; --dur:20.9s; --delay:5.5s; --sway:8px; --rise:-452px; --peak:0.36; --start:14%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:56.0%; --size:2.0px; --dur:16.4s; --delay:8.5s; --sway:-11px; --rise:-191px; --peak:0.49; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:63.2%; --size:1.7px; --dur:14.2s; --delay:7.9s; --sway:34px; --rise:-239px; --peak:0.39; --start:14%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:35.4%; --size:3.7px; --dur:12.2s; --delay:11.4s; --sway:7px; --rise:-150px; --peak:0.41; --start:13%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:49.5%; --size:2.9px; --dur:14.6s; --delay:4.3s; --sway:-26px; --rise:-155px; --peak:0.53; --start:12%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:51.2%; --size:2.8px; --dur:26.8s; --delay:9.2s; --sway:20px; --rise:-463px; --peak:0.34; --start:8%;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:72.4%; --size:3.0px; --dur:14.5s; --delay:6.6s; --sway:10px; --rise:-254px; --peak:0.57; --start:9%;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:73.1%; --size:1.8px; --dur:20.3s; --delay:11.4s; --sway:-28px; --rise:-491px; --peak:0.33; --start:12%;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:47.9%; --size:2.1px; --dur:12.1s; --delay:1.2s; --sway:30px; --rise:-264px; --peak:0.56; --start:9%;"></span>
+    </div>
+
+    <!-- A real, well-loved open book resting at the bottom center.
+         Populate img[data-cms="hero-book-photo"] with a licensed,
+         low-and-warm open-book photograph (export as .webp). Until
+         then, .hero-book-ph shows a graceful placeholder instead of
+         a broken image. Only the top ~72% is visible — the mask on
+         .hero-book-photo fades the rest into the hero's bottom edge. -->
+    <div class="hero-book-photo">
+      <img src="public/images/hero-book.webp" data-cms="hero-book-photo" alt="" loading="lazy" decoding="async" width="1200" height="750">
+      <div class="hero-book-ph">your open&#8209;book photo here</div>
+      <span class="hero-book-caption">Turn the page.</span>
+    </div>
+  </div>
+
+  <!-- Faint corner tulips -->
+  <svg class="hero-tulip bl" viewBox="0 0 60 120" fill="none" aria-hidden="true">
+    <path d="M30 88 C30 68 30 48 30 34" stroke="#8B5E3C" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M30 62 C20 60 10 68 6 82" stroke="#8B5E3C" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <path d="M12 32 C12 20 20 10 30 10 C40 10 48 20 48 32 C48 26 44 22 38 22 C34 22 31 25 30 30 C29 25 26 22 22 22 C16 22 12 26 12 32 Z" stroke="#8B5E3C" stroke-width="1.2"/>
   </svg>
 
-  <svg class="hero-corner tr" width="140" height="140" viewBox="0 0 140 140" fill="none" aria-hidden="true">
-    <path d="M10 130 Q10 80 50 60 Q90 40 80 10" stroke="#C9A96E" stroke-width="1.5" fill="none" opacity="0.5"/>
-    <ellipse cx="60" cy="55" rx="28" ry="14" transform="rotate(-35 60 55)" fill="#C9A96E" opacity="0.25"/>
-    <ellipse cx="42" cy="80" rx="22" ry="11" transform="rotate(20 42 80)"  fill="#C9A96E" opacity="0.2"/>
-    <circle cx="80" cy="10" r="6" fill="#C8956B" opacity="0.4"/>
+  <svg class="hero-tulip br" viewBox="0 0 60 120" fill="none" aria-hidden="true">
+    <path d="M30 88 C30 68 30 48 30 34" stroke="#8B5E3C" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M30 62 C20 60 10 68 6 82" stroke="#8B5E3C" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <path d="M12 32 C12 20 20 10 30 10 C40 10 48 20 48 32 C48 26 44 22 38 22 C34 22 31 25 30 30 C29 25 26 22 22 22 C16 22 12 26 12 32 Z" stroke="#8B5E3C" stroke-width="1.2"/>
   </svg>
 
   <p class="hero-eyebrow">Stories brewed in chai &amp; candlelight.</p>
@@ -1853,7 +2120,7 @@ section, nav, footer { position: relative; z-index: 1; }
       actually listen."
     </blockquote>
 
-    <div class="reveal reveal-delay-2">
+    <div class="crafties-right reveal reveal-delay-2">
       <span class="section-eyebrow">Crafties Post Office</span>
       <h2 class="section-heading" id="crafties-title">
         This space is <em>yours</em>
