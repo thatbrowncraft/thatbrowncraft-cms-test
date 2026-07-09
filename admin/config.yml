@@ -839,6 +839,22 @@ collections:
             name: "about_hero_sub"
             widget: "string"
             required: false
+          - label: "About Page — What You'll Find Here — Label"
+            name: "finds_section_label"
+            widget: "string"
+            required: false
+            default: "what you'll find here"
+          - label: "About Page — What You'll Find Here — Title"
+            name: "finds_section_title"
+            widget: "string"
+            required: false
+            default: "Fiction that feels."
+            hint: "The last word is shown in italic/accent color automatically."
+          - label: "About Page — What You'll Find Here — Subtitle"
+            name: "finds_section_sub"
+            widget: "string"
+            required: false
+            default: "A few things that live in this corner of the internet."
           - label: "About Page — What You'll Find Here"
             name: "finds_cards"
             widget: "list"
@@ -854,6 +870,22 @@ collections:
                 name: "show"
                 widget: "boolean"
                 default: true
+          - label: "About Page — Currently Loving — Label"
+            name: "currently_section_label"
+            widget: "string"
+            required: false
+            default: "currently"
+          - label: "About Page — Currently Loving — Title"
+            name: "currently_section_title"
+            widget: "string"
+            required: false
+            default: "In this season"
+            hint: "The last word is shown in italic/accent color automatically."
+          - label: "About Page — Currently Loving — Subtitle"
+            name: "currently_section_sub"
+            widget: "string"
+            required: false
+            default: "Updated whenever the mood changes. Which is often."
           - label: "About Page — Currently Loving"
             name: "currently_cards"
             widget: "list"
@@ -1458,6 +1490,58 @@ collections:
           - { label: "Published", value: "published" }
         default: "draft"
         hint: "Only Published milestones appear on the live site."
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 16: FEATURED POSTCARDS
+# ────────────────────────────────────────────────────────────
+
+  - name: "postcards"
+    label: "💌 Featured Postcards"
+    label_singular: "Postcard"
+    folder: "content/postcards"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{signature}} — {{category}} ({{status}})"
+    description: >
+      The postcard wall on the Crafties Post Office page ("Things
+      you sent me"). Add, remove, reorder, or edit any postcard
+      straight from the dashboard — no code changes needed.
+    fields:
+      - label: "Recipient"
+        name: "recipient"
+        widget: "string"
+        default: "To: thatbrowncraft"
+        hint: "Shown at the top of the postcard — e.g. To: thatbrowncraft"
+      - label: "Category"
+        name: "category"
+        widget: "string"
+        hint: "Shown as a small label above the message — e.g. Bonus Request, Fan Letter, General"
+      - label: "Message"
+        name: "message"
+        widget: "text"
+        hint: "The postcard's message. Quotation marks are added automatically — don't type them yourself."
+      - label: "Signature"
+        name: "signature"
+        widget: "string"
+        hint: "Who sent it — e.g. Crafty_Puspanjali. The em dash is added automatically."
+      - label: "Show Heart Icon"
+        name: "show_heart_icon"
+        widget: "boolean"
+        default: true
+        hint: "Shows a 💌 stamp on the postcard. Turn off for a blank stamp."
+      - label: "Display Order"
+        name: "display_order"
+        widget: "number"
+        default: 1
+        hint: "Lower numbers appear first."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+        hint: "Only Published postcards appear on the live site."
 
 # ============================================================
 # END OF CONFIG
