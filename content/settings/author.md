@@ -9,8 +9,8 @@ fun_facts:
   - Gujju author
 about_hero_quote: Some stories become books. Some stories become homes.
 about_hero_sub: This is the corner where stories live, breathe, and occasionally refuse to end.
-finds_section_label: 👑
-finds_section_title: Gujarati slangs for life.
+finds_section_label: ''
+finds_section_title: ''
 finds_section_sub: ''
 currently_section_label: ''
 currently_section_title: ''
