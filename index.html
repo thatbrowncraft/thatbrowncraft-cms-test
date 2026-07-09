@@ -548,72 +548,65 @@ section, nav, footer { position: relative; z-index: 1; }
   mix-blend-mode: soft-light;
 }
 
-/* Soft candlelight rising from inside the open book. A single
-   vertical beam from the spine — narrow at the source, widening
-   softly as it climbs, fully faded out before it reaches the logo. */
-.hero-book-beam {
+/* Warm light held inside the book's own center crease — it softly
+   lights the pages themselves and does not project upward as a
+   beam or shaft. Small, contained, and blurred. */
+.hero-book-crease-glow {
   position: absolute;
-  bottom: 9%;
+  bottom: 13%;
   left: 50%;
-  width: min(34vw, 260px);
-  height: 58%;
   transform: translateX(-50%);
-  transform-origin: 50% 100%;
-  background: linear-gradient(
-    to top,
-    rgba(245,220,170,0.42) 0%,
-    rgba(233,197,138,0.24) 22%,
-    rgba(233,197,138,0.11) 45%,
-    rgba(233,197,138,0.03) 70%,
-    transparent 92%
-  );
-  clip-path: polygon(44% 100%, 56% 100%, 100% 0%, 0% 0%);
-  filter: blur(13px);
-  animation: beamBreathe 7s ease-in-out infinite alternate;
+  width: min(30vw, 210px);
+  height: 20%;
+  background: radial-gradient(ellipse at center, rgba(245,220,170,0.5) 0%, rgba(233,197,138,0.2) 48%, transparent 76%);
+  filter: blur(9px);
+  animation: creaseBreathe 7s ease-in-out infinite alternate;
 }
 
-/* A very gentle ambient candlelight wash — wide, low, soft — so the
-   beam doesn't read as an isolated spotlight in empty space. */
+/* A wide, low, warm amber haze that wraps the lower half of the book
+   and fades smoothly into the hero background — this is what grounds
+   the book in candlelight rather than a spotlight or stage effect. */
 .hero-book-candlelight {
   position: absolute;
-  bottom: -4%;
+  bottom: -6%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(96vw, 700px);
-  height: 46%;
-  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(200,149,107,0.14) 0%, transparent 72%);
-  filter: blur(6px);
+  width: min(102vw, 760px);
+  height: 50%;
+  background: radial-gradient(ellipse 62% 100% at 50% 100%, rgba(200,149,107,0.18) 0%, rgba(180,120,80,0.08) 45%, transparent 78%);
+  filter: blur(9px);
 }
 
-/* Soft grounding shadow directly beneath the book — kept faint
-   (8-10% opacity) so it reads as resting weight, not a platform. */
+/* Soft contact shadow directly beneath the book — kept faint
+   (8-12% opacity) so it reads as resting weight, not a platform. */
 .hero-book-ground {
   position: absolute;
-  bottom: -2%;
+  bottom: -1.5%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(74vw, 520px);
-  height: 13%;
-  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(20,11,6,0.1) 0%, rgba(20,11,6,0.05) 50%, transparent 80%);
-  filter: blur(8px);
+  width: min(70vw, 500px);
+  height: 11%;
+  background: radial-gradient(ellipse 58% 100% at 50% 50%, rgba(18,10,5,0.12) 0%, rgba(18,10,5,0.06) 50%, transparent 80%);
+  filter: blur(9px);
 }
 
-/* Faint atmospheric haze around the lower half of the book, so its
-   base dissolves gradually into the background instead of a hard edge. */
+/* Faint atmospheric haze specifically around the lower half of the
+   book, thinner and closer than the wider candlelight wash, so the
+   base dissolves gradually instead of ending abruptly. */
 .hero-book-haze {
   position: absolute;
   bottom: -3%;
   left: 50%;
   transform: translateX(-50%);
   width: min(110vw, 880px);
-  height: 40%;
-  background: radial-gradient(ellipse 68% 100% at 50% 100%, rgba(139,94,60,0.13) 0%, transparent 74%);
-  filter: blur(10px);
+  height: 38%;
+  background: radial-gradient(ellipse 68% 100% at 50% 100%, rgba(139,94,60,0.15) 0%, transparent 74%);
+  filter: blur(11px);
 }
 
-@keyframes beamBreathe {
-  0%   { opacity: 0.8; transform: translateX(-50%) scaleY(1);    }
-  100% { opacity: 1;   transform: translateX(-50%) scaleY(1.035); }
+@keyframes creaseBreathe {
+  0%   { opacity: 0.82; transform: translateX(-50%) scale(1);    }
+  100% { opacity: 1;    transform: translateX(-50%) scale(1.06); }
 }
 
 /* The open book resting at the bottom center — a real, transparent-
@@ -631,12 +624,19 @@ section, nav, footer { position: relative; z-index: 1; }
   transform-origin: 50% 100%;
   width: min(94vw, 748px);
   z-index: 1;
+}
+
+/* The mask lives on this inner wrapper only, so it fades the photo's
+   own edges without ever touching the caption below — the caption is
+   a sibling, not a masked descendant, so it stays fully legible. */
+.hero-book-photo-inner {
+  position: relative;
   background: none;
   border: none;
   outline: none;
   box-shadow: none;
-  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 58%, #000 42%, rgba(0,0,0,0.7) 66%, transparent 100%);
-          mask-image: radial-gradient(ellipse 78% 88% at 50% 58%, #000 42%, rgba(0,0,0,0.7) 66%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 92% at 50% 62%, #000 38%, rgba(0,0,0,0.6) 62%, transparent 88%);
+          mask-image: radial-gradient(ellipse 80% 92% at 50% 62%, #000 38%, rgba(0,0,0,0.6) 62%, transparent 88%);
 }
 
 .hero-book-photo img {
@@ -668,15 +668,16 @@ section, nav, footer { position: relative; z-index: 1; }
 .hero-book-photo img[data-cms="hero-book-photo"][src=""] {
   display: none;
 }
-.hero-book-photo:has(img[data-cms="hero-book-photo"][src]:not([src=""])) .hero-book-ph {
+.hero-book-photo-inner:has(img[data-cms="hero-book-photo"][src]:not([src=""])) .hero-book-ph {
   display: none;
 }
 
-/* "Turn the page." written faintly in the corner of the book, as if
-   in ink on the page itself. */
+/* "Turn the page." anchored to the book container's own bottom-right
+   corner — sitting just outside the pages, never faded by the photo's
+   edge mask since it's no longer a descendant of the masked wrapper. */
 .hero-book-caption {
   position: absolute;
-  right: 4%;
+  right: 0;
   bottom: -26px;
   font-family: var(--font-display);
   font-style: italic;
@@ -685,6 +686,7 @@ section, nav, footer { position: relative; z-index: 1; }
   color: rgba(226,198,158,0.55);
   letter-spacing: 0.02em;
   transform: rotate(-3deg);
+  transform-origin: 100% 0%;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
@@ -764,16 +766,16 @@ section, nav, footer { position: relative; z-index: 1; }
 
 @media (max-width: 480px) {
   .hero-book-photo { width: min(100vw, 400px); bottom: 4%; }
-  .hero-book-beam { width: min(46vw, 160px); height: 50%; }
-  .hero-book-candlelight { height: 40%; }
-  .hero-book-ground { width: min(86vw, 360px); }
-  .hero-book-haze { height: 36%; }
-  .hero-book-caption { bottom: -20px; right: 3%; font-size: 0.7rem; }
+  .hero-book-crease-glow { width: min(42vw, 150px); height: 18%; }
+  .hero-book-candlelight { height: 44%; }
+  .hero-book-ground { width: min(80vw, 340px); }
+  .hero-book-haze { height: 34%; }
+  .hero-book-caption { bottom: -20px; right: 0; font-size: 0.7rem; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
 
 @media (min-width: 481px) and (max-width: 880px) {
-  .hero-book-caption { bottom: -24px; right: 5%; }
+  .hero-book-caption { bottom: -24px; right: 0; }
 }
 
 /* ============================================================
@@ -1914,7 +1916,7 @@ section, nav, footer { position: relative; z-index: 1; }
     <div class="hero-book-haze"></div>
     <div class="hero-book-candlelight"></div>
     <div class="hero-book-ground"></div>
-    <div class="hero-book-beam"></div>
+    <div class="hero-book-crease-glow"></div>
 
     <!-- Golden dust drifting up from the spine in a widening cone.
          Every mote is anchored at the spine (x ~ 46-54%); each tier's
@@ -1945,6 +1947,16 @@ section, nav, footer { position: relative; z-index: 1; }
     <span class="hero-mote" style="--path:driftLeft; --x:50.6%; --size:1.9px; --dur:20.4s; --delay:-8.5s; --sway:-9px; --rise:-150px; --peak:0.34; --start:10%; --glow:3px; --glow-op:0.21;"></span>
     <span class="hero-mote" style="--path:driftRight; --x:48.4%; --size:1.6px; --dur:18.2s; --delay:-7.9s; --sway:20px; --rise:-250px; --peak:0.29; --start:11%; --glow:3px; --glow-op:0.19;"></span>
     <span class="hero-mote" style="--path:driftStraight; --x:51.1%; --size:2.1px; --dur:16.2s; --delay:-11.4s; --sway:4px; --rise:-130px; --peak:0.3; --start:13%; --glow:3px; --glow-op:0.2;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:47.9%; --size:1.7px; --dur:26.4s; --delay:-19.2s; --sway:-19px; --rise:-320px; --peak:0.27; --start:8%; --glow:3px; --glow-op:0.19;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:52.9%; --size:1.5px; --dur:21.7s; --delay:-4.9s; --sway:13px; --rise:-200px; --peak:0.31; --start:12%; --glow:3px; --glow-op:0.2;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:49.4%; --size:1.9px; --dur:31.5s; --delay:-16.3s; --sway:8px; --rise:-410px; --peak:0.23; --start:6%; --glow:3px; --glow-op:0.17;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:50.7%; --size:1.6px; --dur:14.8s; --delay:-3.6s; --sway:-8px; --rise:-140px; --peak:0.35; --start:14%; --glow:3px; --glow-op:0.22;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:48.3%; --size:2.0px; --dur:23.3s; --delay:-10.1s; --sway:23px; --rise:-340px; --peak:0.26; --start:9%; --glow:3px; --glow-op:0.19;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:53.2%; --size:1.5px; --dur:17.9s; --delay:-6.2s; --sway:5px; --rise:-170px; --peak:0.32; --start:11%; --glow:3px; --glow-op:0.2;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:49.9%; --size:1.8px; --dur:27.8s; --delay:-13.5s; --sway:-21px; --rise:-380px; --peak:0.24; --start:7%; --glow:3px; --glow-op:0.18;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:51.7%; --size:1.6px; --dur:20.1s; --delay:-1.8s; --sway:17px; --rise:-230px; --peak:0.3; --start:10%; --glow:3px; --glow-op:0.2;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:47.4%; --size:2.1px; --dur:25.6s; --delay:-9.7s; --sway:6px; --rise:-290px; --peak:0.26; --start:12%; --glow:3px; --glow-op:0.19;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:52.5%; --size:1.7px; --dur:15.5s; --delay:-7.3s; --sway:-11px; --rise:-155px; --peak:0.33; --start:13%; --glow:3px; --glow-op:0.21;"></span>
 
     <!-- Tier 2 — medium glowing particles (~20%), wider swing -->
     <span class="hero-mote" style="--path:driftLeft; --x:50.0%; --size:3.2px; --dur:18.6s; --delay:-4.3s; --sway:-24px; --rise:-300px; --peak:0.5; --start:13%; --glow:6px; --glow-op:0.4; --glow-spread:1px;"></span>
@@ -1953,11 +1965,23 @@ section, nav, footer { position: relative; z-index: 1; }
     <span class="hero-mote" style="--path:driftLeft; --x:48.8%; --size:3.0px; --dur:20.3s; --delay:-11.4s; --sway:-28px; --rise:-350px; --peak:0.44; --start:8%; --glow:6px; --glow-op:0.36; --glow-spread:1px;"></span>
     <span class="hero-mote" style="--path:driftRight; --x:52.2%; --size:3.5px; --dur:16.1s; --delay:-1.2s; --sway:16px; --rise:-210px; --peak:0.5; --start:12%; --glow:6px; --glow-op:0.4; --glow-spread:1px;"></span>
     <span class="hero-mote" style="--path:driftStraight; --x:47.9%; --size:3.1px; --dur:19.9s; --delay:-8.8s; --sway:6px; --rise:-190px; --peak:0.48; --start:10%; --glow:6px; --glow-op:0.38; --glow-spread:1px;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:51.4%; --size:3.3px; --dur:22.4s; --delay:-14.7s; --sway:-30px; --rise:-360px; --peak:0.47; --start:9%; --glow:6px; --glow-op:0.39; --glow-spread:1px;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:48.6%; --size:2.9px; --dur:15.4s; --delay:-3.5s; --sway:19px; --rise:-180px; --peak:0.52; --start:11%; --glow:6px; --glow-op:0.4; --glow-spread:1px;"></span>
+
+    <!-- Tier 4 — a few faint motes at the book's base, drifting around
+         its lower edges rather than only rising from the crease, so
+         the book reads as sitting within its surroundings. -->
+    <span class="hero-mote" style="--path:driftLeft; --x:23%; --size:1.4px; --dur:26s; --delay:-9.4s; --sway:-14px; --rise:-60px; --peak:0.16; --start:1%; --glow:2px; --glow-op:0.14;"></span>
+    <span class="hero-mote" style="--path:driftRight; --x:76%; --size:1.5px; --dur:22s; --delay:-4.8s; --sway:16px; --rise:-70px; --peak:0.18; --start:2%; --glow:2px; --glow-op:0.15;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:31%; --size:1.3px; --dur:30s; --delay:-14.6s; --sway:6px; --rise:-45px; --peak:0.14; --start:1%; --glow:2px; --glow-op:0.13;"></span>
+    <span class="hero-mote" style="--path:driftStraight; --x:69%; --size:1.6px; --dur:24s; --delay:-7.1s; --sway:5px; --rise:-55px; --peak:0.17; --start:2%; --glow:2px; --glow-op:0.14;"></span>
+    <span class="hero-mote" style="--path:driftLeft; --x:58%; --size:1.4px; --dur:28s; --delay:-19.3s; --sway:-10px; --rise:-50px; --peak:0.15; --start:1%; --glow:2px; --glow-op:0.13;"></span>
 
     <!-- Tier 3 — brighter twinkling sparkles (~10%), tightest to spine -->
     <span class="hero-mote" style="--path:driftTwinkle; --x:49.6%; --size:2.6px; --dur:13.4s; --delay:-5.0s; --sway:10px; --rise:-260px; --peak:0.85; --start:14%; --glow:9px; --glow-op:0.6; --glow-spread:1.5px;"></span>
     <span class="hero-mote" style="--path:driftTwinkle; --x:50.5%; --size:2.3px; --dur:15.7s; --delay:-9.9s; --sway:-12px; --rise:-290px; --peak:0.8; --start:11%; --glow:9px; --glow-op:0.58; --glow-spread:1.5px;"></span>
     <span class="hero-mote" style="--path:driftTwinkle; --x:48.9%; --size:2.8px; --dur:12.0s; --delay:-2.4s; --sway:8px; --rise:-220px; --peak:0.9; --start:13%; --glow:9px; --glow-op:0.65; --glow-spread:1.5px;"></span>
+    <span class="hero-mote" style="--path:driftTwinkle; --x:51.9%; --size:2.4px; --dur:14.1s; --delay:-7.6s; --sway:-9px; --rise:-240px; --peak:0.82; --start:12%; --glow:9px; --glow-op:0.6; --glow-spread:1.5px;"></span>
     </div>
 
     <!-- A real, well-loved open book resting at the bottom center.
@@ -1967,8 +1991,10 @@ section, nav, footer { position: relative; z-index: 1; }
          a broken image. Only the top ~72% is visible — the mask on
          .hero-book-photo fades the rest into the hero's bottom edge. -->
     <div class="hero-book-photo">
-      <img src="public/images/hero-book.webp" data-cms="hero-book-photo" alt="" loading="lazy" decoding="async" width="1200" height="750">
-      <div class="hero-book-ph">your open&#8209;book photo here</div>
+      <div class="hero-book-photo-inner">
+        <img src="public/images/hero-book.webp" data-cms="hero-book-photo" alt="" loading="lazy" decoding="async" width="1200" height="750">
+        <div class="hero-book-ph">your open&#8209;book photo here</div>
+      </div>
       <span class="hero-book-caption">Turn the page.</span>
     </div>
   </div>
