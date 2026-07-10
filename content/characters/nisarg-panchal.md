@@ -23,7 +23,7 @@ trivia:
   - Hates peas but eats from Aadhya's plate
   - Sorts scrunchie and keep stock of his wife's skincare routine.
 theme_song: I'll be watching you.
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery: []
 ---
