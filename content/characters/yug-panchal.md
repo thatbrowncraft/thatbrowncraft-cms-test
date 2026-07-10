@@ -8,10 +8,20 @@ display_order: 5
 illustration: /images/Yug.png
 age: '28'
 occupation: Certified  coder
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Certified coder. Certified menace. Human golden retriever with hacker skills. If chaos had a LinkedIn profile, it''d be him." 💻😂'
+likes:
+  - Loves his Sree bhabhi
+  - Address Devanshi as 'Devi'
+  - Coding
+  - Idhu's crime partner
+dislikes:
+  - Too much silence
+  - Seriousness
+trivia:
+  - He's friends with every people around him.
+  - He's banned in his own neighborhood
+  - Often cooks only for his wife.
+  - Plans outing with his champ.
 theme_song: Vele
 playlist_url: ''
 relationship_map: ''
