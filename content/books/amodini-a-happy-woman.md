@@ -54,6 +54,10 @@ quotes:
 character_leads:
   - Anjana Das
   - Hriday Singh Rajvansh
+purchase_links:
+  - platform: Book trailer
+    url: https://youtu.be/frQWDtoNyjs?si=C0L_3c2RMGHj1O5Q
+    icon: 🪞
 gallery:
   - image: /images/IMG_20250201_134750_493.jpg
     caption: ''
@@ -62,8 +66,8 @@ gallery:
   - image: /images/IMG_20250201_140025_037.jpg
     caption: ''
 published_at: 2025-06-14T16:45
-stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
 inkitt_url: https://www.inkitt.com/stories/1393318
+stck_url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
 wattpad_url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
 kindle_url: https://a.co/d/8R05JHj
 paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
@@ -74,7 +78,6 @@ paperback_url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
 
          ♛Hriday’s bad decisions- so elite!
          Burdened with emotional scars and haunted by his own darkness, yet, in a.  cruel twist of fate, love turned to ruin when Hriday committed the one unforgivable act—an act that became his life’s deepest regret.
-
 
         ♛Anjana’s forgiveness- so unforgettable!
 A web of deception, hidden enemies, and devastating betrayals threaten not only their love but their very existence.
