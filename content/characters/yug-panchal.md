@@ -23,7 +23,7 @@ trivia:
   - Often cooks only for his wife.
   - Plans outing with his champ.
 theme_song: Vele
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz-bEKPdpe6v8sDZhKpXj_pm&si=QvWJzn6HuGGdrcEa
 relationship_map: ''
 gallery: []
 ---
