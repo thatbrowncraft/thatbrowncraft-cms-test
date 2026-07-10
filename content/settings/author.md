@@ -9,12 +9,55 @@ fun_facts:
   - Gujju author
 about_hero_quote: Some stories become books. Some stories become homes.
 about_hero_sub: This is the corner where stories live, breathe, and occasionally refuse to end.
-finds_section_label: ''
-finds_section_title: ''
-finds_section_sub: ''
-currently_section_label: ''
-currently_section_title: ''
-currently_section_sub: ''
+finds_section_label: What You'll Find Here
+finds_section_title: Fiction that feels
+finds_section_sub: A few things that live in this corner of internet.
+finds_cards:
+  - icon: 🪞
+    text: Fiction that feels like home.
+    show: true
+  - icon: 🙏🏽
+    text: Get to learn Gujarati  for sureeee
+    show: true
+  - icon: 🫣
+    text: Chai fueled writings
+    show: true
+  - icon: ❤️‍🔥
+    text: Slow burn romances
+    show: true
+  - icon: 🛐
+    text: Characters that refuse to leave
+    show: true
+  - icon: 💅🏽
+    text: Family drama and emotional chaos
+    show: true
+  - icon: ♥️
+    text: Gujarati desi traditions woven in every chapter.
+    show: true
+currently_section_label: Currently
+currently_section_title: In this season
+currently_section_sub: Updated whenever mood changes (quite often though).
+currently_cards:
+  - label: Reading
+    value: Something so soothing  with a slow burn  and of course a stubborn hero.
+    show: true
+  - label: Playlist
+    value: Hanuman chalisa on repeatttt.
+    show: true
+  - label: Writing beverage
+    value: Masala chai. Obviously. Always.
+    show: true
+  - label: Obsession
+    value: A scene that refuse to be written the right way.
+    show: true
+  - label: Comfort characters
+    value: The one who never gets enough chapters.
+    show: true
+  - label: Favorite Trope
+    value: Forced proximity and Angsty romance. Alwaysss.
+    show: true
+letter_section_label: A note
+letter_section_title: For the Crafties
 letter_show: true
 letter_salutation: Dear Crafties,
 letter_body: Welcome home, crafties.
