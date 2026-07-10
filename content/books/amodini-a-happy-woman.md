@@ -55,6 +55,24 @@ character_leads:
   - Anjana Das
   - Hriday Singh Rajvansh
 purchase_links:
+  - platform: Read on Wattpad
+    url: https://www.wattpad.com/story/357925281?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
+    icon: 👀
+  - platform: Stck.me
+    url: https://thatbrowncraft.stck.me/story/492900/Amodini-A-Happy-Woman
+    icon: 📚
+  - platform: Inkitt
+    url: https://www.inkitt.com/stories/1393318
+    icon: ✒️
+  - platform: Amazon kindle
+    url: https://amzn.in/d/03R0EsKY
+    icon: 📃
+  - platform: Amodini Paperback
+    url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
+    icon: 🤍
+  - platform: Amodini Unfiltered
+    url: https://www.wattpad.com/story/390835697?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
+    icon: 😉
   - platform: Book trailer
     url: https://youtu.be/frQWDtoNyjs?si=C0L_3c2RMGHj1O5Q
     icon: 🪞
