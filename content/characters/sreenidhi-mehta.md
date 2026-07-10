@@ -21,7 +21,7 @@ trivia:
   - Never target yug in front of her.
   - Yug's brahmastra
 theme_song: Yeh aaina
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery: []
 ---
