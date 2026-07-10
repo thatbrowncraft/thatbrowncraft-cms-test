@@ -8,10 +8,20 @@ display_order: 3
 illustration: /images/Nisarg.png
 age: '29'
 occupation: Legal Advisor
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Wins impossible court cases, loses every argument to Aya at home. The calmest Panchal until someone messes with his family." ⚖️'
+likes:
+  - His Aya
+  - His Law books
+  - Idhu's Neil Kaku
+  - Aya's handmade cookies
+dislikes:
+  - Yug's nonstop blabbering
+  - Hates Peas
+trivia:
+  - Calls Idhayan as 'Hulkyan'
+  - Keeps Aadhya's scrunchies in his laptop bag
+  - Hates peas but eats from Aadhya's plate
+  - Sorts scrunchie and keep stock of his wife's skincare routine.
 theme_song: I'll be watching you.
 playlist_url: ''
 relationship_map: ''
