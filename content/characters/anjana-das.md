@@ -8,16 +8,17 @@ display_order: 8
 illustration: /images/IMG_20250131_222120_091.jpg
 age: '27'
 occupation: Personal assistant to Hriday Singh Rajvansh
-author_note: ''
+author_note: '"Elegance in public, emotional damage in private. You''ll either love her, question her, or do both at the same time." 🌙'
 likes:
   - Loves panipuri, chat
   - Masala chai
   - Deewan's kachori
 dislikes:
   - When Hriday denies her
-trivia: []
+trivia:
+  - Often plans street-food with Shekhar, her FIL
 theme_song: Darkhast
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery:
   - image: /images/IMG_20250201_134750_493.jpg
