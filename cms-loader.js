@@ -824,6 +824,18 @@ const CMS = (() => {
         if (data.finds_section_sub) el.textContent = data.finds_section_sub;
       });
 
+      // "What You'll Find Here" feature cards — straight loop over
+      // finds_cards, no hardcoded fallback content. Heading/subtitle
+      // above are separate fields and never derive from card data.
+      const findsCards = Array.isArray(data.finds_cards)
+        ? data.finds_cards.filter(c => c && c.show !== false && c.show !== 'false')
+        : [];
+      renderList('finds-cards', findsCards, false, 'No cards yet.', c => `
+          <div class="find-card">
+            <span class="find-icon">${esc(c.icon || '✦')}</span>
+            <span class="find-text">${esc(c.text || '')}</span>
+          </div>`);
+
       // "Currently Loving" section label/title/subtitle
       document.querySelectorAll('[data-cms="currently-section-label"]').forEach(el => {
         if (data.currently_section_label) el.textContent = data.currently_section_label;
@@ -835,12 +847,29 @@ const CMS = (() => {
         if (data.currently_section_sub) el.textContent = data.currently_section_sub;
       });
 
+      // "Currently Loving" cards — straight loop over currently_cards,
+      // no hardcoded fallback content.
+      const currentlyCards = Array.isArray(data.currently_cards)
+        ? data.currently_cards.filter(c => c && c.show !== false && c.show !== 'false')
+        : [];
+      renderList('currently-cards', currentlyCards, false, 'Nothing to show yet.', c => `
+          <div class="currently-card">
+            <span class="currently-label">${esc(c.label || '')}</span>
+            <span class="currently-value">${esc(c.value || '')}</span>
+          </div>`);
+
       // Letter to Crafties — hide the whole section when letter_show is false
       const hideLetter = data.letter_show === false || data.letter_show === 'false';
       document.querySelectorAll('[data-cms="letter-section"]').forEach(el => {
         el.style.display = hideLetter ? 'none' : '';
       });
       if (!hideLetter) {
+        document.querySelectorAll('[data-cms="letter-section-label"]').forEach(el => {
+          if (data.letter_section_label) el.textContent = data.letter_section_label;
+        });
+        document.querySelectorAll('[data-cms="letter-section-title"]').forEach(el => {
+          setEmphasizedTitle(el, data.letter_section_title);
+        });
         document.querySelectorAll('[data-cms="letter-salutation"]').forEach(el => {
           if (data.letter_salutation) el.textContent = data.letter_salutation;
         });

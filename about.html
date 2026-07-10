@@ -142,12 +142,8 @@ section,nav,footer{position:relative;z-index:1}
       <span class="orn-line"></span><span class="orn-motif">✦</span><span class="orn-line"></span>
     </div>
     <!-- Populated by CMS.loadAuthor() from content/settings/author.md -->
-    <h1 class="hero-quote" id="heroQuote" data-cms="about-hero-quote">
-      "Some stories become books.<br>Some stories become <em>homes.</em>"
-    </h1>
-    <p class="page-header-sub" id="heroSub" data-cms="about-hero-sub">
-      This is the corner where stories live, breathe, and occasionally refuse to end.
-    </p>
+    <h1 class="hero-quote" id="heroQuote" data-cms="about-hero-quote"></h1>
+    <p class="page-header-sub" id="heroSub" data-cms="about-hero-sub"></p>
   </header>
 
   <div class="about-wrap">
@@ -159,51 +155,41 @@ section,nav,footer{position:relative;z-index:1}
     </section>
 
     <!-- ABOUT BODY / BIO — from author.md → Author Bio (markdown body) -->
-    <section class="about-body reveal" id="aboutBody" data-cms="author-bio" aria-label="About thatbrowncraft">
-      <p>Thatbrowncraft exists somewhere between chai stains, unfinished drafts, bookmarked pages, and fictional people who refuse to leave.</p>
-      <p>She writes stories that smell like festivals, family kitchens, rain-soaked evenings, and emotions people often leave unsaid.</p>
-      <p>Some characters <strong>heal.</strong> Some <strong>destroy.</strong> Some stay long after the final page.</p>
-    </section>
+    <section class="about-body reveal" id="aboutBody" data-cms="author-bio" aria-label="About thatbrowncraft"></section>
 
     <!-- FUN FACTS — from author.md → fun_facts -->
     <div class="fun-facts-row reveal" data-cms="author-fun-facts" aria-label="Fun facts about the author"></div>
 
     <!-- FINDS CARDS — from author.md → finds_section_label/title/sub, finds_cards -->
     <section class="reveal" id="findsSection" aria-label="What you will find here">
-      <span class="section-label" data-cms="finds-section-label">what you'll find here</span>
-      <h2 class="section-title" data-cms="finds-section-title">Fiction that <em>feels.</em></h2>
-      <p class="section-sub" data-cms="finds-section-sub">A few things that live in this corner of the internet.</p>
-      <div class="finds-grid" id="findsGrid">
+      <span class="section-label" data-cms="finds-section-label"></span>
+      <h2 class="section-title" data-cms="finds-section-title"></h2>
+      <p class="section-sub" data-cms="finds-section-sub"></p>
+      <div class="finds-grid" data-cms="finds-cards">
         <div class="cms-loading">loading...</div>
       </div>
     </section>
 
     <!-- CURRENTLY LOVING — from author.md → currently_section_label/title/sub, currently_cards -->
     <section class="currently-section reveal" id="currentlySection" aria-label="Currently loving">
-      <span class="section-label" data-cms="currently-section-label">currently</span>
-      <h2 class="section-title" data-cms="currently-section-title">In <em>this season</em></h2>
-      <p class="section-sub" data-cms="currently-section-sub">Updated whenever the mood changes. Which is often.</p>
-      <div class="currently-grid" id="currentlyGrid">
+      <span class="section-label" data-cms="currently-section-label"></span>
+      <h2 class="section-title" data-cms="currently-section-title"></h2>
+      <p class="section-sub" data-cms="currently-section-sub"></p>
+      <div class="currently-grid" data-cms="currently-cards">
         <div class="cms-loading">loading...</div>
       </div>
     </section>
 
     <!-- LETTER — from author.md → letter_* fields -->
     <section class="letter-section reveal" id="letterSection" data-cms="letter-section" aria-label="Letter to crafties">
-      <span class="section-label">a note</span>
-      <h2 class="section-title" style="margin-bottom:2rem">For the <em>Crafties.</em></h2>
+      <span class="section-label" data-cms="letter-section-label"></span>
+      <h2 class="section-title" style="margin-bottom:2rem" data-cms="letter-section-title"></h2>
       <div class="letter-block">
-        <span class="letter-salutation" id="letterSalutation" data-cms="letter-salutation">Dear Crafties,</span>
-        <div class="letter-body" id="letterBody" data-cms="letter-body">
-          <p>Thank you for reading the stories, surviving the cliffhangers, and screaming in comment sections.</p>
-          <p>Thank you for waiting for chapters.</p>
-          <p>Thank you for loving fictional people as if they were real.</p>
-          <p>Every story here belongs as much to you as it does to me.</p>
-          <p>Welcome home.</p>
-        </div>
+        <span class="letter-salutation" id="letterSalutation" data-cms="letter-salutation"></span>
+        <div class="letter-body" id="letterBody" data-cms="letter-body"></div>
         <div class="letter-sign">
           <span class="letter-sign-label">with love,</span>
-          <span class="letter-sign-name" id="letterSignName" data-cms="letter-sign-name">Thatbrowncraft</span>
+          <span class="letter-sign-name" id="letterSignName" data-cms="letter-sign-name"></span>
         </div>
       </div>
     </section>
@@ -217,163 +203,7 @@ section,nav,footer{position:relative;z-index:1}
 <script src="nav.js" defer></script>
 <script src="footer.js" defer></script>
 <script src="cms-loader.js" defer></script>
-<script>
-/* ============================================================
-   PAGE-LOCAL CONTENT LOADER
-   Fetches content/settings/author.md from GitHub raw.
 
-   NOTE: author_photo, display_name, author_bio, tagline, fun_facts,
-   about_hero_quote, about_hero_sub, and the letter section are now
-   fully owned by CMS.loadAuthor() in cms-loader.js (wired up via the
-   data-cms="..." attributes on those elements above) — nothing here
-   touches them anymore.
-
-   This script only remains responsible for the two fields
-   CMS.loadAuthor() doesn't cover:
-     finds_cards        → finds grid (list: icon, text, show)
-     currently_cards    → currently grid (list: label, value, show)
-   ============================================================ */
-
-const RAW_AUTHOR = 'https://raw.githubusercontent.com/thatbrowncraft/thatbrowncraft-cms-test/main/content/settings/author.md';
-
-function parseFrontmatter(text) {
-  const match = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!match) return { data: {}, body: text };
-  const data = {};
-  const raw = match[1];
-  const body = match[2].trim();
-
-  // Simple YAML parser for the fields we need
-  let currentKey = null;
-  let inList = false;
-  let listItemFields = null;
-  let currentListItem = null;
-  let topLevelList = null;
-
-  raw.split('\n').forEach(line => {
-    // Top-level key: value
-    const topMatch = line.match(/^(\w+):\s*"?([^"]*)"?\s*$/);
-    const listStart = line.match(/^(\w+):\s*$/);
-    const listBoolItem = line.match(/^  - "?([^"]*)"?\s*$/);
-    const nestedKey = line.match(/^    (\w+):\s*"?([^"]*)"?\s*$/);
-    const nestedListItem = line.match(/^  - (\w+):\s*"?([^"]*)"?\s*$/);
-    const newNestedObj = line.match(/^  -\s*$/);
-
-    if (topMatch && !line.startsWith(' ')) {
-      currentKey = topMatch[1];
-      data[currentKey] = topMatch[2];
-      inList = false;
-      topLevelList = null;
-    } else if (listStart && !line.startsWith(' ')) {
-      currentKey = listStart[1];
-      data[currentKey] = [];
-      inList = true;
-      topLevelList = currentKey;
-      listItemFields = false;
-    } else if (inList && topLevelList) {
-      if (newNestedObj) {
-        currentListItem = {};
-        data[topLevelList].push(currentListItem);
-        listItemFields = true;
-      } else if (listItemFields && nestedKey) {
-        if (currentListItem) currentListItem[nestedKey[1]] = nestedKey[2];
-      } else if (!listItemFields && listBoolItem) {
-        data[topLevelList].push(listBoolItem[1]);
-      } else if (nestedListItem) {
-        // first field of a new list item that starts with key: value on same line as -
-        currentListItem = {};
-        currentListItem[nestedListItem[1]] = nestedListItem[2];
-        data[topLevelList].push(currentListItem);
-        listItemFields = true;
-      }
-    }
-  });
-
-  return { data, body };
-}
-
-function initReveal() {
-  const ro = new IntersectionObserver(e => {
-    e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visible'); ro.unobserve(x.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-}
-
-async function loadContent() {
-  try {
-    const res = await fetch(RAW_AUTHOR);
-    if (!res.ok) throw new Error('fetch failed');
-    const text = await res.text();
-    const { data } = parseFrontmatter(text);
-
-    // Finds cards
-    const findsGrid = document.getElementById('findsGrid');
-    if (Array.isArray(data.finds_cards) && data.finds_cards.length) {
-      findsGrid.innerHTML = data.finds_cards
-        .filter(c => c.show !== 'false' && c.show !== false)
-        .map(c => `
-          <div class="find-card">
-            <span class="find-icon">${c.icon || '✦'}</span>
-            <span class="find-text">${c.text || ''}</span>
-          </div>`).join('');
-    } else {
-      // Default cards if none set in CMS yet
-      const defaults = [
-        {icon:'📚',text:'Fiction that feels like home.'},
-        {icon:'☕',text:'Chai-fueled writing nights.'},
-        {icon:'🌙',text:'Slow burn romances.'},
-        {icon:'🎭',text:'Family drama and emotional chaos.'},
-        {icon:'🪔',text:'Desi traditions woven into every page.'},
-        {icon:'💌',text:'Characters that refuse to leave.'}
-      ];
-      findsGrid.innerHTML = defaults.map(c =>
-        `<div class="find-card"><span class="find-icon">${c.icon}</span><span class="find-text">${c.text}</span></div>`
-      ).join('');
-    }
-
-    // Currently cards
-    const currentlyGrid = document.getElementById('currentlyGrid');
-    if (Array.isArray(data.currently_cards) && data.currently_cards.length) {
-      currentlyGrid.innerHTML = data.currently_cards
-        .filter(c => c.show !== 'false' && c.show !== false)
-        .map(c => `
-          <div class="currently-card">
-            <span class="currently-label">${c.label || ''}</span>
-            <span class="currently-value">${c.value || ''}</span>
-          </div>`).join('');
-    } else {
-      const defaults = [
-        {label:'Reading',value:'Something with a slow burn and a stubborn hero.'},
-        {label:'Playlist',value:'Raataan Lambiyan on repeat. Again.'},
-        {label:'Obsession',value:'A scene that refuses to be written the right way.'},
-        {label:'Favourite Trope',value:'Forced proximity. Always forced proximity.'},
-        {label:'Comfort Character',value:'The one who never gets enough chapters.'},
-        {label:'Writing Beverage',value:'Masala chai. Obviously. Always.'}
-      ];
-      currentlyGrid.innerHTML = defaults.map(c =>
-        `<div class="currently-card"><span class="currently-label">${c.label}</span><span class="currently-value">${c.value}</span></div>`
-      ).join('');
-    }
-
-  } catch(e) {
-    // Graceful fallback — show default content, not a broken page.
-    // (aboutBody/letterBody/heroQuote/etc already carry hard-coded
-    // fallback markup in the HTML above, so nothing to do for those here.)
-    console.warn('CMS fetch failed, showing defaults for finds/currently cards.', e);
-    document.getElementById('findsGrid').innerHTML = ['📚 Fiction that feels like home.','☕ Chai-fueled writing nights.','🌙 Slow burn romances.','🎭 Family drama and emotional chaos.','🪔 Desi traditions woven into every page.','💌 Characters that refuse to leave.']
-      .map(s => { const [i,...t]=s.split(' '); return `<div class="find-card"><span class="find-icon">${i}</span><span class="find-text">${t.join(' ')}</span></div>`; }).join('');
-    document.getElementById('currentlyGrid').innerHTML = [['Reading','Something with a slow burn.'],['Playlist','Raataan Lambiyan on repeat.'],['Obsession','A scene that won\'t be written right.'],['Favourite Trope','Forced proximity. Always.'],['Comfort Character','The one who needs more chapters.'],['Writing Beverage','Masala chai. Obviously.']]
-      .map(([l,v]) => `<div class="currently-card"><span class="currently-label">${l}</span><span class="currently-value">${v}</span></div>`).join('');
-  }
-
-  initReveal();
-}
-
-// Nav scroll behaviour + hamburger are now wired up by nav.js
-// once it injects the shared nav (see site-nav-mount above).
-
-loadContent();
-</script>
 <script>document.querySelectorAll("#copyright-year").forEach(function(el){el.textContent="© "+new Date().getFullYear();});</script>
 </body>
 </html>
