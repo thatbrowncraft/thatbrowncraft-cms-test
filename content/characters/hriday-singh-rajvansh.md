@@ -8,14 +8,15 @@ display_order: 9
 illustration: /images/IMG_20250131_215734_861.jpg
 age: '31'
 occupation: CEO of Rajvansh Industries
-author_note: ''
+author_note: '"Looks like peace, carries storms. Speaks less, observes everything, and somehow walks around with main-character silence." 🖤'
 likes:
   - Loving his Mishti
   - Early morning walks
   - Silence
 dislikes:
   - Hates khurana
-trivia: []
+trivia:
+  - Always catches Anjana while eating Panipuri
 theme_song: Kaise mujhe tum mil gai
 playlist_url: ''
 relationship_map: /images/IMG_20250201_135208_880.jpg
