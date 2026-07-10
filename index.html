@@ -628,6 +628,111 @@ section, nav, footer { position: relative; z-index: 1; }
   100% { opacity: 1;    transform: translateX(-50%) scale(1.06); }
 }
 
+/* ============================================================
+   HERO PEDESTAL — a low dark-walnut plinth that grounds the book.
+   Purely decorative, pure CSS (no images). Sits behind the book
+   (z-index 0, same layer as the candlelight washes above) so the
+   book still reads as resting on top of it. Every animation below
+   starts on a negative delay so it is already mid-cycle on first
+   paint — nothing waits to "kick in". Does not alter, delay, or
+   remove any of the existing glow/mote/book layers.
+   ============================================================ */
+
+/* Soft cast shadow on the "ground" beneath the pedestal — dark,
+   heavily blurred, adds real depth under the wood. */
+.hero-pedestal-shadow {
+  position: absolute;
+  bottom: -1.5%;
+  left: 50%;
+  width: min(58vw, 460px);
+  height: 7%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(10,6,3,0.42) 0%, rgba(10,6,3,0.18) 55%, transparent 82%);
+  filter: blur(13px);
+  z-index: 0;
+}
+
+/* The plinth itself — dark walnut, matte, subtle grain, softly
+   rounded. About 70-80% of the book's own width. */
+.hero-pedestal {
+  position: absolute;
+  bottom: 1.2%;
+  left: 50%;
+  width: min(70vw, 560px);
+  height: clamp(20px, 3.8vh, 36px);
+  transform: translateX(-50%);
+  border-radius: 14px / 65%;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 32%),
+    repeating-linear-gradient(90deg,
+      rgba(75,46,26,0.9) 0px,
+      rgba(61,36,20,0.9) 4px,
+      rgba(84,54,31,0.9) 8px,
+      rgba(58,34,19,0.9) 13px,
+      rgba(70,43,24,0.9) 18px
+    ),
+    linear-gradient(155deg, #4a2c18 0%, #2c1810 55%, #1f1209 100%);
+  background-blend-mode: overlay, soft-light, normal;
+  box-shadow:
+    0 1px 0 rgba(255,224,180,0.14) inset,
+    0 -7px 10px rgba(0,0,0,0.35) inset,
+    0 10px 20px rgba(0,0,0,0.42);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* An extremely subtle candlelight sweep drifting across the wood
+   every few seconds — slow, faint, elegant. Negative delay so it
+   is already underway on first paint, not starting after a pause. */
+.hero-pedestal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 38%;
+  height: 100%;
+  background: linear-gradient(100deg,
+    transparent 0%,
+    rgba(255,231,186,0.14) 45%,
+    rgba(255,231,186,0.2) 50%,
+    rgba(255,231,186,0.14) 55%,
+    transparent 100%);
+  transform: skewX(-18deg);
+  animation: pedestalSweep 9s ease-in-out infinite;
+  animation-delay: -4.5s;
+  pointer-events: none;
+}
+
+@keyframes pedestalSweep {
+  0%, 84%, 100% { left: -60%; opacity: 0;   }
+  6%             { opacity: 0.5; }
+  44%            { left: 120%; opacity: 0.5; }
+  50%            { opacity: 0; }
+}
+
+/* Warm golden glow exactly where the book meets the wood, as if the
+   book itself were lighting the pedestal it sits on. Breathes gently
+   from the very first frame via a negative animation delay. */
+.hero-pedestal-glow {
+  position: absolute;
+  bottom: 2.8%;
+  left: 50%;
+  width: min(48vw, 380px);
+  height: 9%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(255,214,140,0.55) 0%, rgba(233,197,138,0.28) 42%, transparent 78%);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  animation: pedestalGlowBreathe 5.5s ease-in-out infinite;
+  animation-delay: -2.75s;
+  z-index: 0;
+}
+
+@keyframes pedestalGlowBreathe {
+  0%, 100% { opacity: 0.75; transform: translateX(-50%) scale(1);    }
+  50%       { opacity: 1;    transform: translateX(-50%) scale(1.08); }
+}
+
 /* The open book resting at the bottom center — a real, transparent-
    background photo/cutout, not a rectangular image tile. No box,
    border, or background of its own: the feathered mask below fades
@@ -790,6 +895,9 @@ section, nav, footer { position: relative; z-index: 1; }
   .hero-book-ground { width: min(80vw, 340px); }
   .hero-book-vignette { width: min(90vw, 400px); height: 14%; }
   .hero-book-haze { height: 34%; }
+  .hero-pedestal { width: min(78vw, 300px); height: clamp(15px, 3.4vh, 24px); bottom: 1.6%; }
+  .hero-pedestal-glow { width: min(56vw, 220px); }
+  .hero-pedestal-shadow { width: min(64vw, 260px); }
   .hero-book-caption { bottom: -20px; right: 0; font-size: 0.7rem; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
@@ -1938,6 +2046,12 @@ section, nav, footer { position: relative; z-index: 1; }
     <div class="hero-book-ground"></div>
     <div class="hero-book-vignette"></div>
     <div class="hero-book-crease-glow"></div>
+
+    <!-- Dark walnut pedestal grounding the book — sits behind the
+         book, in front of the ambient washes above. Purely CSS. -->
+    <div class="hero-pedestal-shadow"></div>
+    <div class="hero-pedestal"></div>
+    <div class="hero-pedestal-glow"></div>
 
     <!-- Golden dust drifting up from the spine in a widening cone.
          Every mote is anchored at the spine (x ~ 46-54%); each tier's
