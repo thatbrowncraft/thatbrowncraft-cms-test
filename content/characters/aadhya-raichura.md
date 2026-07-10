@@ -8,10 +8,17 @@ display_order: 4
 illustration: /images/Imagine_18377487676206391.jpg
 age: '28'
 occupation: Event organizer
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Runs Ahmedabad''s biggest events, skincare routines, and somehow everyone else''s life too. Pretty? Yes. Dangerous with planning? Absolutely." ✨🎀'
+likes:
+  - Skincare
+  - Pinterest aesthetics
+  - Social media queen
+dislikes:
+  - Hates pop colors
+  - When Neil ignores her
+trivia:
+  - Famous for her profession, 'Events with Aadhya'
+  - Always made cookies for Idhayan and Nisarg
 theme_song: Bahara
 playlist_url: ''
 relationship_map: ''
