@@ -9,10 +9,14 @@ illustration: /images/IMG_20250131_215734_861.jpg
 age: '31'
 occupation: CEO of Rajvansh Industries
 author_note: ''
-likes: []
-dislikes: []
+likes:
+  - Loving his Mishti
+  - Early morning walks
+  - Silence
+dislikes:
+  - Hates khurana
 trivia: []
-theme_song: ''
+theme_song: Kaise mujhe tum mil gai
 playlist_url: ''
 relationship_map: /images/IMG_20250201_135208_880.jpg
 gallery:
