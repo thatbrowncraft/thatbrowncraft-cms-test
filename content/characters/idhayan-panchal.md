@@ -8,10 +8,19 @@ display_order: 7
 illustration: /images/Idhayan.jpg
 age: '2'
 occupation: Troublemaker
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Professional cookie thief, Mumma''s shadow, Devi Kaki''s biggest simp, and Yug Kaka''s full-time crime partner. Tiny human. Massive personality." 🍪🧸'
+likes:
+  - Loves his mumma
+  - Devi Kaki simp
+  - Loves Aadhu kaki's cookies
+dislikes:
+  - Green vegetables
+  - When his Yuggie kaku team up with Nitya didi
+trivia:
+  - Idhu loves playing with his grandparents
+  - A cutest link between his parents
+  - Planning crimes with his Yuggie kaku
+  - Can fight with everyone for his Devi kakii
 theme_song: Hulk • Avengers
 playlist_url: ''
 relationship_map: ''
