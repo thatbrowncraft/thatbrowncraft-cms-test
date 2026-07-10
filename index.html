@@ -942,17 +942,18 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 @media (max-width: 480px) {
-  .hero-magic {
-    --book-w: clamp(260px, 100vw, 400px);
-    --book-bottom: 4%;
-    --pedestal-ratio: 0.75;
-    --pedestal-h: clamp(15px, 3.4vh, 24px);
-  }
+  .hero-book-photo { width: min(100vw, 400px); bottom: 4%; }
   .hero-book-crease-glow { width: min(42vw, 150px); height: 18%; }
   .hero-book-candlelight { height: 44%; }
   .hero-book-ground { width: min(80vw, 340px); }
   .hero-book-vignette { width: min(90vw, 400px); height: 14%; }
   .hero-book-haze { height: 34%; }
+  /* Mobile keeps its own known-good, hand-tuned values rather than the
+     desktop measured formula — explicit numbers here fully override
+     the shared --pedestal-bottom calc for viewports this small. */
+  .hero-pedestal { width: min(78vw, 300px); height: clamp(15px, 3.4vh, 24px); bottom: 1.6%; }
+  .hero-pedestal-glow { width: min(56vw, 220px); bottom: 2.8%; }
+  .hero-pedestal-shadow { width: min(64vw, 260px); bottom: -1.5%; }
   .hero-book-caption { bottom: -20px; right: 0; font-size: 0.7rem; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
