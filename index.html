@@ -533,8 +533,31 @@ section, nav, footer { position: relative; z-index: 1; }
      ceiling than before so the book reads as the clear focal point. */
   --book-w: clamp(300px, 94vw, 820px);
   /* Pedestal width is always a fraction of the book's own width, so
-     the two stay visually locked together at any viewport size. */
-  --pedestal-w: calc(var(--book-w) * 0.6);
+     the two stay visually locked together at any viewport size. Ratio
+     is overridden per breakpoint below (0.6 desktop / 0.75 mobile). */
+  --pedestal-ratio: 0.6;
+  --pedestal-w: calc(var(--book-w) * var(--pedestal-ratio));
+  /* Where the book's own container sits (its "bottom" CSS value) —
+     kept as a variable so the pedestal math below can reuse it and
+     stay in sync if this ever changes. */
+  --book-bottom: 6%;
+  /* hero-book.webp measured directly: real asset is 720×312 (not the
+     1200×750 the markup assumed), and the visible book only occupies
+     the middle ~73.7% of that canvas — there's ~13.14% of transparent
+     padding baked in below the actual page edge (matching an equal
+     pad above, for the radial fade mask). --book-pad converts that
+     baked-in padding into a real length so nothing is guessed. */
+  --book-pad: calc(var(--book-w) * 0.4333 * 0.1314);
+  /* Pedestal height, exposed as a var so the position math below can
+     subtract it precisely; overridden smaller on mobile. */
+  --pedestal-h: clamp(20px, 4vh, 38px);
+  /* The tiny sliver of shadow left between page and wood. */
+  --pedestal-gap: calc(var(--book-w) * 0.01);
+  /* Final resting position: start at the book's own container edge,
+     add back the transparent padding baked into the image (so we're
+     measuring from the *visible* page edge, not the invisible box
+     edge), then back off one small gap and the pedestal's own height. */
+  --pedestal-bottom: calc(var(--book-bottom) + var(--book-pad) - var(--pedestal-gap) - var(--pedestal-h));
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -651,7 +674,7 @@ section, nav, footer { position: relative; z-index: 1; }
    the pedestal's own (book-relative) width, not a fixed pixel cap. */
 .hero-pedestal-shadow {
   position: absolute;
-  bottom: 0.4%;
+  bottom: calc(var(--pedestal-bottom) - var(--pedestal-h) * 0.3);
   left: 50%;
   width: calc(var(--pedestal-w) * 1.12);
   height: 6%;
@@ -667,10 +690,10 @@ section, nav, footer { position: relative; z-index: 1; }
    it, so only a sliver of shadow separates wood from page. */
 .hero-pedestal {
   position: absolute;
-  bottom: 3%;
+  bottom: var(--pedestal-bottom);
   left: 50%;
   width: var(--pedestal-w);
-  height: clamp(20px, 4vh, 38px);
+  height: var(--pedestal-h);
   transform: translateX(-50%);
   border-radius: 14px / 65%;
   background:
@@ -745,7 +768,7 @@ section, nav, footer { position: relative; z-index: 1; }
    Breathes gently from the very first frame via a negative delay. */
 .hero-pedestal-glow {
   position: absolute;
-  bottom: 2.4%;
+  bottom: calc(var(--pedestal-bottom) + var(--pedestal-h) * 0.35);
   left: 50%;
   width: calc(var(--pedestal-w) * 0.92);
   height: 12%;
@@ -772,7 +795,7 @@ section, nav, footer { position: relative; z-index: 1; }
    same pattern as .author-photo elsewhere on the site. */
 .hero-book-photo {
   position: absolute;
-  bottom: 6%;
+  bottom: var(--book-bottom);
   left: 50%;
   transform: translateX(-50%) translateY(34px) perspective(1200px) rotateX(-2deg);
   transform-origin: 50% 100%;
@@ -919,15 +942,17 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 @media (max-width: 480px) {
-  .hero-book-photo { width: min(100vw, 400px); bottom: 4%; }
+  .hero-magic {
+    --book-w: clamp(260px, 100vw, 400px);
+    --book-bottom: 4%;
+    --pedestal-ratio: 0.75;
+    --pedestal-h: clamp(15px, 3.4vh, 24px);
+  }
   .hero-book-crease-glow { width: min(42vw, 150px); height: 18%; }
   .hero-book-candlelight { height: 44%; }
   .hero-book-ground { width: min(80vw, 340px); }
   .hero-book-vignette { width: min(90vw, 400px); height: 14%; }
   .hero-book-haze { height: 34%; }
-  .hero-pedestal { width: min(78vw, 300px); height: clamp(15px, 3.4vh, 24px); bottom: 1.6%; }
-  .hero-pedestal-glow { width: min(56vw, 220px); }
-  .hero-pedestal-shadow { width: min(64vw, 260px); }
   .hero-book-caption { bottom: -20px; right: 0; font-size: 0.7rem; }
   .hero-tulip { width: clamp(38px, 12vw, 56px); }
 }
@@ -2157,7 +2182,7 @@ section, nav, footer { position: relative; z-index: 1; }
          .hero-book-photo fades the rest into the hero's bottom edge. -->
     <div class="hero-book-photo">
       <div class="hero-book-photo-inner">
-        <img src="public/images/hero-book.webp" data-cms="hero-book-photo" alt="" loading="lazy" decoding="async" width="1200" height="750">
+        <img src="public/images/hero-book.webp" data-cms="hero-book-photo" alt="" loading="lazy" decoding="async" width="720" height="312">
         <div class="hero-book-ph">your open&#8209;book photo here</div>
       </div>
       <span class="hero-book-caption">Turn the page.</span>
