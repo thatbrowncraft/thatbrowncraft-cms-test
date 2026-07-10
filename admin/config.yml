@@ -901,6 +901,17 @@ collections:
                 name: "show"
                 widget: "boolean"
                 default: true
+          - label: "About Page — For the Crafties — Label"
+            name: "letter_section_label"
+            widget: "string"
+            required: false
+            default: "a note"
+          - label: "About Page — For the Crafties — Title"
+            name: "letter_section_title"
+            widget: "string"
+            required: false
+            default: "For the Crafties."
+            hint: "The last word is shown in italic/accent color automatically."
           - label: "Show Letter to Crafties"
             name: "letter_show"
             widget: "boolean"
