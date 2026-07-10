@@ -22,7 +22,7 @@ trivia:
   - Often plans against yug
   - Team up with Raghav and Nisarg
 theme_song: Womaniyaa
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery: []
 ---
