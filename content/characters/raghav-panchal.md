@@ -8,10 +8,18 @@ display_order: 1
 illustration: /images/Raghav.png
 age: '32'
 occupation: Businessman
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Looks scary. Acts scarier. But one ''Idhi'' from his wife or ''Ayan'' from his son and the CEO software crashes immediately." 🤎'
+likes:
+  - Loves idhi
+  - Supports his sisters
+  - Human shield of Panchal family
+  - "'Tras che' his all time fav word"
+dislikes:
+  - Idhi's silence
+  - Too much noise
+  - When someone makes sound while eating
+trivia:
+  - About to own jurassic park for his son, Ayan.
 theme_song: Daddy's home
 playlist_url: ''
 relationship_map: ''
