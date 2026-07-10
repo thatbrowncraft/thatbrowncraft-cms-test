@@ -9,8 +9,12 @@ illustration: /images/IMG_20250131_222120_091.jpg
 age: '27'
 occupation: Personal assistant to Hriday Singh Rajvansh
 author_note: ''
-likes: []
-dislikes: []
+likes:
+  - Loves panipuri, chat
+  - Masala chai
+  - Deewan's kachori
+dislikes:
+  - When Hriday denies her
 trivia: []
 theme_song: Darkhast
 playlist_url: ''
