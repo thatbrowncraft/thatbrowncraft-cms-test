@@ -18,7 +18,7 @@ dislikes:
 trivia:
   - Always catches Anjana while eating Panipuri
 theme_song: Kaise mujhe tum mil gai
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: /images/IMG_20250201_135208_880.jpg
 gallery:
   - image: /images/IMG_20250201_140025_037.jpg
