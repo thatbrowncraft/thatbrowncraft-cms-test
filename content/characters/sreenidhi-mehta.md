@@ -8,10 +8,18 @@ display_order: 2
 illustration: /images/Imagine_18377488558206391.jpg
 age: '29'
 occupation: Homemaker and soon to be scientist
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"She rebuilt her life from zero. Soft heart, sharp brain, professional yapper with Yug, and forever Idhu''s favorite mumma." 🧪🌼'
+likes:
+  - Loves Yug
+  - Idhu's mumma
+  - Heart of Panchal family
+  - Loves cooking
+dislikes:
+  - Raghav's cold avatar
+  - When someone targets yug
+trivia:
+  - Never target yug in front of her.
+  - Yug's brahmastra
 theme_song: Yeh aaina
 playlist_url: ''
 relationship_map: ''
