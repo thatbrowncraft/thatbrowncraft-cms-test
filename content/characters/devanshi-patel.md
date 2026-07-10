@@ -8,10 +8,19 @@ display_order: 6
 illustration: /images/Imagine_18377488327206391.jpg
 age: '27'
 occupation: Account manager
-author_note: ''
-likes: []
-dislikes: []
-trivia: []
+author_note: '"Balances spreadsheets by day, balances Yug''s attitude with punches by night. The smartest person in every room and she knows it." 📊🥊'
+likes:
+  - Accounting
+  - Idhayan
+  - 'Harshvardhan: Her FIL'
+  - Loves shopping with Sreenidhi and Aadhya
+dislikes:
+  - Yug's nonsense
+  - Cooking
+trivia:
+  - She's Idhayan's crush kaki
+  - Often plans against yug
+  - Team up with Raghav and Nisarg
 theme_song: Womaniyaa
 playlist_url: ''
 relationship_map: ''
