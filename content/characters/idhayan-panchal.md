@@ -22,7 +22,7 @@ trivia:
   - Planning crimes with his Yuggie kaku
   - Can fight with everyone for his Devi kakii
 theme_song: Hulk • Avengers
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz-bEKPdpe6v8sDZhKpXj_pm&si=QvWJzn6HuGGdrcEa
 relationship_map: ''
 gallery: []
 ---
