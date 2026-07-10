@@ -21,7 +21,7 @@ dislikes:
 trivia:
   - About to own jurassic park for his son, Ayan.
 theme_song: Daddy's home
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery: []
 ---
