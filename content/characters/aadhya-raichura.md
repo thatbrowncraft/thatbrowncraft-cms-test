@@ -20,7 +20,7 @@ trivia:
   - Famous for her profession, 'Events with Aadhya'
   - Always made cookies for Idhayan and Nisarg
 theme_song: Bahara
-playlist_url: ''
+playlist_url: https://youtube.com/playlist?list=PLws0iq2RpRz8zdlkVstTFAPlJ6sCEwBeW&si=ggYVo9ZoVo6RQQBI
 relationship_map: ''
 gallery: []
 ---
