@@ -527,6 +527,14 @@ section, nav, footer { position: relative; z-index: 1; }
    ============================================================ */
 .hero-magic {
   --deco: 1;
+  /* Fluid book width — scales continuously with the viewport instead
+     of snapping to one fixed desktop size, so large monitors keep the
+     book (and everything tied to it below) proportionate. ~10% larger
+     ceiling than before so the book reads as the clear focal point. */
+  --book-w: clamp(300px, 94vw, 820px);
+  /* Pedestal width is always a fraction of the book's own width, so
+     the two stay visually locked together at any viewport size. */
+  --pedestal-w: calc(var(--book-w) * 0.6);
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -639,13 +647,14 @@ section, nav, footer { position: relative; z-index: 1; }
    ============================================================ */
 
 /* Soft cast shadow on the "ground" beneath the pedestal — dark,
-   heavily blurred, adds real depth under the wood. */
+   heavily blurred, adds real depth under the wood. Width is tied to
+   the pedestal's own (book-relative) width, not a fixed pixel cap. */
 .hero-pedestal-shadow {
   position: absolute;
-  bottom: -1.5%;
+  bottom: 0.4%;
   left: 50%;
-  width: min(58vw, 460px);
-  height: 7%;
+  width: calc(var(--pedestal-w) * 1.12);
+  height: 6%;
   transform: translateX(-50%);
   background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(10,6,3,0.42) 0%, rgba(10,6,3,0.18) 55%, transparent 82%);
   filter: blur(13px);
@@ -653,16 +662,19 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 /* The plinth itself — dark walnut, matte, subtle grain, softly
-   rounded. About 70-80% of the book's own width. */
+   rounded, and centered directly under the book's spine. Sized as a
+   fraction of the book's width (55-65%) and pulled up close beneath
+   it, so only a sliver of shadow separates wood from page. */
 .hero-pedestal {
   position: absolute;
-  bottom: 1.2%;
+  bottom: 3%;
   left: 50%;
-  width: min(70vw, 560px);
-  height: clamp(20px, 3.8vh, 36px);
+  width: var(--pedestal-w);
+  height: clamp(20px, 4vh, 38px);
   transform: translateX(-50%);
   border-radius: 14px / 65%;
   background:
+    linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 9%, transparent 91%, rgba(0,0,0,0.3) 100%),
     linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 32%),
     repeating-linear-gradient(90deg,
       rgba(75,46,26,0.9) 0px,
@@ -672,13 +684,29 @@ section, nav, footer { position: relative; z-index: 1; }
       rgba(70,43,24,0.9) 18px
     ),
     linear-gradient(155deg, #4a2c18 0%, #2c1810 55%, #1f1209 100%);
-  background-blend-mode: overlay, soft-light, normal;
+  background-blend-mode: multiply, overlay, soft-light, normal;
   box-shadow:
     0 1px 0 rgba(255,224,180,0.14) inset,
     0 -7px 10px rgba(0,0,0,0.35) inset,
     0 10px 20px rgba(0,0,0,0.42);
   overflow: hidden;
   z-index: 0;
+}
+
+/* A raised, slightly narrower top lip — reads as a tapered/beveled
+   stand face rather than a flat slab, without any hard clipped
+   edges. Purely a lighter overlay, so it costs nothing to paint. */
+.hero-pedestal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 87%;
+  height: 48%;
+  transform: translateX(-50%);
+  border-radius: 10px / 60%;
+  background: linear-gradient(180deg, rgba(255,236,205,0.16) 0%, rgba(255,236,205,0.03) 55%, transparent 100%);
+  pointer-events: none;
 }
 
 /* An extremely subtle candlelight sweep drifting across the wood
@@ -711,17 +739,19 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 /* Warm golden glow exactly where the book meets the wood, as if the
-   book itself were lighting the pedestal it sits on. Breathes gently
-   from the very first frame via a negative animation delay. */
+   book itself were lighting the pedestal it sits on. Sized and
+   positioned to spill onto the wood's surface so light and grain
+   visually merge, rather than sitting as a separate halo above it.
+   Breathes gently from the very first frame via a negative delay. */
 .hero-pedestal-glow {
   position: absolute;
-  bottom: 2.8%;
+  bottom: 2.4%;
   left: 50%;
-  width: min(48vw, 380px);
-  height: 9%;
+  width: calc(var(--pedestal-w) * 0.92);
+  height: 12%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(255,214,140,0.55) 0%, rgba(233,197,138,0.28) 42%, transparent 78%);
-  filter: blur(10px);
+  background: radial-gradient(ellipse 62% 100% at 50% 100%, rgba(255,214,140,0.6) 0%, rgba(233,197,138,0.3) 45%, transparent 80%);
+  filter: blur(9px);
   mix-blend-mode: screen;
   animation: pedestalGlowBreathe 5.5s ease-in-out infinite;
   animation-delay: -2.75s;
@@ -746,7 +776,7 @@ section, nav, footer { position: relative; z-index: 1; }
   left: 50%;
   transform: translateX(-50%) translateY(34px) perspective(1200px) rotateX(-2deg);
   transform-origin: 50% 100%;
-  width: min(94vw, 748px);
+  width: var(--book-w);
   z-index: 1;
 }
 
