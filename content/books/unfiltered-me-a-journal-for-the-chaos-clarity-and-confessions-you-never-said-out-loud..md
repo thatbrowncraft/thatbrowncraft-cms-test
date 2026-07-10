@@ -32,8 +32,7 @@ quotes:
     context: ''
   - text: Happy you!
     context: ''
-character_leads:
-  - Unfiltered You.
+character_leads: []
 purchase_links:
   - platform: Unfiltered me Paperback
     url: https://store.pothi.com/book/thatbrowncraft-unfiltered-me-journal-chaos-clarity-and-confessions-you-never-said-out-loud/
