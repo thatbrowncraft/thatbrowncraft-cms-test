@@ -4,7 +4,7 @@ series_name: Self-improvement journal
 series_number: ''
 status: published
 is_featured: false
-cover_image: ''
+cover_image: /images/“Unfiltered Me”.png
 genres:
   - Emotional
   - Contemporary
