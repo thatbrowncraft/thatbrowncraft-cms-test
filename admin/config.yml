@@ -1554,6 +1554,95 @@ collections:
         default: "draft"
         hint: "Only Published postcards appear on the live site."
 
+# ────────────────────────────────────────────────────────────
+# COLLECTION 17: POST OFFICE — PAGE CONTENT
+# ────────────────────────────────────────────────────────────
+
+  - name: "post_office_page"
+    label: "✉️ Post Office — Page Content"
+    files:
+      - label: "Post Office Page"
+        name: "post_office"
+        file: "content/post-office/index.md"
+        fields:
+          - label: "Page Title"
+            name: "page_title"
+            widget: "string"
+            hint: "The big heading at the top of the Post Office page."
+          - label: "Page Subtitle"
+            name: "page_subtitle"
+            widget: "string"
+            required: false
+            hint: "One italic line shown under the title."
+          - label: "Introductory Paragraph"
+            name: "intro_paragraph"
+            widget: "text"
+            required: false
+            hint: "A short paragraph welcoming readers before the letters begin."
+          - label: "Show Closing Note"
+            name: "closing_note_show"
+            widget: "boolean"
+            default: true
+            hint: "Turn off to hide the closing note without deleting it."
+          - label: "Closing Note"
+            name: "closing_note"
+            widget: "markdown"
+            required: false
+            hint: "A small handwritten-feeling sign-off shown at the very bottom of the page, after all the letters."
+
+# ────────────────────────────────────────────────────────────
+# COLLECTION 18: POST OFFICE — REPLIES
+# ────────────────────────────────────────────────────────────
+
+  - name: "post_office_replies"
+    label: "💌 Post Office Replies"
+    label_singular: "Reply"
+    folder: "content/post-office/replies"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{recipient}} — {{title}} ({{status}})"
+    description: >
+      Letters written back to readers on the Post Office page.
+      No dates, no author name, no signature required — just who
+      it's to, what it's about, and the reply itself.
+    fields:
+      - label: "Recipient"
+        name: "recipient"
+        widget: "string"
+        required: false
+        hint: "Who this letter is to — e.g. BloomingSuga, Anshika. Leave blank for 'To an anonymous Craftie.'"
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The letter's title — e.g. About the ending you weren't ready for"
+      - label: "Subtitle"
+        name: "subtitle"
+        widget: "string"
+        required: false
+        hint: "A small italic line under the title — optional."
+      - label: "Project"
+        name: "project"
+        widget: "string"
+        required: false
+        hint: "What this letter is about — e.g. Amodini Series, General, Site Updates. Used to build the filter buttons automatically — type anything, a new filter appears the moment you publish."
+      - label: "Reply Body"
+        name: "body"
+        widget: "markdown"
+        hint: "The letter itself. Write freely — no signature needed, it's added automatically by the page design."
+      - label: "Featured"
+        name: "is_featured"
+        widget: "boolean"
+        default: false
+        hint: "Featured letters are kept at the front of the pile."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft",     value: "draft"     }
+          - { label: "Published", value: "published" }
+        default: "draft"
+        hint: "Only Published letters appear on the live site."
+
 # ============================================================
 # END OF CONFIG
 # TEST REPO:       thatbrowncraft/thatbrowncraft-cms-test
