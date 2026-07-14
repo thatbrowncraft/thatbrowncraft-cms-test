@@ -1579,6 +1579,48 @@ collections:
             widget: "text"
             required: false
             hint: "A short paragraph welcoming readers before the letters begin."
+          - label: "Small Label Above the Section Heading"
+            name: "section_eyebrow"
+            widget: "string"
+            required: false
+            default: "What I Wrote Back"
+            hint: "The small uppercase label shown above 'Letters in Return' — e.g. What I Wrote Back. Leave blank to hide it."
+          - label: "Section Heading"
+            name: "section_heading"
+            widget: "string"
+            required: false
+            default: "Letters in Return"
+            hint: "The big heading above the letters — e.g. Letters in Return. The last word is italicized automatically, matching the rest of the site. Leave blank to hide the whole heading."
+          - label: "Loading Message"
+            name: "replies_loading_message"
+            widget: "string"
+            required: false
+            default: "loading letters..."
+            hint: "Shown very briefly while the letters are being fetched. Leave blank to show nothing during that moment."
+          - label: "Empty State Message"
+            name: "replies_empty_message"
+            widget: "string"
+            required: false
+            default: "No letters published yet."
+            hint: "Shown only if there are no published letters yet. Leave blank to show nothing instead."
+          - label: "\"Load More Letters\" Button Text"
+            name: "load_more_button_text"
+            widget: "string"
+            required: false
+            default: "Read More Letters"
+            hint: "The button readers click to see more letters once there are more than fit on one page. Leave blank to hide this button entirely — readers will only see the first page of letters."
+          - label: "\"Read More\" Toggle Text"
+            name: "read_more_label"
+            widget: "string"
+            required: false
+            default: "read more"
+            hint: "Shown on a letter that's too long to fit — click to expand it. Works together with 'Read Less' Toggle Text below. Leave either one blank to turn this feature off and always show letters in full."
+          - label: "\"Read Less\" Toggle Text"
+            name: "read_less_label"
+            widget: "string"
+            required: false
+            default: "read less"
+            hint: "Shown after a letter has been expanded — click to collapse it again. Leave either this or 'Read More' Toggle Text blank to turn this feature off and always show letters in full."
           - label: "Show Closing Note"
             name: "closing_note_show"
             widget: "boolean"
