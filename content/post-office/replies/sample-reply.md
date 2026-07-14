@@ -1,18 +1,22 @@
 ---
-recipient: "an anonymous Craftie"
-title: "About the ending you weren't ready for"
-subtitle: "on the last chapter"
-project: "Amodini Series"
+recipient: an anonymous Craftie
+title: About learning Gujarati words through Kutumb clan
+subtitle: said that the kutumb characters stayed in their heart instead of just the pages
+project: Kutumb
 is_featured: true
-status: "draft"
-body: |
-  I saw your postcard. I read it twice, actually, because the first time I
-  just sat there for a second before I could take in all of it.
-
-  I'm not going to pretend the ending doesn't hurt. It's supposed to. But I
-  promise you it isn't unkind — it's just honest, and honest doesn't always
-  arrive gently.
-
-  Thank you for staying until the last page. That's the only ending I
-  actually care about.
+status: published
 ---
+
+Your message genuinely made me emotional.
+
+
+When I started writing Kutumb, I never imagined someone would say the characters stayed in their heart instead of just the pages. Reading how every couple has found a place with you and that Idhayan's little moments became something you wait for... that means more than I can put into words.
+
+
+The fact that you even learned Gujarati words through them made me smile so much. That's exactly what I hoped for, sharing not just a story but a little piece of our culture.
+
+
+Thank you for loving this family as much as I do. I promise they're still growing, and I hope they continue making your heart feel at home.
+
+
+With lots of love, thatbrowncraft 🌼
