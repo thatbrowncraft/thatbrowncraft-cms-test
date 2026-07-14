@@ -5,7 +5,7 @@ intro_paragraph: You've written to me — postcards, reviews, theories, demands 
 closing_note_show: true
 closing_note: |-
   If you don't see your letter here yet, it doesn't mean I didn't read it.
-  Some replies take longer to find their words. Come back .
+  Some replies take longer to find their words. Come back soon🫶🏽
 
   — thatbrowncraft
 ---
