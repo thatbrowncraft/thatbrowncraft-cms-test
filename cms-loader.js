@@ -1777,6 +1777,157 @@ const CMS = (() => {
 
       return published;
     },
+
+    /* ────────────────────────────────────────────────────────
+       POST OFFICE — PAGE CONTENT
+       Reads content/post-office/index.md
+       Targets: [data-cms="po-title"]           (page_title)
+                [data-cms="po-subtitle"]         (page_subtitle)
+                [data-cms="po-intro"]            (intro_paragraph)
+                [data-cms="po-closing-section"]  hidden entirely when
+                                                  closing_note_show is
+                                                  false or closing_note
+                                                  is empty
+                [data-cms="po-closing-note"]     (closing_note, markdown)
+       No hardcoded fallback text anywhere — an unpopulated field
+       just leaves the element empty, same convention as the rest
+       of the site's CMS-first pages.
+       ──────────────────────────────────────────────────────── */
+    async loadPostOfficePage() {
+      const { data } = await fetchFile('content/post-office/index.md');
+
+      document.querySelectorAll('[data-cms="po-title"]').forEach(el => {
+        if (data.page_title) el.textContent = data.page_title;
+      });
+      document.querySelectorAll('[data-cms="po-subtitle"]').forEach(el => {
+        if (data.page_subtitle) el.textContent = data.page_subtitle;
+      });
+      document.querySelectorAll('[data-cms="po-intro"]').forEach(el => {
+        if (data.intro_paragraph) el.textContent = data.intro_paragraph;
+      });
+
+      const hideClosing = !data.closing_note ||
+        data.closing_note_show === false || data.closing_note_show === 'false';
+      document.querySelectorAll('[data-cms="po-closing-section"]').forEach(el => {
+        el.style.display = hideClosing ? 'none' : '';
+      });
+      if (!hideClosing) {
+        document.querySelectorAll('[data-cms="po-closing-note"]').forEach(el => {
+          el.innerHTML = md(data.closing_note);
+        });
+      }
+
+      return data;
+    },
+
+    /* ────────────────────────────────────────────────────────
+       POST OFFICE — REPLIES
+       Reads content/post-office/replies/*.md
+       Targets: [data-cms="po-filters"]       (Project filter buttons —
+                                                generated from whichever
+                                                Project values actually
+                                                appear among published
+                                                replies; the static "All"
+                                                button already lives in
+                                                the HTML, this only adds
+                                                the rest — same pattern
+                                                as bonus.html's scene-type
+                                                filters)
+                [data-cms="po-replies-grid"]   (the letters themselves)
+       Featured replies (is_featured: true) always sort first;
+       everything else follows behind them.
+       No dates, no author name, no signature — just recipient,
+       title, optional subtitle, and the reply itself.
+
+       Only entries with status: published are ever rendered or
+       counted toward filters — drafts stay invisible on the live
+       site exactly like every other collection on this site.
+
+       Every card gets a permalink anchor (#reply-{slug}, built from
+       the CMS's own auto-generated filename slug — no new field, no
+       extra author step) and fires "cms:po-replies-rendered" once
+       the grid is actually in the DOM, which is what the page's own
+       script listens for to run "Load More" pagination and to
+       scroll/highlight a shared link's target letter.
+       ──────────────────────────────────────────────────────── */
+    async loadPostOfficeReplies() {
+      const entries = await fetchCollection('post-office/replies');
+      const failed = anyFailed(entries);
+      const published = entries
+        .filter(e => e.data.status === 'published')
+        .sort((a, b) => (b.data.is_featured ? 1 : 0) - (a.data.is_featured ? 1 : 0));
+
+      /* Project is free-text in the CMS, same reasoning as bonus
+         scenes' scene_type: normalize before grouping so authoring
+         inconsistencies ("Amodini Series" vs "amodini-series") still
+         collapse into one filter button instead of several. */
+      const normProject = t => String(t || '')
+        .trim().toLowerCase()
+        .replace(/[\s-]+/g, '_')
+        .replace(/_+/g, '_');
+      const labelFor = t => t.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+      document.querySelectorAll('[data-cms="po-filters"]').forEach(el => {
+        // A failed fetch means "published" is an empty guess, not a
+        // confirmed empty collection — don't erase filter buttons a
+        // previous successful load already generated.
+        if (failed && !published.length) return;
+
+        const present = [...new Set(published.map(e => normProject(e.data.project)).filter(Boolean))].sort();
+
+        el.querySelectorAll('.filter-btn[data-generated="1"]').forEach(b => b.remove());
+        el.insertAdjacentHTML('beforeend', present.map(t =>
+          `<button class="filter-btn" data-filter="${esc(t)}" data-generated="1">${esc(labelFor(t))}</button>`
+        ).join(''));
+      });
+
+      const recipientLine = r => r ? `To ${esc(r)}` : 'To an anonymous Craftie';
+
+      renderList('po-replies-grid', published, failed, 'No letters published yet.', ({ data, body }, i) => {
+        const t = normProject(data.project);
+        // "Reply Body" is a markdown field named "body" (same convention
+        // as Books' Synopsis / Characters' Personality). Depending on
+        // how the CMS actually writes it to disk, that content can land
+        // either as data.body (a frontmatter field) or as the file's
+        // true post-frontmatter body — checking both keeps this working
+        // either way, same defensive approach used throughout this file.
+        const replyText = data.body || body || '';
+        // Permalink: reuses the same auto-generated filename slug every
+        // other collection already relies on (data._slug, set by
+        // fetchCollection above) — same technique as bonus.html's
+        // "bonus.html#scene-${slug}" links. No new CMS field, no change
+        // to how the author writes a reply; the link is just always
+        // there, e.g. post-office.html#reply-{slug}.
+        const slug = esc(data._slug || '');
+        return `
+          <div class="reply-letter reveal${i % 5 ? ` d${i % 5}` : ''}${data.is_featured ? ' is-featured' : ''}" id="reply-${slug}" data-project="${esc(t)}" data-slug="${slug}">
+            ${data.is_featured ? '<span class="reply-featured-tag">✦ kept close</span>' : ''}
+            <div class="reply-postmark" aria-hidden="true"></div>
+            <div class="reply-stamp" aria-hidden="true">💌</div>
+            ${data.project ? `<span class="reply-project">${esc(data.project)}</span><br>` : ''}
+            <div class="reply-to">${recipientLine(data.recipient)}</div>
+            <h3 class="reply-title">${esc(data.title || '')}</h3>
+            ${data.subtitle ? `<p class="reply-subtitle">${esc(data.subtitle)}</p>` : ''}
+            <div class="reply-body">${md(replyText)}</div>
+            <div class="reply-seal" aria-hidden="true">✦</div>
+            <a class="reply-permalink" href="#reply-${slug}" title="Link to this letter" aria-label="Copy link to this letter">🔗</a>
+          </div>`;
+      });
+
+      enableReadMore('.reply-letter', '.reply-body');
+
+      // Rendering happens asynchronously (this whole method is awaited
+      // inside init()'s Promise.allSettled), so the page's own script
+      // can't just run pagination/permalink setup on DOMContentLoaded —
+      // the cards may not exist yet. This event fires right after the
+      // grid's innerHTML is actually populated, so the page can safely
+      // hook its "Load More" + permalink-scroll logic to it instead of
+      // guessing about timing.
+      document.dispatchEvent(new CustomEvent('cms:po-replies-rendered', { detail: { count: published.length } }));
+
+      return published;
+    },
+
     async init() {
       const has = attr => !!document.querySelector(`[data-cms="${attr}"]`);
       const jobs = [];
@@ -1823,6 +1974,12 @@ const CMS = (() => {
 
       if (has('postcards-grid'))
         jobs.push(this.loadPostcards());
+
+      if (has('po-title') || has('po-subtitle') || has('po-intro') || has('po-closing-section'))
+        jobs.push(this.loadPostOfficePage());
+
+      if (has('po-replies-grid') || has('po-filters'))
+        jobs.push(this.loadPostOfficeReplies());
 
       await Promise.allSettled(jobs);
 

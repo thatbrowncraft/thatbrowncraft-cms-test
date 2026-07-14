@@ -21,6 +21,7 @@
     { href: 'characters.html',  label: 'Characters' },
     { href: 'bonus.html',        label: 'One More Chapter' },
     { href: 'crafties.html',    label: 'Crafties' },
+    { href: 'post-office.html', label: 'Post Office' },
     { href: 'kanha.html',        label: "Kanha's Corner" },
     { href: 'hall-of-fame.html', label: 'Hall of Fame' },
     { href: 'updates.html',      label: 'Updates' },

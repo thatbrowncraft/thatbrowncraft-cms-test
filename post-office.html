@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Post Office. Letters written back to the readers who wrote in first.">
+<title>Post Office — thatbrowncraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --espresso:   #2C1810;
+  --walnut:     #3B1F0A;
+  --midbrown:   #8B5E3C;
+  --terracotta: #C8956B;
+  --gold:       #C9A96E;
+  --cream:      #E8D5B0;
+  --parchment:  #F5ECD7;
+  --paper:      #F0E6CF;
+  --deepink:    #1A0F08;
+  --fd: 'Cormorant Garamond', Georgia, serif;
+  --fb: 'Lato', sans-serif;
+  --fa: 'Libre Baskerville', Georgia, serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--espresso);color:var(--parchment);overflow-x:hidden;font-weight:300}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ATMOSPHERE — identical to the rest of the site */
+#atm{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.ls{position:absolute;top:-30%;right:-10%;width:60vw;height:140vh;background:linear-gradient(148deg,rgba(201,169,110,.07) 0%,rgba(245,236,215,.04) 35%,transparent 65%);transform:rotate(-18deg);transform-origin:top right;animation:sb 9s ease-in-out infinite}
+.ls2{position:absolute;top:30%;left:-15%;width:45vw;height:90vh;background:linear-gradient(42deg,rgba(200,149,107,.04) 0%,transparent 60%);transform:rotate(10deg);animation:sb 13s ease-in-out infinite reverse}
+@keyframes sb{0%,100%{opacity:.7}50%{opacity:1}}
+.mote{position:absolute;border-radius:50%;opacity:0;animation:md linear infinite;will-change:transform,opacity;filter:blur(.4px)}
+@keyframes md{0%{transform:translateY(105vh) translateX(0);opacity:0}8%{opacity:.9}35%{transform:translateY(70vh) translateX(20px);opacity:.6}60%{transform:translateY(40vh) translateX(-14px);opacity:.8}85%{transform:translateY(12vh) translateX(16px);opacity:.4}100%{transform:translateY(-8vh) translateX(0);opacity:0}}
+.m1{width:3px;height:3px;background:rgba(201,169,110,.7);left:5%;animation-duration:24s;animation-delay:0s}
+.m2{width:2px;height:2px;background:rgba(245,236,215,.8);left:12%;animation-duration:31s;animation-delay:-7s}
+.m3{width:4px;height:4px;background:rgba(200,149,107,.5);left:19%;animation-duration:20s;animation-delay:-13s}
+.m4{width:2px;height:2px;background:rgba(201,169,110,.6);left:27%;animation-duration:35s;animation-delay:-4s}
+.m5{width:3px;height:3px;background:rgba(196,154,138,.5);left:34%;animation-duration:26s;animation-delay:-19s}
+.m6{width:2px;height:2px;background:rgba(245,236,215,.7);left:41%;animation-duration:29s;animation-delay:-9s}
+.m7{width:3px;height:3px;background:rgba(201,169,110,.6);left:49%;animation-duration:22s;animation-delay:-15s}
+.m8{width:2px;height:2px;background:rgba(200,149,107,.5);left:57%;animation-duration:33s;animation-delay:-2s}
+.m9{width:4px;height:4px;background:rgba(196,154,138,.4);left:64%;animation-duration:21s;animation-delay:-21s}
+.m10{width:2px;height:2px;background:rgba(245,236,215,.6);left:72%;animation-duration:28s;animation-delay:-6s}
+.m11{width:3px;height:3px;background:rgba(201,169,110,.7);left:79%;animation-duration:25s;animation-delay:-11s}
+.m12{width:2px;height:2px;background:rgba(200,149,107,.5);left:87%;animation-duration:32s;animation-delay:-17s}
+.m13{width:3px;height:3px;background:rgba(245,236,215,.5);left:93%;animation-duration:19s;animation-delay:-3s}
+.m14{width:2px;height:2px;background:rgba(201,169,110,.6);left:8%;animation-duration:27s;animation-delay:-14s}
+.m15{width:4px;height:4px;background:rgba(196,154,138,.4);left:23%;animation-duration:23s;animation-delay:-8s}
+.m16{width:2px;height:2px;background:rgba(245,236,215,.7);left:38%;animation-duration:30s;animation-delay:-18s}
+.m17{width:3px;height:3px;background:rgba(201,169,110,.5);left:53%;animation-duration:24s;animation-delay:-5s}
+.m18{width:2px;height:2px;background:rgba(200,149,107,.6);left:68%;animation-duration:36s;animation-delay:-12s}
+.m19{width:3px;height:3px;background:rgba(196,154,138,.5);left:82%;animation-duration:20s;animation-delay:-16s}
+.m20{width:2px;height:2px;background:rgba(245,236,215,.6);left:96%;animation-duration:28s;animation-delay:-1s}
+
+/* NAV — identical to the rest of the site (markup injected by nav.js) */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(1.5rem,5vw,4rem);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(44,24,16,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,169,110,.1);transition:background .4s}
+.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.18)}
+.nav-logo{display:flex;align-items:baseline;line-height:1;letter-spacing:.01em}
+.logo-that{font-family:var(--fd);font-weight:500;font-size:1.45rem;color:var(--cream);font-style:normal}
+.logo-brown{font-family:var(--fd);font-weight:500;font-size:1.45rem;color:var(--terracotta);font-style:normal}
+.logo-craft{font-family:var(--fd);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);align-items:center}
+.nav-link{font-family:var(--fb);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.5);transition:color .3s}
+.nav-link:hover,.nav-link.active-page{color:var(--terracotta)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--cream);transition:.3s}
+.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(44,24,16,.98);padding:1.5rem 2rem 2rem;flex-direction:column;z-index:899;border-bottom:1px solid rgba(201,169,110,.15)}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-link{padding:.85rem 0;font-size:.82rem;border-bottom:1px solid rgba(201,169,110,.08);display:block}
+section,nav,footer{position:relative;z-index:1}
+
+/* PAGE HEADER — identical pattern to every other page */
+.page-header{padding:120px clamp(1.5rem,6vw,5rem) clamp(3rem,5vw,4.5rem);background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(59,31,10,.8) 0%,transparent 60%),linear-gradient(180deg,#2C1810 0%,#3B1F0A 100%);text-align:center;border-bottom:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:64px;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.3) 30%,rgba(201,169,110,.5) 50%,rgba(201,169,110,.3) 70%,transparent)}
+.page-header-title{font-family:var(--fd);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;color:var(--cream);line-height:1;min-height:1.1em}
+.page-header-title em{font-style:italic;color:var(--terracotta)}
+.orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto;max-width:300px}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent)}
+.orn-motif{font-size:.7rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+.page-header-sub{font-family:var(--fd);font-style:italic;font-size:clamp(.95rem,2vw,1.15rem);color:rgba(245,236,215,.38);max-width:520px;margin:0 auto;line-height:1.65;min-height:1.5em}
+
+/* INTRO PARAGRAPH — CMS-driven, sits quietly under the header */
+.po-intro-section{padding:0 clamp(1.5rem,5vw,4rem);background:var(--espresso)}
+.po-intro-inner{max-width:640px;margin:0 auto;padding:clamp(2.5rem,5vw,3.5rem) 0}
+.po-intro{font-family:var(--fd);font-style:italic;font-size:clamp(1rem,2.2vw,1.2rem);color:rgba(245,236,215,.55);line-height:1.9;text-align:center;white-space:pre-line}
+
+/* REPLIES SECTION */
+.po-replies-section{padding:0 clamp(1.5rem,5vw,4rem) clamp(4rem,8vw,6rem);background:var(--espresso)}
+.po-replies-inner{max-width:1080px;margin:0 auto}
+.section-eyebrow{font-family:var(--fa);font-style:italic;font-size:.78rem;color:rgba(201,169,110,.45);letter-spacing:.18em;display:block;margin-bottom:.6rem;text-align:center}
+.section-heading{font-family:var(--fd);font-size:clamp(2rem,4.5vw,3.2rem);font-weight:400;color:var(--cream);line-height:1.1;text-align:center}
+.section-heading em{font-style:italic;color:var(--terracotta)}
+
+/* FILTERS — same generated-buttons pattern as bonus.html's filter bar */
+.po-filters{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:2.5rem 0 3rem}
+.filter-btn{font-family:var(--fb);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;padding:.55rem 1.3rem;border:1px solid rgba(200,149,107,.28);background:none;color:rgba(245,236,215,.45);cursor:pointer;transition:all .3s}
+.filter-btn:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.filter-btn.active{background:rgba(200,149,107,.16);border-color:var(--terracotta);color:var(--parchment)}
+
+/* REPLY LETTERS — a box of preserved postcards, not a modern grid */
+.po-replies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2.5rem 2rem;margin-top:1rem}
+
+.reply-letter{
+  position:relative;
+  background:var(--paper);
+  background-image:radial-gradient(rgba(139,94,60,.06) 1px, transparent 1px);
+  background-size:7px 7px;
+  padding:3.4rem 1.85rem 2.6rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+  border:1px solid rgba(59,31,10,.08);
+  transition:transform .35s,box-shadow .35s;
+}
+.reply-letter:nth-child(3n+1){transform:rotate(-.6deg)}
+.reply-letter:nth-child(3n+2){transform:rotate(.55deg)}
+.reply-letter:nth-child(3n){transform:rotate(-.3deg)}
+.reply-letter:hover{transform:rotate(0deg) translateY(-6px)!important;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+
+.reply-postmark{position:absolute;top:1.15rem;left:1.15rem;width:44px;height:44px;border-radius:50%;border:1px solid rgba(59,31,10,.16);opacity:.4;pointer-events:none}
+.reply-postmark::before{content:'';position:absolute;inset:6px;border:1px dashed rgba(59,31,10,.14);border-radius:50%}
+
+.reply-stamp{position:absolute;top:1.05rem;right:1.05rem;width:36px;height:42px;border:1px dashed rgba(59,31,10,.32);background:linear-gradient(135deg,rgba(200,149,107,.25),rgba(201,169,110,.12));display:flex;align-items:center;justify-content:center;font-size:.95rem;color:rgba(59,31,10,.5);transform:rotate(-5deg)}
+
+.reply-featured-tag{position:absolute;top:-11px;left:1.6rem;background:var(--gold);color:var(--espresso);font-family:var(--fb);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;box-shadow:0 3px 8px rgba(0,0,0,.3);transform:rotate(-2deg);white-space:nowrap}
+
+.reply-letter.is-featured{box-shadow:0 6px 26px rgba(0,0,0,.45);border-color:rgba(201,169,110,.22)}
+
+.reply-project{display:inline-block;font-family:var(--fb);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);opacity:.75;margin-bottom:.55rem}
+.reply-to{font-family:var(--fd);font-style:italic;font-size:1.02rem;color:var(--terracotta);margin-bottom:.4rem}
+.reply-title{font-family:var(--fd);font-size:1.5rem;font-weight:500;color:var(--espresso);line-height:1.22;margin-bottom:.35rem}
+.reply-subtitle{font-family:var(--fa);font-style:italic;font-size:.82rem;color:rgba(44,24,16,.48);margin-bottom:1.1rem}
+.reply-body{font-family:var(--fd);font-size:.98rem;color:rgba(44,24,16,.74);line-height:1.85}
+.reply-body p{margin-bottom:.85rem}
+.reply-body p:last-child{margin-bottom:0}
+.reply-body.clamped{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.read-more-btn{display:inline-block;background:none;border:none;font-family:var(--fb);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);cursor:pointer;margin-top:.7rem;padding:0}
+.read-more-btn:hover{color:var(--walnut);text-decoration:underline}
+
+.reply-seal{position:absolute;bottom:-15px;right:1.9rem;width:34px;height:34px;border-radius:50% 50% 50% 4px;background:radial-gradient(circle at 35% 30%,var(--terracotta),var(--walnut) 78%);box-shadow:0 3px 9px rgba(0,0,0,.4),inset 0 1px 2px rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:rgba(245,236,215,.85);transform:rotate(-9deg)}
+
+/* PERMALINK — a small, quiet corner mark; not a redesign, just a
+   copyable/clickable link to this one letter (#reply-{slug}) */
+.reply-permalink{position:absolute;bottom:.9rem;left:1.2rem;font-size:.7rem;text-decoration:none;opacity:.3;transition:opacity .3s}
+.reply-permalink:hover,.reply-permalink:focus-visible{opacity:.85}
+
+/* Brief, temporary glow when a shared link scrolls a letter into
+   view — fades on its own, no lasting change to the card itself */
+.reply-letter.reply-highlight{box-shadow:0 0 0 3px rgba(201,169,110,.55),0 16px 40px rgba(0,0,0,.5);transition:box-shadow .6s ease}
+
+/* LOAD MORE — same visual language as the filter pills */
+.po-load-more-wrap{display:flex;justify-content:center;margin-top:2.5rem}
+.po-load-more-btn{font-family:var(--fb);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;padding:.75rem 2rem;border:1px solid rgba(200,149,107,.35);background:none;color:rgba(245,236,215,.6);cursor:pointer;transition:all .3s}
+.po-load-more-btn:hover{border-color:var(--terracotta);color:var(--terracotta);background:rgba(200,149,107,.06)}
+
+.cms-empty{font-family:var(--fd);font-style:italic;color:rgba(245,236,215,.3)}
+
+/* CLOSING NOTE — the quiet, handwritten ending to the room */
+.po-closing-section{padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem) clamp(4.5rem,8vw,6rem);text-align:center;background:linear-gradient(180deg,var(--espresso) 0%,#3B1F0A 100%);border-top:1px solid rgba(201,169,110,.08)}
+.po-closing-inner{max-width:560px;margin:0 auto}
+.po-closing-note{font-family:var(--fd);font-style:italic;font-size:clamp(1rem,2.2vw,1.2rem);color:rgba(245,236,215,.5);line-height:1.9}
+.po-closing-note p{margin-bottom:.8rem}
+.po-closing-note p:last-child{margin-bottom:0}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* FOOTER — identical to the rest of the site (markup injected by footer.js) */
+.site-footer{background:var(--deepink);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,6vw,5rem) 2.5rem;text-align:center;border-top:1px solid rgba(201,169,110,.1);position:relative;overflow:hidden}
+.site-footer::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse,rgba(200,149,107,.05),transparent 70%);pointer-events:none}
+.footer-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.footer-logo{display:flex;align-items:baseline;justify-content:center;margin-bottom:.4rem}
+.fl-that{font-family:var(--fd);font-weight:500;font-size:2rem;color:rgba(245,236,215,.6)}
+.fl-brown{font-family:var(--fd);font-weight:500;font-size:2rem;color:var(--terracotta);opacity:.75}
+.fl-craft{font-family:var(--fd);font-weight:400;font-size:2rem;color:var(--gold);font-style:italic;opacity:.65}
+.footer-tagline{font-family:var(--fd);font-style:italic;font-size:.88rem;color:rgba(245,236,215,.22);margin-bottom:2.5rem}
+.footer-social{display:flex;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem}
+.social-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.14);font-family:var(--fb);font-size:.65rem;letter-spacing:.08em;color:rgba(245,236,215,.33);transition:all .3s}
+.social-pill:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.75rem;margin-bottom:2.5rem}
+.footer-link{font-family:var(--fb);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,236,215,.25);transition:color .3s}
+.footer-link:hover{color:var(--terracotta)}
+.footer-rule{height:1px;background:rgba(201,169,110,.1);margin-bottom:1.5rem}
+.footer-copy{font-family:var(--fb);font-size:.62rem;color:rgba(245,236,215,.18);letter-spacing:.03em}
+
+@media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+@media(prefers-reduced-motion:reduce){
+  .mote,.ls,.ls2{display:none}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+  .reply-letter,.reply-letter:nth-child(3n+1),.reply-letter:nth-child(3n+2),.reply-letter:nth-child(3n){transform:none}
+}
+</style>
+</head>
+<body>
+
+<div id="atm" aria-hidden="true">
+  <div class="ls"></div><div class="ls2"></div>
+  <span class="mote m1"></span><span class="mote m2"></span><span class="mote m3"></span>
+  <span class="mote m4"></span><span class="mote m5"></span><span class="mote m6"></span>
+  <span class="mote m7"></span><span class="mote m8"></span><span class="mote m9"></span>
+  <span class="mote m10"></span><span class="mote m11"></span><span class="mote m12"></span>
+  <span class="mote m13"></span><span class="mote m14"></span><span class="mote m15"></span>
+  <span class="mote m16"></span><span class="mote m17"></span><span class="mote m18"></span>
+  <span class="mote m19"></span><span class="mote m20"></span>
+</div>
+
+<!-- NAV — shared component, injected by nav.js -->
+<div id="site-nav-mount"></div>
+
+<main>
+
+<header class="page-header">
+  <h1 class="page-header-title" data-cms="po-title"></h1>
+  <div class="orn-row" aria-hidden="true">
+    <div class="orn-line"></div><span class="orn-motif">✦ ✦ ✦</span><div class="orn-line"></div>
+  </div>
+  <p class="page-header-sub" data-cms="po-subtitle"></p>
+</header>
+
+<!-- INTRO PARAGRAPH -->
+<section class="po-intro-section">
+  <div class="po-intro-inner">
+    <p class="po-intro reveal" data-cms="po-intro"></p>
+  </div>
+</section>
+
+<!-- REPLIES -->
+<section class="po-replies-section" id="replies">
+  <div class="po-replies-inner">
+    <div class="reveal">
+      <span class="section-eyebrow">What I Wrote Back</span>
+      <h2 class="section-heading">Letters <em>in return</em></h2>
+    </div>
+
+    <div class="po-filters" data-cms="po-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+    </div>
+
+    <div class="po-replies-grid" data-cms="po-replies-grid">
+      <p class="cms-empty" style="text-align:center;grid-column:1/-1;">loading letters...</p>
+    </div>
+
+    <div class="po-load-more-wrap">
+      <button type="button" class="po-load-more-btn" id="po-load-more" style="display:none">Read More Letters</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- CLOSING NOTE — quiet, handwritten, CMS-driven, hidden entirely when empty -->
+<section class="po-closing-section" data-cms="po-closing-section" style="display:none">
+  <div class="po-closing-inner">
+    <div class="orn-row" aria-hidden="true">
+      <div class="orn-line"></div><span class="orn-motif">✦</span><div class="orn-line"></div>
+    </div>
+    <div class="po-closing-note" data-cms="po-closing-note"></div>
+  </div>
+</section>
+
+<div id="site-footer-mount"></div>
+
+<script>
+// NAV scroll + hamburger behaviour is wired up by nav.js once it
+// injects the shared nav (see site-nav-mount above).
+
+// SCROLL REVEAL — identical pattern to every other page
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+}
+
+// LETTERS: FILTERS + "LOAD MORE" PAGINATION + PERMALINKS
+// ------------------------------------------------------------------
+// cms-loader.js renders every published letter into the grid in one
+// shot (it has to — this static site has no server to page requests
+// through), then fires "cms:po-replies-rendered" once that's done.
+// Everything below just controls which of those already-rendered
+// cards are actually visible, so the page still scales fine to
+// hundreds of letters without ever hiding functionality behind a
+// second network request.
+(function () {
+  var PAGE_SIZE = 9; // how many letters (per active filter) show before "Read More Letters" is needed
+  var currentFilter = 'all';
+  var visibleCount = PAGE_SIZE;
+  var loadMoreBtn = document.getElementById('po-load-more');
+
+  function allCards() {
+    return Array.prototype.slice.call(document.querySelectorAll('.po-replies-grid .reply-letter'));
+  }
+
+  function applyView() {
+    var cards = allCards();
+    var matches = cards.filter(function (c) {
+      return currentFilter === 'all' || c.getAttribute('data-project') === currentFilter;
+    });
+    cards.forEach(function (c) { c.style.display = 'none'; });
+    matches.slice(0, visibleCount).forEach(function (c) { c.style.display = ''; });
+    if (loadMoreBtn) loadMoreBtn.style.display = matches.length > visibleCount ? '' : 'none';
+  }
+
+  // Jumps to, reveals (past any filter/pagination hiding it), and
+  // briefly highlights the letter named in the URL's #reply-{slug}
+  // hash — what makes a copied/shared link actually land somewhere.
+  function goToHash() {
+    var hash = location.hash;
+    if (!/^#reply-/.test(hash)) return;
+    var target = document.querySelector(hash);
+    if (!target) return; // letters not rendered yet, or an unknown/old slug
+
+    currentFilter = 'all';
+    document.querySelectorAll('.po-filters .filter-btn').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+    });
+
+    var cards = allCards();
+    var idx = cards.indexOf(target);
+    if (idx > -1 && idx + 1 > visibleCount) visibleCount = idx + 1;
+    applyView();
+
+    requestAnimationFrame(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.classList.add('reply-highlight');
+      setTimeout(function () { target.classList.remove('reply-highlight'); }, 2200);
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var filterBtn = e.target.closest('.po-filters .filter-btn');
+    if (filterBtn) {
+      document.querySelectorAll('.po-filters .filter-btn').forEach(function (b) { b.classList.remove('active'); });
+      filterBtn.classList.add('active');
+      currentFilter = filterBtn.getAttribute('data-filter') || 'all';
+      visibleCount = PAGE_SIZE; // start each new filter from page one
+      applyView();
+      return;
+    }
+
+    if (e.target.closest('#po-load-more')) {
+      visibleCount += PAGE_SIZE;
+      applyView();
+      return;
+    }
+
+    var permalink = e.target.closest('.reply-permalink');
+    if (permalink) {
+      e.preventDefault();
+      // Setting location.hash both updates the address bar (so the
+      // reader can copy it straight from there) and fires hashchange,
+      // which goToHash() below uses to do the actual reveal/scroll.
+      location.hash = permalink.getAttribute('href');
+    }
+  });
+
+  window.addEventListener('hashchange', goToHash);
+
+  // The grid may still be empty when this script first runs (async
+  // CMS fetch in progress) — do the initial pagination pass and hash
+  // check only once cms-loader.js confirms the letters actually exist.
+  document.addEventListener('cms:po-replies-rendered', function () {
+    applyView();
+    goToHash();
+  });
+})();
+</script>
+
+<script src="nav.js" defer></script>
+<script src="footer.js" defer></script>
+<script src="cms-loader.js" defer></script>
+</body>
+</html>
