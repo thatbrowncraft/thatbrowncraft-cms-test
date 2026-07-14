@@ -3,7 +3,7 @@ recipient: an anonymous Craftie
 title: About learning Gujarati words through Kutumb clan
 subtitle: Said that the kutumb characters stayed in their heart instead of just the pages
 project: Kutumb
-is_featured: false
+is_featured: true
 status: published
 ---
 
