@@ -19,6 +19,7 @@
   --parchment:  #F5ECD7;
   --paper:      #F0E6CF;
   --deepink:    #1A0F08;
+  --ink-fresh:  #2B1407;
   --fd: 'Cormorant Garamond', Georgia, serif;
   --fb: 'Lato', sans-serif;
   --fa: 'Libre Baskerville', Georgia, serif;
@@ -132,9 +133,9 @@ section,nav,footer{position:relative;z-index:1}
 
 .reply-project{display:inline-block;font-family:var(--fb);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);opacity:.75;margin-bottom:.55rem}
 .reply-to{font-family:var(--fd);font-style:italic;font-size:1.02rem;color:var(--terracotta);margin-bottom:.4rem}
-.reply-title{font-family:var(--fd);font-size:1.5rem;font-weight:500;color:var(--espresso);line-height:1.22;margin-bottom:.35rem}
-.reply-subtitle{font-family:var(--fa);font-style:italic;font-size:.82rem;color:rgba(44,24,16,.66);margin-bottom:1.1rem}
-.reply-body{font-family:var(--fd);font-size:.98rem;color:rgba(44,24,16,.88);line-height:1.85}
+.reply-title{font-family:var(--fd);font-size:1.5rem;font-weight:500;color:var(--ink-fresh);line-height:1.22;margin-bottom:.35rem}
+.reply-subtitle{font-family:var(--fa);font-style:italic;font-size:.82rem;color:rgba(43,20,7,.78);margin-bottom:1.1rem}
+.reply-body{font-family:var(--fd);font-size:.98rem;color:rgba(43,20,7,.94);line-height:1.95}
 .reply-body p{margin-bottom:.85rem}
 .reply-body p:last-child{margin-bottom:0}
 .reply-body.clamped{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
@@ -190,6 +191,15 @@ section,nav,footer{position:relative;z-index:1}
 .footer-copy{font-family:var(--fb);font-size:.62rem;color:rgba(245,236,215,.18);letter-spacing:.03em}
 
 @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+@media(max-width:600px){
+  /* Postcards were reading narrower than they needed to on phones —
+     the section's own side padding plus the card's side padding were
+     both full-size at once. Trim the section's outer margin here so
+     the card itself gets more of the screen, and ease the card's own
+     side padding back a little while keeping it clearly generous. */
+  .po-replies-section{padding-left:.85rem;padding-right:.85rem}
+  .reply-letter{padding:3.2rem 1.35rem 2.3rem}
+}
 @media(prefers-reduced-motion:reduce){
   .mote,.ls,.ls2{display:none}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -235,20 +245,18 @@ section,nav,footer{position:relative;z-index:1}
 <section class="po-replies-section" id="replies">
   <div class="po-replies-inner">
     <div class="reveal">
-      <span class="section-eyebrow">What I Wrote Back</span>
-      <h2 class="section-heading">Letters <em>in return</em></h2>
+      <span class="section-eyebrow" data-cms="po-section-eyebrow" style="display:none"></span>
+      <h2 class="section-heading" data-cms="po-section-heading" style="display:none"></h2>
     </div>
 
     <div class="po-filters" data-cms="po-filters">
       <button class="filter-btn active" data-filter="all">All</button>
     </div>
 
-    <div class="po-replies-grid" data-cms="po-replies-grid">
-      <p class="cms-empty" style="text-align:center;grid-column:1/-1;">loading letters...</p>
-    </div>
+    <div class="po-replies-grid" data-cms="po-replies-grid"></div>
 
     <div class="po-load-more-wrap">
-      <button type="button" class="po-load-more-btn" id="po-load-more" style="display:none">Read More Letters</button>
+      <button type="button" class="po-load-more-btn" id="po-load-more" style="display:none"><span data-cms="po-load-more-text"></span></button>
     </div>
   </div>
 </section>
@@ -309,7 +317,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     });
     cards.forEach(function (c) { c.style.display = 'none'; });
     matches.slice(0, visibleCount).forEach(function (c) { c.style.display = ''; });
-    if (loadMoreBtn) loadMoreBtn.style.display = matches.length > visibleCount ? '' : 'none';
+    // loadMoreBtn.dataset.cmsHasText is set by cms-loader.js once the
+    // "Load More Letters" button text field is known. If that field is
+    // left blank in the dashboard, the button stays hidden forever —
+    // no HTML-edit-required fallback text is ever shown.
+    if (loadMoreBtn) {
+      var hasText = loadMoreBtn.dataset.cmsHasText !== '0';
+      loadMoreBtn.style.display = (hasText && matches.length > visibleCount) ? '' : 'none';
+    }
   }
 
   // Jumps to, reveals (past any filter/pagination hiding it), and
@@ -373,6 +388,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.addEventListener('cms:po-replies-rendered', function () {
     applyView();
     goToHash();
+  });
+
+  // Page-content fields (like the Load More button's text) can finish
+  // loading slightly before or after the letters themselves — re-run
+  // the pagination view either way so the button's visibility always
+  // reflects the latest CMS data.
+  document.addEventListener('cms:po-page-rendered', function () {
+    applyView();
   });
 })();
 </script>

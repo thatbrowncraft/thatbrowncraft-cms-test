@@ -551,7 +551,15 @@ const CMS = (() => {
      Short entries never get a button at all — it only appears when
      there's actually more to read. Safe to call repeatedly; it will
      not double up buttons on cards that already have one. */
-  function enableReadMore(cardSelector, textSelector) {
+  function enableReadMore(cardSelector, textSelector, labels) {
+    // labels is optional — every existing caller (books, characters,
+    // comments, theories, etc.) keeps its original hardcoded 'read
+    // more' / 'read less' text by omitting it. Only a caller that
+    // passes both a readMore and readLess string gets CMS-driven text;
+    // if either one is missing, that caller should skip clamping
+    // entirely instead of calling this with a half-filled label pair.
+    const readMoreText = (labels && labels.readMore) || 'read more';
+    const readLessText = (labels && labels.readLess) || 'read less';
     requestAnimationFrame(() => {
       document.querySelectorAll(cardSelector).forEach(card => {
         const textEl = card.querySelector(textSelector);
@@ -565,10 +573,10 @@ const CMS = (() => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'read-more-btn';
-        btn.textContent = 'read more';
+        btn.textContent = readMoreText;
         btn.addEventListener('click', () => {
           const expanded = textEl.classList.toggle('clamped') === false;
-          btn.textContent = expanded ? 'read less' : 'read more';
+          btn.textContent = expanded ? readLessText : readMoreText;
         });
         textEl.insertAdjacentElement('afterend', btn);
       });
@@ -592,7 +600,10 @@ const CMS = (() => {
   function renderList(selector, items, failed, emptyMessage, renderItem, joinWith = '') {
     document.querySelectorAll(`[data-cms="${selector}"]`).forEach(el => {
       if (!items.length) {
-        if (!failed) el.innerHTML = `<p class="cms-empty">${esc(emptyMessage)}</p>`;
+        // Blank emptyMessage means "hide gracefully" rather than "show
+        // a placeholder" — used by callers whose empty-state text is
+        // itself an optional CMS field (e.g. Post Office's replies grid).
+        if (!failed) el.innerHTML = emptyMessage ? `<p class="cms-empty">${esc(emptyMessage)}</p>` : '';
         return;
       }
       el.innerHTML = items.map(renderItem).join(joinWith);
@@ -1781,17 +1792,38 @@ const CMS = (() => {
     /* ────────────────────────────────────────────────────────
        POST OFFICE — PAGE CONTENT
        Reads content/post-office/index.md
-       Targets: [data-cms="po-title"]           (page_title)
-                [data-cms="po-subtitle"]         (page_subtitle)
-                [data-cms="po-intro"]            (intro_paragraph)
-                [data-cms="po-closing-section"]  hidden entirely when
-                                                  closing_note_show is
-                                                  false or closing_note
-                                                  is empty
-                [data-cms="po-closing-note"]     (closing_note, markdown)
+       Targets: [data-cms="po-title"]             (page_title)
+                [data-cms="po-subtitle"]           (page_subtitle)
+                [data-cms="po-intro"]              (intro_paragraph)
+                [data-cms="po-section-eyebrow"]    (section_eyebrow) —
+                                                    hidden when empty
+                [data-cms="po-section-heading"]    (section_heading) —
+                                                    hidden when empty;
+                                                    last word italicized
+                                                    automatically, same
+                                                    convention as the
+                                                    about page's titles
+                [data-cms="po-replies-grid"]       shown a loading
+                                                    message (or nothing)
+                                                    from
+                                                    replies_loading_message
+                                                    while the letters
+                                                    themselves are still
+                                                    being fetched
+                [data-cms="po-load-more-text"]     (load_more_button_text)
+                                                    — the button itself
+                                                    stays hidden forever
+                                                    if this is blank
+                                                    (see post-office.html's
+                                                    inline pagination script)
+                [data-cms="po-closing-section"]    hidden entirely when
+                                                    closing_note_show is
+                                                    false or closing_note
+                                                    is empty
+                [data-cms="po-closing-note"]       (closing_note, markdown)
        No hardcoded fallback text anywhere — an unpopulated field
-       just leaves the element empty, same convention as the rest
-       of the site's CMS-first pages.
+       just leaves the element empty (or hidden), same convention as
+       the rest of the site's CMS-first pages.
        ──────────────────────────────────────────────────────── */
     async loadPostOfficePage() {
       const { data } = await fetchFile('content/post-office/index.md');
@@ -1806,6 +1838,44 @@ const CMS = (() => {
         if (data.intro_paragraph) el.textContent = data.intro_paragraph;
       });
 
+      document.querySelectorAll('[data-cms="po-section-eyebrow"]').forEach(el => {
+        if (data.section_eyebrow) { el.textContent = data.section_eyebrow; el.style.display = ''; }
+        else { el.style.display = 'none'; }
+      });
+      document.querySelectorAll('[data-cms="po-section-heading"]').forEach(el => {
+        if (data.section_heading) {
+          const title = data.section_heading;
+          const last = title.lastIndexOf(' ');
+          el.innerHTML = last === -1
+            ? esc(title)
+            : `${esc(title.substring(0, last))} <em>${esc(title.substring(last + 1))}</em>`;
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      // Loading message shown only until loadPostOfficeReplies() (which
+      // runs concurrently, not sequentially) overwrites this same grid
+      // with the real letters — a brief, purely cosmetic placeholder,
+      // so it's fine if it arrives a beat after the grid already has
+      // its "no letters yet" or real content in it.
+      document.querySelectorAll('[data-cms="po-replies-grid"]').forEach(el => {
+        if (!el.children.length && data.replies_loading_message) {
+          el.innerHTML = `<p class="cms-empty" style="text-align:center;grid-column:1/-1;">${esc(data.replies_loading_message)}</p>`;
+        }
+      });
+
+      document.querySelectorAll('[data-cms="po-load-more-text"]').forEach(el => {
+        const btn = el.closest('#po-load-more');
+        if (data.load_more_button_text) {
+          el.textContent = data.load_more_button_text;
+          if (btn) btn.dataset.cmsHasText = '1';
+        } else if (btn) {
+          btn.dataset.cmsHasText = '0';
+        }
+      });
+
       const hideClosing = !data.closing_note ||
         data.closing_note_show === false || data.closing_note_show === 'false';
       document.querySelectorAll('[data-cms="po-closing-section"]').forEach(el => {
@@ -1816,6 +1886,11 @@ const CMS = (() => {
           el.innerHTML = md(data.closing_note);
         });
       }
+
+      // Lets post-office.html's inline pagination script re-check the
+      // Load More button's visibility once this data (which may resolve
+      // before or after the letters themselves) is actually known.
+      document.dispatchEvent(new CustomEvent('cms:po-page-rendered', { detail: { data } }));
 
       return data;
     },
@@ -1851,6 +1926,12 @@ const CMS = (() => {
        scroll/highlight a shared link's target letter.
        ──────────────────────────────────────────────────────── */
     async loadPostOfficeReplies() {
+      // Shared with loadPostOfficePage() — same file, so the caching +
+      // de-dupe layer at the top of this module means this never costs
+      // a second network request, whichever of the two loaders happens
+      // to run first.
+      const pageData = (await fetchFile('content/post-office/index.md')).data || {};
+
       const entries = await fetchCollection('post-office/replies');
       const failed = anyFailed(entries);
       const published = entries
@@ -1883,7 +1964,7 @@ const CMS = (() => {
 
       const recipientLine = r => r ? `To ${esc(r)}` : 'To an anonymous Craftie';
 
-      renderList('po-replies-grid', published, failed, 'No letters published yet.', ({ data, body }, i) => {
+      renderList('po-replies-grid', published, failed, pageData.replies_empty_message || '', ({ data, body }, i) => {
         const t = normProject(data.project);
         // "Reply Body" is a markdown field named "body" (same convention
         // as Books' Synopsis / Characters' Personality). Depending on
@@ -1914,7 +1995,16 @@ const CMS = (() => {
           </div>`;
       });
 
-      enableReadMore('.reply-letter', '.reply-body');
+      // Both labels are required together — if either "Read More" or
+      // "Read Less" Toggle Text is left blank in the dashboard, skip
+      // clamping entirely so every letter just shows in full rather
+      // than surfacing a button with missing wording.
+      if (pageData.read_more_label && pageData.read_less_label) {
+        enableReadMore('.reply-letter', '.reply-body', {
+          readMore: pageData.read_more_label,
+          readLess: pageData.read_less_label
+        });
+      }
 
       // Rendering happens asynchronously (this whole method is awaited
       // inside init()'s Promise.allSettled), so the page's own script
