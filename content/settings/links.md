@@ -13,6 +13,12 @@ links:
     icon: ✒️
     is_active: true
     description: Chaos, aesthetics, and emotional damage.
+  - label: Kanha Ji's Courtyard
+    url: https://thatbrowncraft.github.io/the-Courtyard/
+    icon: 🌿
+    category: reading
+    is_active: true
+    description: A new corner has quietly opened...
   - label: Youtube
     url: https://www.youtube.com/@that_browncraft
     icon: ✒️
