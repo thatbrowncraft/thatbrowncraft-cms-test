@@ -4,14 +4,14 @@ category: announcement
 status: published
 date: 2026-07-11T15:50
 cover_image: ''
-excerpt: |-
-  Okay... this one is a little special. 🥹🤎
-  After spending countless hours rereading, editing, fixing little things I always wanted to fix, and falling in love with these characters all over again...
+excerpt: Okay... this one is a little special. 🥹🤎
 update_type: Paperback
 is_pinned: true
 link_label: ''
 link_url: ''
 ---
+
+After spending countless hours rereading, editing, fixing little things I always wanted to fix, and falling in love with these characters all over again...
 
 Amodini is getting a Paperback Edition II.
 
