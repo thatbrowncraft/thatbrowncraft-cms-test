@@ -241,9 +241,11 @@ function renderCard(data, body, idx) {
 
   /* Optional external CTA from the CMS "Button URL" field — separate
      from Read More, since it points off-site (e.g. "Read on Wattpad")
-     rather than expanding the card. */
-  const externalLinkHtml = linkUrl
-    ? `<a href="${linkUrl}" class="update-external-link" ${!linkUrl.startsWith('mailto') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkLabel || 'Visit link'} ↗</a>`
+     rather than expanding the card. Only render when BOTH the label
+     and URL are present; otherwise there's no accurate text to show
+     and the link would point nowhere useful (e.g. a 404). */
+  const externalLinkHtml = (linkLabel && linkUrl)
+    ? `<a href="${linkUrl}" class="update-external-link" ${!linkUrl.startsWith('mailto') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkLabel} ↗</a>`
     : '';
 
   const toggleHtml = hasFullPost
