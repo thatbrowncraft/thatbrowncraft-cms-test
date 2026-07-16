@@ -224,14 +224,25 @@ function firstParagraph(text) {
   return para.replace(/^#+\s*/, '').replace(/[*_`>#]/g, '').trim();
 }
 
+/* The CMS sometimes saves an empty optional field as a literal
+   sentinel — null, false, '' or "" — instead of leaving it truly
+   blank. Those are non-empty strings in JS, so a plain `|| ''`
+   check doesn't catch them and a "blank" custom link still slips
+   through. This normalizes any of those sentinels back to ''. */
+function cleanField(val) {
+  const s = (val || '').toString().trim();
+  if (!s || /^(null|undefined|false|''|"")$/i.test(s)) return '';
+  return s;
+}
+
 function renderCard(data, body, idx) {
   const type     = normType(data.update_type || data.category || 'note');
   const pinned   = data.is_pinned === 'true' || data.is_pinned === true;
   const title    = data.title || '';
   const date     = data.date  || '';
   const excerpt  = data.excerpt || firstParagraph(body);
-  const linkLabel= data.link_label || '';
-  const linkUrl  = data.link_url   || '';
+  const linkLabel= cleanField(data.link_label);
+  const linkUrl  = cleanField(data.link_url);
   const status   = data.status || 'published';
   if (status === 'draft') return '';
 
