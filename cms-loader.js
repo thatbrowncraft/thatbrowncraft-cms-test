@@ -401,6 +401,7 @@ const CMS = (() => {
       .map(p => `<p>${p.trim()
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\b_(\S(?:.*?\S)?)_\b/g, '<em>$1</em>')
         .replace(/\n/g, ' ')}</p>`)
       .join('');
   }
