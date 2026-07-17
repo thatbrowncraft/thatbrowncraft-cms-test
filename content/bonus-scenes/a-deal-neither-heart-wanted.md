@@ -666,19 +666,19 @@ He forced his face back into its usual unreadable expression. He had spent years
 
 "So..." He leaned casually against the edge of his desk, "What brings you here?" His tone sounded almost bored. Inside, his pulse refused to slow down.
 
-_Aya...
+_Aya..._
 
-Why do you look like you've been carrying the world alone?
+_Why do you look like you've been carrying the world alone?_
 
-Who did this to you?
+_Who did this to you?_
 
-Why didn't you come to me sooner?
+_Why didn't you come to me sooner?_
 
-Have you been eating properly?
+_Have you been eating properly?_
 
-Are you sleeping at all?
+_Are you sleeping at all?_
 
-Why are your hands trembling?_
+_Why are your hands trembling?_
 
 A thousand questions screamed inside his head. Not one reached his lips. Instead, he smirked, "I assume this isn't a social visit in the name of Ms. whatever Ahuja."
 
@@ -857,11 +857,11 @@ Patiently. Silently. Trusting him.
 
 A bitter laugh escaped inside his mind.
 
-_Trusting you?
+_Trusting you?_
 
-She trusted you once too.
+_She trusted you once too._
 
-Look how that ended._
+_Look how that ended._
 
 He looked at the file again. Then at her. Then back at the file. If he helped her today...
 
