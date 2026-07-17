@@ -5,8 +5,8 @@ book: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 characters:
   - Nisarg Panchal
   - Aadhya Raichura
-status: draft
-published_at: 2026-07-17T15:15
+status: published
+published_at: 2026-07-17T12:06
 teaser: |-
   Neither of them signed because they wanted to.
 
