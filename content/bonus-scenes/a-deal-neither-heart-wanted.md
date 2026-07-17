@@ -953,11 +953,11 @@ Her throat tightened. She looked at the man she had loved through her college ye
 
 She questioned her own heart.
 
-_How could I have loved someone who measures a relationship in conditions?
+_How could I have loved someone who measures a relationship in conditions?_
 
-How could the same man who once inspired me... place a price on marriage?
+_How could the same man who once inspired me... place a price on marriage?_
 
-He wanted a marriage. A contract, precisely — two years, on paper, dissolved the moment her debt was cleared._
+_He wanted a marriage. A contract, precisely — two years, on paper, dissolved the moment her debt was cleared._
 
 She swallowed hard. She had walked into his office asking for financial help. She hadn't expected to leave questioning everything she had once believed about love.
 
