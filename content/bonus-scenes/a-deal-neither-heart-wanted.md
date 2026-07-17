@@ -62,9 +62,7 @@ The ringtone cut through the house. Shilpa answered casually. Five seconds later
 
 Aadhya looked up instantly, "Mummy?" Shilpa's face had already turned white.
 
-
 ✎﹏﹏﹏﹏
-
 
 Hospitals had a strange smell, mixed of sanitizer, medicines. Walls cornered with fear of losing loved ones. The crowded corridors, rushing doctors, stretchers rolling past. Relatives whispering prayers they hadn't remembered in years.
 
@@ -99,9 +97,7 @@ When Kaushik finally opened his eyes the next morning, the first thing he did wa
 
 Kaushik's accident didn't just take his leg. It took the floor out from under an entire household. One day he was Kaushik Raichura, respected businessman, family's head, the man who used to complain about traffic and cricket scores. The next, he was a man in a wheelchair learning how to exist in a body that no longer listened to him, staring at the ceiling of a private room that was quietly bankrupting his family, one invoice at a time.
 
-
 ✎﹏﹏﹏﹏
-
 
 Recovery didn't come with celebrations. It came with bills. One after another.
 
@@ -166,9 +162,7 @@ And came home carrying an empty velvet box.
 That evening, she still made everyone's favourite **_malpua_** (A Gujarati dish, sweet pancakes made up of wheat flour, jaggery and ghee). As if nothing had happened. Aadhya watched her from the kitchen doorway.
 That was the day she truly understood something. Mothers had a terrifying superpower. They broke silently. So their children wouldn't have to.
 
-
 ✎﹏﹏﹏﹏
-
 
 The next few months changed Aadhya more than the previous twenty-four years ever had. Dreams quietly stepped aside. Responsibilities took their place.
 
@@ -246,9 +240,7 @@ Just maybe...
 
 The worst had finally passed. Aadhya allowed herself that fragile hope. She didn't know fate had only been catching its breath.
 
-
 ✎﹏﹏﹏﹏
-
 
 Hope was a dangerous thing. It made people believe they had finally reached the shore, only for another wave to pull them back into the sea.
 
@@ -415,9 +407,7 @@ She hated that her only hope wore that name. She hated even more that somewhere 
 
 Her heart still remembered his smile.
 
-
 ✎﹏﹏﹏﹏
-
 
 The city had fallen asleep. Ahmedabad's roads, usually alive with endless traffic, were quieter now. Streetlights stretched across the Sabarmati River like broken pieces of the moon, trembling with every ripple of water.
 
@@ -590,7 +580,6 @@ And in less than five minutes...
 
 Both of their lives were about to change forever.
 
-
 The receptionist glanced at her screen before picking up the intercom, "Sir, your eleven-thirty appointment is here."
 
 A brief pause.
@@ -633,9 +622,7 @@ The assistant opened the door, "Your client." Without waiting for a response, he
 
 Aadhya entered. The door closed behind her with a soft click.
 
-
 ✎﹏﹏﹏﹏
-
 
 The office was... unmistakably Nisarg. Organized to perfection. Floor-to-ceiling bookshelves filled with legal volumes. A large walnut desk. One wall entirely made of glass, overlooking Ahmedabad's skyline. No unnecessary decorations. No flashy awards on display. Just quiet authority.
 
@@ -976,7 +963,7 @@ She swallowed hard. She had walked into his office asking for financial help. Sh
 
 Something in Aadhya recoiled. Not just at the proposal, but at what it revealed. The man she had once loved enough to humiliate herself in public for was now offering her marriage the way he'd offer a business merger... terms, duration, conditions. It didn't feel like love returning to her. It felt like love wearing a suit and negotiating.
 
-But her situation had no room left for pride. She agreed to sign the contract after reading every clause twice, aware even then that she was agreeing to something that would reshape her life in ways far larger than two years and ten crores.
+But her situation had no room left for pride. The moment she agreed, Nisarg prepared the draft, laying out every condition with the precision only a lawyer like him could manage. She read every clause twice, carefully weighing each word before giving her approval. Then, after nearly half an hour of waiting, the official final contract was placed in her hands. Even then, she knew she was agreeing to something that would reshape her life in ways far larger than two years and ten crores.
 
 Outside, Ahmedabad continued as usual. Inside that office, two hearts broke for entirely different reasons.
 
@@ -1141,10 +1128,5 @@ But as an elder brother's quiet acknowledgment that fate had finally brought the
 Outside, the elevator doors closed.
 
 Inside, two Panchal brothers stood silently, unaware that the deal signed that afternoon would one day become the strongest relationship either of them had ever witnessed.
-
-
-
-
-
 
 -ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈
