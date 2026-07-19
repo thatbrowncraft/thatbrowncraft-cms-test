@@ -1,8 +1,8 @@
 ---
-recipient: an anonymous Craftie
+recipient: Anonymous Craftie
 title: About learning Gujarati words through Kutumb clan
 subtitle: Said that the kutumb characters stayed in their heart instead of just the pages
-project: Kutumb
+project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
 status: published
 ---
