@@ -1937,6 +1937,13 @@ const CMS = (() => {
       const failed = anyFailed(entries);
       const published = entries
         .filter(e => e.data.status === 'published')
+        // Newest reply first: reverse the loaded order before the
+        // featured-pin sort below. Array.prototype.sort is stable, so
+        // reversing first means each group (featured / non-featured)
+        // keeps its reversed — i.e. newest-first — order once the sort
+        // partitions them. No date field added; this only reorders
+        // what's already loaded.
+        .reverse()
         .sort((a, b) => (b.data.is_featured ? 1 : 0) - (a.data.is_featured ? 1 : 0));
 
       /* Project is free-text in the CMS, same reasoning as bonus
