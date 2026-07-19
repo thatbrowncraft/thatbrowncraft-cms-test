@@ -17,7 +17,7 @@ When you said Raghav's words gave your heart a little peace, I quietly smiled. A
 
 Please keep choosing your dream, but keep choosing yourself too. Your own self deserves the same love as your ambitions.
 
-And yes... reading that you're not gujarati and yet  casually saying "Tras che" made me laugh 😂 Baby Idhu would definitely approve.
+And yes... reading that you're not gujarati and yet  casually saying "Tras che" made me laugh 😂 Baby Idhu would definitely approve💋
 
 I'm rooting for you from this little corner of the world. Keep going. Your story is far from over.
 
