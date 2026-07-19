@@ -2,7 +2,7 @@
 recipient: Anshika
 title: About  coming over and stayed with this Kutumb chaos.
 subtitle: She also said I'm multi-talented 🫣
-project: Kutumb
+project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
 status: published
 ---
