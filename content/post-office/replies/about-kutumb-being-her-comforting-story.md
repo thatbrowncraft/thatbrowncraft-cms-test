@@ -4,6 +4,9 @@ title: About kutumb being her comforting story
 subtitle: Said that she don't just love the story, but live it...
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 1
+date_written: ''
+letter_type: postcard
 status: published
 ---
 
