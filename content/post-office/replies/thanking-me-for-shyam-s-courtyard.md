@@ -4,6 +4,9 @@ title: Thanking me for Shyam's Courtyard
 subtitle: This message... I don't even know how to explain what it means to me.
 project: Kanha Ji
 is_featured: true
+sort_order: 5
+date_written: ''
+letter_type: appreciation
 status: published
 ---
 
