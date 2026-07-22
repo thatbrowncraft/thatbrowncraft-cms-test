@@ -4,6 +4,9 @@ title: The Comfort of Being Understood
 subtitle: Feeling understood, finding someone to listen.
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 4
+date_written: ''
+letter_type: reply
 status: published
 ---
 
