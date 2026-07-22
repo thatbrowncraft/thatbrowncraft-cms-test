@@ -4,6 +4,9 @@ title: About Yug being a girl dad.
 subtitle: Reading this felt like talking to an old friend.
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 7
+date_written: ''
+letter_type: reply
 status: published
 ---
 
