@@ -4,6 +4,9 @@ title: About learning Gujarati words through Kutumb clan
 subtitle: Said that the kutumb characters stayed in their heart instead of just the pages
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 8
+date_written: ''
+letter_type: appreciation
 status: published
 ---
 
