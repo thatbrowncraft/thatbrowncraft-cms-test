@@ -4,6 +4,9 @@ title: About Starting Again
 subtitle: Finding hope through Nitya's character.
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 3
+date_written: ''
+letter_type: reply
 status: published
 ---
 
