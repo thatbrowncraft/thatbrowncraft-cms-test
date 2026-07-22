@@ -104,6 +104,36 @@ section,nav,footer{position:relative;z-index:1}
 .filter-btn:hover{border-color:var(--terracotta);color:var(--terracotta)}
 .filter-btn.active{background:rgba(200,149,107,.16);border-color:var(--terracotta);color:var(--parchment)}
 
+/* SORT & FILTER — a small popover above the letters, built from the
+   exact same pill/button language as .filter-btn above so it reads
+   as part of the existing Post Office, not a bolted-on admin panel */
+.po-sf-bar{display:flex;justify-content:center;align-items:center;gap:.9rem;margin:2.5rem 0 0;flex-wrap:wrap}
+.sf-toggle-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fb);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;padding:.55rem 1.3rem;border:1px solid rgba(201,169,110,.35);background:rgba(200,149,107,.06);color:rgba(245,236,215,.7);cursor:pointer;transition:all .3s}
+.sf-toggle-btn:hover,.sf-toggle-btn.open{border-color:var(--terracotta);color:var(--terracotta);background:rgba(200,149,107,.14)}
+.sf-toggle-icon{font-size:.75rem;color:var(--gold)}
+.sf-clear-btn{font-family:var(--fb);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,236,215,.4);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;transition:color .3s}
+.sf-clear-btn:hover{color:var(--terracotta)}
+
+.sf-panel{position:relative;max-width:640px;margin:1.1rem auto 0;background:var(--paper);background-image:radial-gradient(rgba(139,94,60,.06) 1px, transparent 1px);background-size:7px 7px;border:1px solid rgba(59,31,10,.12);box-shadow:0 14px 36px rgba(0,0,0,.45);padding:1.6rem 1.7rem;transform-origin:top center;animation:sfOpen .28s ease}
+.sf-panel[hidden]{display:none}
+@keyframes sfOpen{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.sf-group{margin-bottom:1.3rem}
+.sf-group:last-child{margin-bottom:0}
+.sf-group[hidden]{display:none}
+.sf-group-label{display:block;font-family:var(--fa);font-style:italic;font-size:.72rem;letter-spacing:.08em;color:rgba(43,20,7,.55);margin-bottom:.55rem}
+
+.sf-select{width:100%;font-family:var(--fb);font-size:.78rem;letter-spacing:.03em;padding:.6rem .8rem;border:1px solid rgba(59,31,10,.22);background:var(--parchment);color:var(--ink-fresh);cursor:pointer}
+.sf-select:focus{outline:none;border-color:var(--terracotta)}
+
+.sf-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.sf-pill{font-family:var(--fb);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:.4rem 1rem;border:1px solid rgba(59,31,10,.2);background:none;color:rgba(43,20,7,.55);cursor:pointer;transition:all .25s}
+.sf-pill:hover{border-color:var(--midbrown);color:var(--walnut)}
+.sf-pill.active{background:var(--midbrown);border-color:var(--midbrown);color:var(--parchment)}
+
+@media(max-width:600px){.sf-panel{padding:1.35rem 1.2rem}}
+@media(prefers-reduced-motion:reduce){.sf-panel{animation:none}}
+
 /* REPLY LETTERS — a box of preserved postcards, not a modern grid */
 .po-replies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2.5rem 2rem;margin-top:1rem}
 
@@ -249,6 +279,58 @@ section,nav,footer{position:relative;z-index:1}
       <h2 class="section-heading" data-cms="po-section-heading" style="display:none"></h2>
     </div>
 
+    <!-- SORT & FILTER — sits above the existing Story pills below,
+         which are left completely untouched. Everything in here is
+         populated/hidden by JS based on what actually exists among
+         the published letters (see the script at the bottom of this
+         page), so a Craftie tag, letter type, or the Featured toggle
+         simply never appears until at least one letter uses it. -->
+    <div class="po-sf-bar">
+      <button type="button" class="sf-toggle-btn" id="po-sf-toggle" aria-expanded="false" aria-controls="po-sf-panel">
+        <span class="sf-toggle-icon">✦</span> Sort &amp; Filter
+      </button>
+      <button type="button" class="sf-clear-btn" id="po-sf-clear" style="display:none">Clear Filters</button>
+    </div>
+
+    <div class="sf-panel" id="po-sf-panel" hidden>
+      <div class="sf-group">
+        <span class="sf-group-label">Sort By</span>
+        <select class="sf-select" id="po-sf-sort">
+          <option value="manual">Manual Order</option>
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="az">Title A → Z</option>
+          <option value="za">Title Z → A</option>
+        </select>
+      </div>
+
+      <div class="sf-group" id="po-sf-visibility-group">
+        <span class="sf-group-label">Craftie</span>
+        <div class="sf-pills" id="po-sf-visibility">
+          <button type="button" class="sf-pill active" data-value="all">All</button>
+          <button type="button" class="sf-pill" data-value="named">Named Crafties</button>
+          <button type="button" class="sf-pill" data-value="anonymous">Anonymous Crafties</button>
+        </div>
+      </div>
+
+      <div class="sf-group" id="po-sf-type-group" hidden>
+        <span class="sf-group-label">Letter Type</span>
+        <div class="sf-pills" id="po-sf-type"></div>
+      </div>
+
+      <div class="sf-group" id="po-sf-featured-group" hidden>
+        <span class="sf-group-label">Featured</span>
+        <div class="sf-pills">
+          <button type="button" class="sf-pill" id="po-sf-featured" data-value="featured">✦ Featured Only</button>
+        </div>
+      </div>
+
+      <div class="sf-group" id="po-sf-tags-group" hidden>
+        <span class="sf-group-label">Tags</span>
+        <div class="sf-pills" id="po-sf-tags"></div>
+      </div>
+    </div>
+
     <div class="po-filters" data-cms="po-filters">
       <button class="filter-btn active" data-filter="all">All</button>
     </div>
@@ -291,32 +373,273 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
 }
 
-// LETTERS: FILTERS + "LOAD MORE" PAGINATION + PERMALINKS
+// LETTERS: SORT & FILTER + "LOAD MORE" PAGINATION + PERMALINKS
 // ------------------------------------------------------------------
 // cms-loader.js renders every published letter into the grid in one
 // shot (it has to — this static site has no server to page requests
 // through), then fires "cms:po-replies-rendered" once that's done.
 // Everything below just controls which of those already-rendered
-// cards are actually visible, so the page still scales fine to
-// hundreds of letters without ever hiding functionality behind a
+// cards are visible and in what order, so the page still scales fine
+// to hundreds of letters without ever hiding functionality behind a
 // second network request.
+//
+// This section is organized as:
+//   1. State (+ sessionStorage persistence)
+//   2. Card metadata / matching / sorting helpers
+//   3. Dynamic filter UI generation (hides anything with 0 matches)
+//   4. applyView() — the single function that filters+sorts+paginates
+//   5. Event wiring
 (function () {
   var PAGE_SIZE = 9; // how many letters (per active filter) show before "Read More Letters" is needed
-  var currentFilter = 'all';
+  var currentFilter = 'all'; // Story/Project filter — unchanged, still driven by .po-filters
   var visibleCount = PAGE_SIZE;
   var loadMoreBtn = document.getElementById('po-load-more');
 
+  // ── 1. Sort & Filter state ──────────────────────────────────────
+  var state = {
+    sort: 'manual',       // manual | newest | oldest | az | za
+    visibility: 'all',    // all | named | anonymous
+    type: 'all',          // all | reply | shared_letter | review | postcard | appreciation | other
+    featured: false,      // Featured Only toggle
+    tags: new Set()       // any of the selected tags matches (OR)
+  };
+
+  var SESSION_KEY = 'po-sort-filter-v1';
+  function saveState() {
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        filter: currentFilter,
+        sort: state.sort,
+        visibility: state.visibility,
+        type: state.type,
+        featured: state.featured,
+        tags: Array.prototype.slice.call(state.tags)
+      }));
+    } catch (e) { /* private mode / storage blocked — filters just won't persist, nothing else breaks */ }
+  }
+  function loadState() {
+    try {
+      var raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return;
+      var saved = JSON.parse(raw);
+      currentFilter = saved.filter || 'all';
+      state.sort = saved.sort || 'manual';
+      state.visibility = saved.visibility || 'all';
+      state.type = saved.type || 'all';
+      state.featured = !!saved.featured;
+      state.tags = new Set(saved.tags || []);
+    } catch (e) { /* corrupt/blocked storage — just start fresh */ }
+  }
+
+  function escLite(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // ── 2. Card metadata / matching / sorting ───────────────────────
   function allCards() {
     return Array.prototype.slice.call(document.querySelectorAll('.po-replies-grid .reply-letter'));
   }
 
+  // Reads the data-* attributes cms-loader.js already wrote onto each
+  // card — no parsing of the card's visible text, no extra fetch.
+  function meta(card) {
+    var d = card.dataset;
+    return {
+      project: d.project || '',
+      visibility: d.visibility || '',
+      type: d.letterType || '',
+      tags: d.tags ? d.tags.split('|').filter(Boolean) : [],
+      featured: d.featured === '1',
+      sortOrder: (d.sortOrder !== undefined && d.sortOrder !== '') ? Number(d.sortOrder) : '',
+      date: (d.date !== undefined && d.date !== '') ? Number(d.date) : '',
+      naturalIndex: d.naturalIndex !== undefined ? Number(d.naturalIndex) : 0
+    };
+  }
+
+  function titleOf(card) {
+    var el = card.querySelector('.reply-title');
+    return el ? el.textContent.trim() : '';
+  }
+
+  function matchesFilters(card) {
+    var m = meta(card);
+    if (currentFilter !== 'all' && m.project !== currentFilter) return false;
+    if (state.visibility !== 'all' && m.visibility !== state.visibility) return false;
+    if (state.type !== 'all' && m.type !== state.type) return false;
+    if (state.featured && !m.featured) return false;
+    if (state.tags.size && !m.tags.some(function (t) { return state.tags.has(t); })) return false;
+    return true;
+  }
+
+  // Manual Order falls back to each card's original (featured-first,
+  // CMS-fetch-order) position whenever a Sort Order number is missing
+  // — so with no Sort Order set on anything, Manual Order looks
+  // identical to today's behaviour. Newest/Oldest push undated
+  // letters to the end rather than guessing "now" for them.
+  function compareFn(mode) {
+    switch (mode) {
+      case 'newest':
+        return function (a, b) {
+          var da = meta(a).date, db = meta(b).date;
+          if (da === '' && db === '') return meta(a).naturalIndex - meta(b).naturalIndex;
+          if (da === '') return 1;
+          if (db === '') return -1;
+          return db - da;
+        };
+      case 'oldest':
+        return function (a, b) {
+          var da = meta(a).date, db = meta(b).date;
+          if (da === '' && db === '') return meta(a).naturalIndex - meta(b).naturalIndex;
+          if (da === '') return 1;
+          if (db === '') return -1;
+          return da - db;
+        };
+      case 'az':
+        return function (a, b) { return titleOf(a).localeCompare(titleOf(b)); };
+      case 'za':
+        return function (a, b) { return titleOf(b).localeCompare(titleOf(a)); };
+      case 'manual':
+      default:
+        return function (a, b) {
+          var oa = meta(a).sortOrder, ob = meta(b).sortOrder;
+          var na = oa === '' ? Infinity : oa;
+          var nb = ob === '' ? Infinity : ob;
+          if (na !== nb) return na - nb;
+          return meta(a).naturalIndex - meta(b).naturalIndex;
+        };
+    }
+  }
+
+  // ── 3. Dynamic filter UI — only ever shows options that at least
+  // one currently-published letter actually has ──────────────────
+  var LETTER_TYPE_LABELS = {
+    reply: 'Reply', shared_letter: 'Shared Letter', review: 'Review',
+    postcard: 'Postcard', appreciation: 'Appreciation', other: 'Other'
+  };
+  function tagLabel(t) {
+    return t.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function buildDynamicUI() {
+    var metas = allCards().map(meta);
+
+    // Letter Type — fixed CMS option order (not alphabetical), only
+    // the types actually in use among published letters.
+    var typesPresent = Object.keys(LETTER_TYPE_LABELS).filter(function (k) {
+      return metas.some(function (m) { return m.type === k; });
+    });
+    var typeGroup = document.getElementById('po-sf-type-group');
+    var typeWrap = document.getElementById('po-sf-type');
+    if (typesPresent.length) {
+      typeWrap.innerHTML = '<button type="button" class="sf-pill active" data-value="all">All</button>' +
+        typesPresent.map(function (k) {
+          return '<button type="button" class="sf-pill" data-value="' + escLite(k) + '">' + escLite(LETTER_TYPE_LABELS[k]) + '</button>';
+        }).join('');
+      typeGroup.hidden = false;
+    } else {
+      typeGroup.hidden = true;
+    }
+
+    // Featured — hide the toggle entirely if nothing is featured yet
+    document.getElementById('po-sf-featured-group').hidden =
+      !metas.some(function (m) { return m.featured; });
+
+    // Craftie (visibility) — hide either pill that never occurs, and
+    // hide the whole group if only one value exists across the board
+    // (nothing left to meaningfully filter by).
+    var hasNamed = metas.some(function (m) { return m.visibility === 'named'; });
+    var hasAnon = metas.some(function (m) { return m.visibility === 'anonymous'; });
+    var namedBtn = document.querySelector('#po-sf-visibility [data-value="named"]');
+    var anonBtn = document.querySelector('#po-sf-visibility [data-value="anonymous"]');
+    if (namedBtn) namedBtn.style.display = hasNamed ? '' : 'none';
+    if (anonBtn) anonBtn.style.display = hasAnon ? '' : 'none';
+    document.getElementById('po-sf-visibility-group').hidden = !(hasNamed && hasAnon);
+
+    // Tags — every distinct tag actually in use among published
+    // letters, alphabetically. A brand-new tag typed into the CMS
+    // appears here with zero code changes; a tag no longer used by
+    // any letter quietly disappears on its own.
+    var tagSet = {};
+    metas.forEach(function (m) { m.tags.forEach(function (t) { tagSet[t] = true; }); });
+    var tags = Object.keys(tagSet).sort();
+    var tagsGroup = document.getElementById('po-sf-tags-group');
+    var tagsWrap = document.getElementById('po-sf-tags');
+    if (tags.length) {
+      tagsWrap.innerHTML = tags.map(function (t) {
+        return '<button type="button" class="sf-pill" data-value="' + escLite(t) + '">' + escLite(tagLabel(t)) + '</button>';
+      }).join('');
+      tagsGroup.hidden = false;
+    } else {
+      tagsGroup.hidden = true;
+    }
+  }
+
+  // Reflects `state` (and `currentFilter`) onto every button/select
+  // in the UI — used after restoring a saved session and after
+  // Clear Filters, so the visible active-states never drift from
+  // the actual filtering logic.
+  function syncUIFromState() {
+    var sortSelect = document.getElementById('po-sf-sort');
+    if (sortSelect) sortSelect.value = state.sort;
+
+    document.querySelectorAll('.po-filters .filter-btn').forEach(function (b) {
+      b.classList.toggle('active', (b.getAttribute('data-filter') || 'all') === currentFilter);
+    });
+    document.querySelectorAll('#po-sf-visibility .sf-pill').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-value') === state.visibility);
+    });
+    document.querySelectorAll('#po-sf-type .sf-pill').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-value') === state.type);
+    });
+    var featBtn = document.getElementById('po-sf-featured');
+    if (featBtn) featBtn.classList.toggle('active', state.featured);
+    document.querySelectorAll('#po-sf-tags .sf-pill').forEach(function (b) {
+      b.classList.toggle('active', state.tags.has(b.getAttribute('data-value')));
+    });
+
+    updateClearButtonVisibility();
+  }
+
+  function updateClearButtonVisibility() {
+    var clearBtn = document.getElementById('po-sf-clear');
+    if (!clearBtn) return;
+    var isDefault = currentFilter === 'all' && state.sort === 'manual' &&
+      state.visibility === 'all' && state.type === 'all' &&
+      !state.featured && state.tags.size === 0;
+    clearBtn.style.display = isDefault ? 'none' : '';
+  }
+
+  function resetAllFilters() {
+    currentFilter = 'all';
+    state.sort = 'manual';
+    state.visibility = 'all';
+    state.type = 'all';
+    state.featured = false;
+    state.tags = new Set();
+    syncUIFromState();
+  }
+
+  // ── 4. applyView() — filter, sort, paginate, render ─────────────
   function applyView() {
     var cards = allCards();
-    var matches = cards.filter(function (c) {
-      return currentFilter === 'all' || c.getAttribute('data-project') === currentFilter;
-    });
+    var matches = cards.filter(matchesFilters);
+    matches.sort(compareFn(state.sort));
+
     cards.forEach(function (c) { c.style.display = 'none'; });
+
+    // Physically reordering (not just hiding) is what actually
+    // changes the visual grid order — CSS grid lays cards out by DOM
+    // order, and moving an existing child relocates it without
+    // losing anything already bound to it (reveal classes, read-more
+    // buttons, permalink ids all stay intact). Non-matching cards are
+    // simply left where they are since they're hidden anyway.
+    var grid = document.querySelector('.po-replies-grid');
+    if (grid) matches.forEach(function (c) { grid.appendChild(c); });
+
     matches.slice(0, visibleCount).forEach(function (c) { c.style.display = ''; });
+
     // loadMoreBtn.dataset.cmsHasText is set by cms-loader.js once the
     // "Load More Letters" button text field is known. If that field is
     // left blank in the dashboard, the button stays hidden forever —
@@ -325,26 +648,30 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       var hasText = loadMoreBtn.dataset.cmsHasText !== '0';
       loadMoreBtn.style.display = (hasText && matches.length > visibleCount) ? '' : 'none';
     }
+
+    updateClearButtonVisibility();
   }
 
-  // Jumps to, reveals (past any filter/pagination hiding it), and
-  // briefly highlights the letter named in the URL's #reply-{slug}
-  // hash — what makes a copied/shared link actually land somewhere.
+  // Jumps to, reveals (past any filter/sort/pagination hiding it),
+  // and briefly highlights the letter named in the URL's
+  // #reply-{slug} hash — what makes a copied/shared link actually
+  // land somewhere, regardless of whatever filters were active.
   function goToHash() {
     var hash = location.hash;
     if (!/^#reply-/.test(hash)) return;
     var target = document.querySelector(hash);
     if (!target) return; // letters not rendered yet, or an unknown/old slug
 
-    currentFilter = 'all';
-    document.querySelectorAll('.po-filters .filter-btn').forEach(function (b) {
-      b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
-    });
+    resetAllFilters();
+    visibleCount = PAGE_SIZE;
 
-    var cards = allCards();
-    var idx = cards.indexOf(target);
+    var matches = allCards().filter(matchesFilters);
+    matches.sort(compareFn(state.sort));
+    var idx = matches.indexOf(target);
     if (idx > -1 && idx + 1 > visibleCount) visibleCount = idx + 1;
+
     applyView();
+    saveState();
 
     requestAnimationFrame(function () {
       target.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -353,6 +680,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     });
   }
 
+  // ── 5. Event wiring ──────────────────────────────────────────────
   document.addEventListener('click', function (e) {
     var filterBtn = e.target.closest('.po-filters .filter-btn');
     if (filterBtn) {
@@ -361,6 +689,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       currentFilter = filterBtn.getAttribute('data-filter') || 'all';
       visibleCount = PAGE_SIZE; // start each new filter from page one
       applyView();
+      saveState();
       return;
     }
 
@@ -368,6 +697,78 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       visibleCount += PAGE_SIZE;
       applyView();
       return;
+    }
+
+    var sfToggle = e.target.closest('#po-sf-toggle');
+    if (sfToggle) {
+      var panel = document.getElementById('po-sf-panel');
+      var willOpen = panel.hasAttribute('hidden');
+      panel.hidden = !willOpen;
+      sfToggle.classList.toggle('open', willOpen);
+      sfToggle.setAttribute('aria-expanded', String(willOpen));
+      return;
+    }
+
+    var visPill = e.target.closest('#po-sf-visibility .sf-pill');
+    if (visPill) {
+      document.querySelectorAll('#po-sf-visibility .sf-pill').forEach(function (b) { b.classList.remove('active'); });
+      visPill.classList.add('active');
+      state.visibility = visPill.getAttribute('data-value') || 'all';
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+      return;
+    }
+
+    var typePill = e.target.closest('#po-sf-type .sf-pill');
+    if (typePill) {
+      document.querySelectorAll('#po-sf-type .sf-pill').forEach(function (b) { b.classList.remove('active'); });
+      typePill.classList.add('active');
+      state.type = typePill.getAttribute('data-value') || 'all';
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+      return;
+    }
+
+    var featPill = e.target.closest('#po-sf-featured');
+    if (featPill) {
+      state.featured = !state.featured;
+      featPill.classList.toggle('active', state.featured);
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+      return;
+    }
+
+    var tagPill = e.target.closest('#po-sf-tags .sf-pill');
+    if (tagPill) {
+      var val = tagPill.getAttribute('data-value');
+      if (state.tags.has(val)) { state.tags.delete(val); tagPill.classList.remove('active'); }
+      else { state.tags.add(val); tagPill.classList.add('active'); }
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+      return;
+    }
+
+    if (e.target.closest('#po-sf-clear')) {
+      resetAllFilters();
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+      return;
+    }
+
+    // Clicking outside the open panel closes it — standard popover
+    // convention, purely additive UX.
+    var panelEl = document.getElementById('po-sf-panel');
+    var toggleEl = document.getElementById('po-sf-toggle');
+    if (panelEl && !panelEl.hidden && toggleEl &&
+        !panelEl.contains(e.target) && !toggleEl.contains(e.target)) {
+      panelEl.hidden = true;
+      toggleEl.classList.remove('open');
+      toggleEl.setAttribute('aria-expanded', 'false');
     }
 
     var permalink = e.target.closest('.reply-permalink');
@@ -380,12 +781,38 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     }
   });
 
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'po-sf-sort') {
+      state.sort = e.target.value;
+      visibleCount = PAGE_SIZE;
+      applyView();
+      saveState();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var panelEl = document.getElementById('po-sf-panel');
+    var toggleEl = document.getElementById('po-sf-toggle');
+    if (panelEl && !panelEl.hidden) {
+      panelEl.hidden = true;
+      if (toggleEl) { toggleEl.classList.remove('open'); toggleEl.setAttribute('aria-expanded', 'false'); }
+    }
+  });
+
   window.addEventListener('hashchange', goToHash);
 
   // The grid may still be empty when this script first runs (async
   // CMS fetch in progress) — do the initial pagination pass and hash
   // check only once cms-loader.js confirms the letters actually exist.
+  // Build the dynamic filter UI (Letter Type / Tags / Craftie /
+  // Featured) from what's actually published first, THEN restore any
+  // saved session state on top of it, so a saved tag/type selection
+  // still lands on a button that actually exists.
   document.addEventListener('cms:po-replies-rendered', function () {
+    buildDynamicUI();
+    loadState();
+    syncUIFromState();
     applyView();
     goToHash();
   });

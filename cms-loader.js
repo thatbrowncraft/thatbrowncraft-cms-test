@@ -1925,6 +1925,12 @@ const CMS = (() => {
        the grid is actually in the DOM, which is what the page's own
        script listens for to run "Load More" pagination and to
        scroll/highlight a shared link's target letter.
+
+       Each card also carries data-visibility / data-letter-type /
+       data-tags / data-featured / data-sort-order / data-date /
+       data-natural-index attributes — all optional, all read by
+       post-office.html's client-side Sort & Filter panel. No extra
+       network request; the panel just reads the already-rendered DOM.
        ──────────────────────────────────────────────────────── */
     async loadPostOfficeReplies() {
       // Shared with loadPostOfficePage() — same file, so the caching +
@@ -1948,6 +1954,41 @@ const CMS = (() => {
         .replace(/[\s-]+/g, '_')
         .replace(/_+/g, '_');
       const labelFor = t => t.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+      /* ── Sort & Filter metadata helpers ──
+         Every field below is optional in the CMS, so each helper is
+         written to degrade gracefully to "" / [] when a letter (old
+         or new) simply doesn't have it set — nothing here can break
+         an existing entry. post-office.html's client-side Sort &
+         Filter panel reads all of this off data-* attributes; none
+         of it requires a second network request. */
+
+      // Letter Type is a fixed CMS select (unlike Project's free
+      // text), so normalizing just means falling back to '' when
+      // unset — such letters simply don't match any Letter Type
+      // pill but still render under "All" as always.
+      const normType = t => String(t || '').trim().toLowerCase().replace(/[\s-]+/g, '_');
+
+      // Custom Tags is a CMS "list" field (an array of strings) but
+      // is read defensively in case it ever arrives as a plain
+      // comma-separated string instead (e.g. a hand-edited markdown
+      // file) — same defensive posture as the rest of this loader.
+      const normTags = tags => {
+        const arr = Array.isArray(tags) ? tags : String(tags || '').split(',');
+        return arr.map(x => String(x || '').trim().toLowerCase().replace(/[\s-]+/g, '_')).filter(Boolean);
+      };
+
+      // "Newest/Oldest First" sorting reads this as a millisecond
+      // timestamp. A letter with no Date Written (every letter
+      // published before this field existed, or any new one where
+      // it's simply left blank) resolves to '' — post-office.html
+      // treats that as "undated" rather than "now", so old letters
+      // never jump to the top of a date-based sort just because
+      // they lack a date.
+      const dateMs = d => {
+        const t = d ? Date.parse(d) : NaN;
+        return isNaN(t) ? '' : t;
+      };
 
       document.querySelectorAll('[data-cms="po-filters"]').forEach(el => {
         // A failed fetch means "published" is an empty guess, not a
@@ -1981,8 +2022,21 @@ const CMS = (() => {
         // to how the author writes a reply; the link is just always
         // there, e.g. post-office.html#reply-{slug}.
         const slug = esc(data._slug || '');
+
+        // Sort & Filter metadata (all optional, all additive — see
+        // the helpers above). "Visibility" deliberately isn't its
+        // own CMS field: it's derived from the Recipient field that
+        // already exists and already drives the "To ___" line, so
+        // there's no duplicate data to keep in sync and every past
+        // letter is automatically filterable by it too.
+        const visibility = data.recipient ? 'named' : 'anonymous';
+        const letterType = normType(data.letter_type);
+        const tags = normTags(data.tags);
+        const sortOrder = (data.sort_order === 0 || data.sort_order) ? Number(data.sort_order) : '';
+        const dateWritten = dateMs(data.date_written);
+
         return `
-          <div class="reply-letter reveal${i % 5 ? ` d${i % 5}` : ''}${data.is_featured ? ' is-featured' : ''}" id="reply-${slug}" data-project="${esc(t)}" data-slug="${slug}">
+          <div class="reply-letter reveal${i % 5 ? ` d${i % 5}` : ''}${data.is_featured ? ' is-featured' : ''}" id="reply-${slug}" data-project="${esc(t)}" data-slug="${slug}" data-visibility="${visibility}" data-letter-type="${esc(letterType)}" data-tags="${esc(tags.join('|'))}" data-featured="${data.is_featured ? '1' : '0'}" data-sort-order="${sortOrder}" data-date="${dateWritten}" data-natural-index="${i}">
             ${data.is_featured ? '<span class="reply-featured-tag">✦ kept close</span>' : ''}
             <div class="reply-postmark" aria-hidden="true"></div>
             <div class="reply-stamp" aria-hidden="true">💌</div>
