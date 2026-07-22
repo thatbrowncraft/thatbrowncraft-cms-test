@@ -1676,6 +1676,34 @@ collections:
         widget: "boolean"
         default: false
         hint: "Featured letters are kept at the front of the pile."
+      - label: "Sort Order"
+        name: "sort_order"
+        widget: "number"
+        value_type: "int"
+        required: false
+        hint: "Optional. Lower numbers appear first when 'Manual Order' sorting is selected on the site. Leave blank to keep this letter in its current position among the others without a number."
+      - label: "Date Written"
+        name: "date_written"
+        widget: "datetime"
+        required: false
+        hint: "Optional — only used for the 'Newest First' / 'Oldest First' sort options on the site. Leave blank if you don't need date-based sorting for this letter."
+      - label: "Letter Type"
+        name: "letter_type"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Reply",         value: "reply" }
+          - { label: "Shared Letter", value: "shared_letter" }
+          - { label: "Review",        value: "review" }
+          - { label: "Postcard",      value: "postcard" }
+          - { label: "Appreciation",  value: "appreciation" }
+          - { label: "Other",         value: "other" }
+        hint: "Optional. Powers the Letter Type filter on the site — a filter button only appears once at least one letter uses it. Leave blank if unsure; the letter still shows under 'All'."
+      - label: "Custom Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Optional. Add any tags that fit this letter — e.g. comfort, emotional, funny, family, friendship, healing, motivation, wholesome. Type a new tag any time and its filter button appears on the site automatically — no coding needed. Leave empty to skip tagging this letter."
       - label: "Status"
         name: "status"
         widget: "select"
