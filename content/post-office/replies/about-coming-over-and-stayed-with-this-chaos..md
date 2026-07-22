@@ -4,6 +4,9 @@ title: About  coming over and stayed with this Kutumb chaos.
 subtitle: She also said I'm multi-talented 🫣
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
+sort_order: 6
+date_written: ''
+letter_type: shared_letter
 status: published
 ---
 
