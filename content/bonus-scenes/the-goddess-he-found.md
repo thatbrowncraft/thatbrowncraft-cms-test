@@ -56,11 +56,11 @@ She sighed, capped her pen like she was sheathing a sword, and walked in. She no
 
 Saving her spreadsheet, she picked up her notebook and walked towards the conference room, mentally replaying every assignment she'd worked on over the past week.
 
-_Did she miss anything?
+_Did she miss anything?_
 
-Did a client complain?
+_Did a client complain?_
 
-Was another audit assigned?_
+_Was another audit assigned?_
 
 She pushed open the conference room door, "May I come in, sir?"
 
@@ -298,14 +298,7 @@ Devanshi laughed for the first time since entering the room. She had no idea...
 
 **Yug Panchal.**
 
-
-
-
 ✎﹏﹏﹏﹏
-
-
-
-
 
 She cleared it easily, obviously, and walked into Panchal Group of Industries as _Accounting & Operations Executive,_ heart pounding with equal parts terror and thrill.
 
@@ -453,17 +446,13 @@ Later that afternoon, she finally learnt his name.
 
 Yug Panchal.
 
-▪︎ _Chief Finance Officer.
-▪︎ Certified ethical hacker.
-▪︎ Cybersecurity consultant to multiple government departments.
-▪︎ Occasional coder.
-▪︎ Permanent menace._
-
-
+▪︎ _Chief Finance Officer._
+_▪︎ Certified ethical hacker._
+_▪︎ Cybersecurity consultant to multiple government departments._
+_▪︎ Occasional coder._
+_▪︎ Permanent menace._
 
 ✎﹏﹏﹏﹏
-
-
 
 And a war it became.
 
@@ -551,42 +540,37 @@ Raghav's lips curved into a knowing smirk, "They haven't realized it yet."
 
 Harshvardhan nodded, "No. But I have already."
 
-
-
-
 ✎﹏﹏﹏﹏
-
-
 
 The circular reached every employee's mailbox at exactly 11:00 a.m. For most people, it was just another internal announcement. For one man...
 
 ...it felt like an insult written in bold letters.
 
-**_Internal Circular: Ms. Devanshi Trivedi
+**_Internal Circular: Ms. Devanshi Trivedi_**
 
-"In recognition of her exceptional analytical abilities, operational efficiency, and contribution to the Finance Division, the Management is pleased to appoint her as:
+**_"In recognition of her exceptional analytical abilities, operational efficiency, and contribution to the Finance Division, the Management is pleased to appoint her as:_**
 
-Senior Accounting & Operations Executive, Main Branch
+**_Senior Accounting & Operations Executive, Main Branch_**
 
-Reporting To: Mr. Yug Panchal, Chief Finance Officer
+**_Reporting To: Mr. Yug Panchal, Chief Finance Officer_**
 
-The Management congratulates her and wishes her continued success.
+**_The Management congratulates her and wishes her continued success._**
 
-Issued By: Office of the Managing Director."_**
+**_Issued By: Office of the Managing Director."_**
 
 The office buzzed within minutes.
 
-"_Did you see the mail?"
+_"Did you see the mail?"_
 
-"She deserves it."
+_"She deserves it."_
 
-"I heard she solved that investment mismatch Mr. Harshvardhan himself couldn't trace."
+_"I heard she solved that investment mismatch Mr. Harshvardhan himself couldn't trace."_
 
-"Not only him..." Another corrected with a grin, "...the entire finance team couldn't."
+_"Not only him..." Another corrected with a grin, "...the entire finance team couldn't."_
 
-"Imagine getting appreciated by Raghav sir himself."
+_"Imagine getting appreciated by Raghav sir himself."_
 
-"I'd frame that email."_
+_"I'd frame that email."_
 
 Laughter echoed across the department. Near the window, Devanshi sat frozen in her chair. She had read the email five times. Then once more. Not because she didn't believe it. Because she still couldn't.
 
@@ -644,13 +628,13 @@ The finance department's rising star.
 
 Years at the company, still stuck at junior audit assistant, and watching Devanshi rise faster than him in months had done something ugly to his ego. His jaw clenched. The voices around him grew louder.
 
-"_She's brilliant."
+"_She's brilliant."_
 
-"Have you seen her reports?"
+_"Have you seen her reports?"_
 
-"Mr. Harshvardhan trusts her blindly."
+_"Mr. Harshvardhan trusts her blindly."_
 
-"Even Yug sir challenges her directly in meetings."_
+_"Even Yug sir challenges her directly in meetings."_
 
 Ramesh slowly closed his laptop. His smile looked calm. His eyes didn't.
 
@@ -722,12 +706,7 @@ Sounded like another reminder of everything he believed he deserved. And somewhe
 
 Something ugly quietly took root.
 
-
-
 ✎﹏﹏﹏﹏
-
-
-
 
 The next morning arrived faster than anyone wanted. By nine-thirty, the executive floor had already slipped into its usual rhythm. Assistants hurried between cabins. Printers worked without pause.
 
@@ -907,11 +886,7 @@ Despite everything... the pain, the shock, the sheer chaos of the last twenty mi
 
 And for the first time, her cold, guarded heart didn't fight it. It just... softened. Fluttered, even, for the one man she swore she'd never let close.
 
-
-
 ✎﹏﹏﹏﹏
-
-
 
 Outside the pantry's glass wall, Harshvardhan stood quietly. Beside him, Raghav folded his arms.
 
@@ -934,12 +909,5 @@ Yug Panchal was still convinced he had only protected an employee.
 Everyone else already knew...
 
 His heart had made that decision long before his mind ever would.
-
-
-
-
-
-
-
 
 -ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈-ˋˏ✄┈┈┈┈
