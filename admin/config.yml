@@ -21,6 +21,7 @@ backend:
   repo: thatbrowncraft/thatbrowncraft-cms-test
   branch: main
   base_url: https://sveltia-cms-auth.that-browncraft.workers.dev
+  auth_methods: [oauth]
   commit_messages:
     create: "✦ New {{collection}}: {{slug}}"
     update: "✦ Updated {{collection}}: {{slug}}"
