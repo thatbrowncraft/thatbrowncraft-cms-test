@@ -58,15 +58,15 @@ purchase_links:
     url: https://youtube.com/shorts/41yfkHs6dFE?si=JUt75LhypRpqim2Q
     icon: 🪞
 gallery:
-  - image: /images/1767025501997.jpg
+  - image: /images/file_00000000f02481fba8994653f2f381fe.png
     caption: Raghav x Sree
-  - image: /images/1767023918372.jpg
+  - image: /images/file_000000009c9881f8a36a813aec7bcab5.png
     caption: Neil x Aadhya
-  - image: /images/1767024254009.jpg
+  - image: /images/file_0000000098a081fb9c2ef6a4a40a9343.png
     caption: Yug x Devanshi
 published_at: 2026-06-18T15:21
-inkitt_url: https://www.inkitt.com/stories/1445370
 stck_url: https://thatbrowncraft.stck.me/story/895547/KUTUMB-A-Tale-of-Angst-Regret-Sacrifice
+inkitt_url: https://www.inkitt.com/stories/1445370
 wattpad_url: https://www.wattpad.com/story/392073394?utm_source=android&utm_medium=link&utm_content=story_info&wp_page=story_details_button&wp_uname=thatbrowncraft
 kindle_url: ''
 paperback_url: ''
