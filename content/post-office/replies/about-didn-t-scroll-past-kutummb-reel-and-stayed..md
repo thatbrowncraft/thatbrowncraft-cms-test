@@ -1,6 +1,6 @@
 ---
 recipient: Anmol
-title: About didn't scroll past kutummb reel and stayed.
+title: About didn't scroll past kutumb reel and stayed.
 subtitle: Her being a huge romance novel fan.
 project: 'Kutumb: A Tale of Angst, Regret and Sacrifice'
 is_featured: true
