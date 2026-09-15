@@ -6,11 +6,13 @@ links:
   - label: Wattpad
     url: https://www.wattpad.com/user/Thatbrowncraft
     icon: ✒️
+    category: ''
     is_active: true
     description: Where stories first learn to breathe.
   - label: Instagram
     url: https://www.instagram.com/that_browncraft
     icon: ✒️
+    category: ''
     is_active: true
     description: Chaos, aesthetics, and emotional damage.
   - label: Kanha Ji's Courtyard
@@ -19,19 +21,28 @@ links:
     category: reading
     is_active: true
     description: A new corner has quietly opened...
+  - label: Download Cellfie
+    url: https://github.com/thatbrowncraft/cellfie/releases/latest/download/Cellfie.apk
+    icon: ✒️
+    category: ''
+    is_active: true
+    description: The science-learning companion I wished existed when I was a student.
   - label: Youtube
     url: https://www.youtube.com/@that_browncraft
     icon: ✒️
+    category: ''
     is_active: true
     description: Short stories, author aesthetics
   - label: Stck.me
     url: https://thatbrowncraft.stck.me
     icon: ✒️
+    category: ''
     is_active: true
     description: Special chapters👀
   - label: Inkitt
     url: https://www.inkitt.com/that_browncraft
     icon: ✒️
+    category: ''
     is_active: true
     description: Cozy reader home
   - label: Amazon author page
@@ -43,21 +54,25 @@ links:
   - label: Pinterest
     url: https://in.pinterest.com/thatbrowncraft/
     icon: ✒️
+    category: ''
     is_active: true
     description: Moodboards and fictional lives.
   - label: Amodini paperback
     url: https://store.pothi.com/book/browncraft-amodini-happy-woman/
     icon: ✒️
+    category: ''
     is_active: true
     description: For Indian readers
   - label: Amodini on Kindle
     url: https://a.co/d/8R05JHj
     icon: ✒️
+    category: ''
     is_active: true
     description: Secret comfortplace
   - label: Unfiltered me journal paperback
     url: https://store.pothi.com/book/thatbrowncraft-unfiltered-me-journal-chaos-clarity-and-confessions-you-never-said-out-loud/
     icon: ✒️
+    category: ''
     is_active: true
     description: Unfiltered me💅🏽
 ---
