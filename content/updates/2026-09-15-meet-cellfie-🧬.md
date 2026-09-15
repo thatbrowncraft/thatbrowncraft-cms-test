@@ -1,7 +1,7 @@
 ---
 title: Meet Cellfie 🧬
 category: announcement
-status: draft
+status: published
 date: 2026-09-18T15:15:00
 cover_image: ''
 excerpt: The science-learning companion I wished existed when I was a student.
