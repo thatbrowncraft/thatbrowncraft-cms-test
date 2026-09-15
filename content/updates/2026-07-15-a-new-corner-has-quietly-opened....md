@@ -6,7 +6,7 @@ date: 2026-07-15T11:11
 cover_image: ''
 excerpt: A new corner has quietly opened...
 update_type: App announcement
-is_pinned: false
+is_pinned: true
 link_label: Read or download from here
 link_url: https://thatbrowncraft.github.io/the-Courtyard/
 ---
