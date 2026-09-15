@@ -23,7 +23,7 @@ links:
     description: A new corner has quietly opened...
   - label: Download Cellfie
     url: https://github.com/thatbrowncraft/cellfie/releases/latest/download/Cellfie.apk
-    icon: ✒️
+    icon: 🧬
     category: ''
     is_active: true
     description: The science-learning companion I wished existed when I was a student.
