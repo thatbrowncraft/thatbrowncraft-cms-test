@@ -1,12 +1,12 @@
 ---
 title: Kanha Ji's Courtyard
-category: personal
+category: announcement
 status: published
 date: 2026-07-15T11:11
 cover_image: ''
 excerpt: A new corner has quietly opened...
-update_type: Courtyard Reveal
-is_pinned: true
+update_type: App announcement
+is_pinned: false
 link_label: Read or download from here
 link_url: https://thatbrowncraft.github.io/the-Courtyard/
 ---
