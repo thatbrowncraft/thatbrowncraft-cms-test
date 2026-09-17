@@ -16,13 +16,13 @@ links:
     is_active: true
     description: Chaos, aesthetics, and emotional damage.
   - label: Kanha Ji's Courtyard
-    url: https://github.com/thatbrowncraft/the-Courtyard/releases/download/v1.0.0/Kanha-Ji-Courtyard.apk
+    url: https://thatbrowncraft.github.io/apps/courtyard.html
     icon: 🌿
     category: reading
     is_active: true
     description: A new corner has quietly opened...
   - label: Get Cellfie
-    url: https://github.com/thatbrowncraft/cellfie/releases/latest/download/Cellfie.apk
+    url: https://thatbrowncraft.github.io/apps/cellfie.html
     icon: 🧬
     category: ''
     is_active: true
