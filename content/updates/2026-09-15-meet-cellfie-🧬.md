@@ -8,7 +8,7 @@ excerpt: The science-learning companion I wished existed when I was a student.
 update_type: App Announcement
 is_pinned: true
 link_label: Get Cellfie for Android
-link_url: https://github.com/thatbrowncraft/cellfie/releases/latest/download/Cellfie.apk
+link_url: https://thatbrowncraft.github.io/apps/cellfie.html
 ---
 
 Explore concepts, compare topics, prepare for exams, study microorganisms, use laboratory resources and more, all in one offline-first learning space.
