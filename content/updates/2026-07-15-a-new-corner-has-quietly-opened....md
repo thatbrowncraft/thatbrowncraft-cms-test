@@ -7,8 +7,8 @@ cover_image: ''
 excerpt: A new corner has quietly opened...
 update_type: App announcement
 is_pinned: true
-link_label: Read or download from here
-link_url: https://thatbrowncraft.github.io/the-Courtyard/
+link_label: Download from here
+link_url: https://github.com/thatbrowncraft/the-Courtyard/releases/download/v1.0.0/Kanha-Ji-Courtyard.apk
 ---
 
 Many of you kept asking,"Can we read the complete Bhagavad Gita instead of just three verses?"
