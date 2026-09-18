@@ -1523,7 +1523,7 @@ const CMS = (() => {
           <div class="review-card${data.is_pinned ? ' pinned' : ''} reveal">
             ${data.is_pinned ? '<span class="review-pin">📌 pinned</span>' : ''}
             <div class="review-stars">${stars(data.rating).split('').map(s => `<span class="review-star${s === '☆' ? ' empty' : ''}">★</span>`).join('')}</div>
-            <p class="review-text">${esc(firstPara(body))}</p>
+            <div class="review-text">${md(body)}</div>
             <div class="review-meta">
               <div class="review-avatar">📖</div>
               <div><div class="review-name">${esc(data.reader_handle || data.reader_name || '')}</div><div class="review-book">${esc(data.book || '')}</div></div>
