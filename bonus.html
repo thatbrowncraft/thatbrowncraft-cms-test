@@ -26,7 +26,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; }
+html { font-size: 18px; scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
@@ -99,13 +99,13 @@ ul { list-style: none; }
   background:rgba(44,24,16,.82);backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(201,169,110,.1);transition:background .4s;
 }
-.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.18)}
+.site-nav.scrolled{background:rgba(44,24,16,.97);border-bottom-color:rgba(201,169,110,.72)}
 .nav-logo{display:flex;align-items:baseline;line-height:1;letter-spacing:.01em}
 .logo-that{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--cream);font-style:normal}
 .logo-brown{font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--terracotta);font-style:normal}
 .logo-craft{font-family:var(--font-display);font-weight:400;font-size:1.45rem;color:var(--gold);font-style:italic}
 .nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);align-items:center}
-.nav-link{font-family:var(--font-body);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.5);transition:color .3s}
+.nav-link{font-family:var(--font-body);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,236,215,.72);transition:color .3s}
 .nav-link:hover,.nav-link.active-page{color:var(--terracotta)}
 @media (min-width: 761px) and (max-width: 1100px) {
   .site-nav{position:sticky;top:0;height:auto;min-height:64px;flex-direction:column;justify-content:center;align-items:center;padding-block:.85rem;row-gap:.45rem}
@@ -141,7 +141,7 @@ section,nav,footer{position:relative;z-index:1}
 
 .page-header-eyebrow {
   font-family:var(--font-accent);font-style:italic;
-  font-size:.8rem;color:rgba(201,169,110,.5);letter-spacing:.2em;display:block;margin-bottom:1rem;
+  font-size:.8rem;color:rgba(201,169,110,.72);letter-spacing:.2em;display:block;margin-bottom:1rem;
 }
 
 .page-header-title {
@@ -152,11 +152,11 @@ section,nav,footer{position:relative;z-index:1}
 
 .orn-row{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem auto;max-width:300px}
 .orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.4),transparent)}
-.orn-motif{font-size:.7rem;color:rgba(201,169,110,.4);letter-spacing:.2em}
+.orn-motif{font-size:.7rem;color:rgba(201,169,110,.72);letter-spacing:.2em}
 
 .page-header-sub {
   font-family:var(--font-display);font-style:italic;
-  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(245,236,215,.38);
+  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(245,236,215,.72);
   max-width:520px;margin:0 auto;line-height:1.65;
 }
 
@@ -169,9 +169,9 @@ section,nav,footer{position:relative;z-index:1}
   position:sticky;top:64px;z-index:100;
   backdrop-filter:blur(10px);
 }
-.filter-label{font-family:var(--font-body);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,.38);margin-right:.25rem}
-.filter-btn{font-family:var(--font-body);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;padding:.38rem .95rem;border:1px solid rgba(201,169,110,.16);background:none;color:rgba(245,236,215,.38);cursor:pointer;transition:all .3s}
-.filter-btn:hover{border-color:rgba(201,169,110,.4);color:rgba(245,236,215,.7)}
+.filter-label{font-family:var(--font-body);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,.72);margin-right:.25rem}
+.filter-btn{font-family:var(--font-body);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;padding:.38rem .95rem;border:1px solid rgba(201,169,110,.16);background:none;color:rgba(245,236,215,.72);cursor:pointer;transition:all .3s}
+.filter-btn:hover{border-color:rgba(201,169,110,.72);color:rgba(245,236,215,.72)}
 .filter-btn.active{border-color:var(--terracotta);color:var(--terracotta);background:rgba(200,149,107,.08)}
 
 /* ============================================================
@@ -291,7 +291,7 @@ section,nav,footer{position:relative;z-index:1}
 
 .letter-excerpt {
   font-family:var(--font-display);font-style:italic;
-  font-size:.92rem;color:rgba(44,24,16,.6);
+  font-size:.92rem;color:rgba(44,24,16,.72);
   line-height:1.8;margin-bottom:1.25rem;
   flex:1;
 }
@@ -375,7 +375,7 @@ section,nav,footer{position:relative;z-index:1}
 .scene-modal-close {
   position:absolute;top:1rem;right:1.5rem;
   background:none;border:none;
-  font-size:1.4rem;color:rgba(59,31,10,.35);
+  font-size:1.4rem;color:rgba(59,31,10,.72);
   cursor:pointer;transition:color .3s;line-height:1;z-index:2;
 }
 .scene-modal-close:hover{color:var(--midbrown)}
@@ -384,7 +384,7 @@ section,nav,footer{position:relative;z-index:1}
 .modal-scene-type {
   font-family:var(--font-body);font-size:.58rem;
   letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(59,31,10,.4);display:block;margin-bottom:.4rem;
+  color:rgba(59,31,10,.72);display:block;margin-bottom:.4rem;
 }
 
 .modal-couple {
@@ -402,7 +402,7 @@ section,nav,footer{position:relative;z-index:1}
 
 .modal-author-note {
   font-family:var(--font-body);font-size:.75rem;
-  color:rgba(59,31,10,.38);font-style:italic;
+  color:rgba(59,31,10,.72);font-style:italic;
   margin-bottom:2rem;padding-bottom:1.5rem;
   border-bottom:1px solid rgba(59,31,10,.08);
 }
@@ -445,7 +445,7 @@ section,nav,footer{position:relative;z-index:1}
   border-top:1px solid rgba(59,31,10,.08);
   font-family:var(--font-body);font-size:.6rem;
   letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(59,31,10,.25);
+  color:rgba(59,31,10,.72);
 }
 
 /* Back to scenes button */
@@ -455,7 +455,7 @@ section,nav,footer{position:relative;z-index:1}
   letter-spacing:.14em;text-transform:uppercase;
   padding:.6rem 1.4rem;
   border:1px solid rgba(200,149,107,.3);
-  color:rgba(44,24,16,.5);
+  color:rgba(44,24,16,.72);
   background:none;cursor:pointer;
   transition:all .3s;margin-top:2rem;
 }
@@ -474,18 +474,18 @@ section,nav,footer{position:relative;z-index:1}
 .site-footer::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse,rgba(200,149,107,.05),transparent 70%);pointer-events:none}
 .footer-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
 .footer-logo{display:flex;align-items:baseline;justify-content:center;margin-bottom:.4rem}
-.fl-that{font-family:var(--font-display);font-weight:500;font-size:2rem;color:rgba(245,236,215,.6)}
+.fl-that{font-family:var(--font-display);font-weight:500;font-size:2rem;color:rgba(245,236,215,.72)}
 .fl-brown{font-family:var(--font-display);font-weight:500;font-size:2rem;color:var(--terracotta);opacity:.75}
 .fl-craft{font-family:var(--font-display);font-weight:400;font-size:2rem;color:var(--gold);font-style:italic;opacity:.65}
-.footer-tagline{font-family:var(--font-display);font-style:italic;font-size:.88rem;color:rgba(245,236,215,.22);margin-bottom:2.5rem}
+.footer-tagline{font-family:var(--font-display);font-style:italic;font-size:.88rem;color:rgba(245,236,215,.72);margin-bottom:2.5rem}
 .footer-social{display:flex;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem}
-.social-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.14);font-family:var(--font-body);font-size:.65rem;letter-spacing:.08em;color:rgba(245,236,215,.33);transition:all .3s}
+.social-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border:1px solid rgba(201,169,110,.14);font-family:var(--font-body);font-size:.65rem;letter-spacing:.08em;color:rgba(245,236,215,.72);transition:all .3s}
 .social-pill:hover{border-color:var(--terracotta);color:var(--terracotta)}
 .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.75rem;margin-bottom:2.5rem}
-.footer-link{font-family:var(--font-body);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,236,215,.25);transition:color .3s}
+.footer-link{font-family:var(--font-body);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,236,215,.72);transition:color .3s}
 .footer-link:hover{color:var(--terracotta)}
 .footer-rule{height:1px;background:rgba(245,236,215,.05);margin-bottom:2rem}
-.footer-copy{font-size:.68rem;color:rgba(245,236,215,.14);font-family:var(--font-body)}
+.footer-copy{font-size:.68rem;color:rgba(245,236,215,.72);font-family:var(--font-body)}
 
 @media(max-width:760px){
   .nav-links{display:none}.nav-hamburger{display:flex}
