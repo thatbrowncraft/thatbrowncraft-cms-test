@@ -169,7 +169,7 @@ ul { list-style: none; }
 .nav-link:hover       { color: var(--terracotta); }
 .nav-link.active-page { color: var(--terracotta); }
 
-@media (max-width: 1100px) {
+@media (min-width: 761px) and (max-width: 1100px) {
   .site-nav {
     position: sticky;
     top: 0;
@@ -1100,6 +1100,8 @@ section, nav, footer { position: relative; z-index: 1; }
 @media (max-width: 760px) {
   .book-layout { grid-template-columns: 1fr; }
   .book-cover-col { max-width: 200px; margin: 0 auto; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
 }
 
 @media (max-width: 480px) {
