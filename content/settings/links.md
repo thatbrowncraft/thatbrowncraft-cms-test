@@ -75,4 +75,10 @@ links:
     category: ''
     is_active: true
     description: Unfiltered me💅🏽
+  - label: Ek aur gaana
+    url: https://ek-aur-gaana.netlify.app/
+    icon: 🎵
+    category: ''
+    is_active: true
+    description: Gaane apne mood ke hisaab se
 ---
