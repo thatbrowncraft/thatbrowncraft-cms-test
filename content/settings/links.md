@@ -1,5 +1,5 @@
 ---
-qr_image: ''
+qr_image: /images/Colorful Simple Author's Purpose Graphic Organizer .png
 qr_label: Scan to find the whole universe.
 qr_show: true
 links:
