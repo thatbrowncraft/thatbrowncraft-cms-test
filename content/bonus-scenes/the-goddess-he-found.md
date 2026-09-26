@@ -546,7 +546,7 @@ The circular reached every employee's mailbox at exactly 11:00 a.m. For most peo
 
 ...it felt like an insult written in bold letters.
 
-**_Internal Circular: Ms. Devanshi Trivedi_**
+**_Internal Circular: Ms. Devanshi Patel_**
 
 **_"In recognition of her exceptional analytical abilities, operational efficiency, and contribution to the Finance Division, the Management is pleased to appoint her as:_**
 
